@@ -36,7 +36,7 @@ class CreateUser extends React.Component {
                 <div className='row'>
                     <div className='col-md-6' style={this.style.colMd6}>
                         <div className='bs-docs-section'>
-                            <Card title='Login'>
+                            <Card title='Cadastro de Usuario'>
                                 <div className='row'>
                                     <div className='col-lg-12'>
                                         <div className='bs-component'>
