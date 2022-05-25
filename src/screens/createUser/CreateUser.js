@@ -1,8 +1,10 @@
 import React from 'react';
 import 'bootswatch/dist/minty/bootstrap.css';
 import axios from 'axios';
+import Card from '../../components/Card';
+import FormGroup from '../../components/FormGroup';
 
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class CreateUser extends React.Component {
 
@@ -56,7 +58,8 @@ class CreateUser extends React.Component {
                                                         placeholder='Digite a senha'
                                                         value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                                                 </FormGroup>
-                                                <button className='btn btn-success' onClick={this.logado}>Logar</button>
+                                                <br/>
+                                                <button className='btn btn-success' onClick={this.create}>Cadastrar</button>
                                                 <button className='btn btn-danger'>cancel</button>
                                             </fieldset>
                                         </div>
@@ -70,14 +73,16 @@ class CreateUser extends React.Component {
 
         )
     }
-}
+    style = {
+        colMd6: {
+            position: 'relative',
+            top:'50px',
+            left: '300px'
 
-style = {
-    colMd6: {
-        position: 'relative',
-        left: '300px'
-
+    
+        }
     }
 }
+
 
 export default withRouter(CreateUser);
