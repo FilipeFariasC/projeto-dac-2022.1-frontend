@@ -4,9 +4,9 @@ import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 
-import { withRouter } from "react-router-dom";
+import NavBar from '../../components/NavBar';
 
-class CreateUser extends React.Component {
+export default class CreateUser extends React.Component {
 
     state = {
         name: '',
@@ -18,9 +18,16 @@ class CreateUser extends React.Component {
     create = async () => {
         await axios.post('http://localhost:8080/api/users',
             {
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password
+                headers:{
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+
+                },
+                data:{
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password
+                }
             }
         ).then(response => {
             console.log(response);
@@ -34,6 +41,7 @@ class CreateUser extends React.Component {
 
     render() {
         return (
+            <>
             <div className='conteiner'>
                 <div className='row'>
                     <div className='col-md-6' style={this.style.colMd6}>
@@ -42,6 +50,7 @@ class CreateUser extends React.Component {
                                 <div className='row'>
                                     <div className='col-lg-12'>
                                         <div className='bs-component'>
+                                            
                                             <fieldset>
                                                 <FormGroup label='Nome: *' htmlFor='name'>
                                                     <input type='text' className='form-control' id='name'
@@ -70,7 +79,7 @@ class CreateUser extends React.Component {
                     </div>
                 </div>
             </div>
-
+        </>
         )
     }
     style = {
@@ -83,6 +92,3 @@ class CreateUser extends React.Component {
         }
     }
 }
-
-
-export default withRouter(CreateUser);

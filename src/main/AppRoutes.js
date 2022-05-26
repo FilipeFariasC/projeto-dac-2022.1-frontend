@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, BrowserRouter} from "react-router-dom";
+import {Route, BrowserRouter, Routes} from "react-router-dom";
 import CreateUser from '../screens/createUser/CreateUser';
 
 
@@ -7,8 +7,9 @@ import CreateUser from '../screens/createUser/CreateUser';
 function AppRoutes(){
     return(
         <BrowserRouter>
-            <Route component={CreateUser} path="/"exact/>
-            
+            <Routes>
+                <Route element={<CreateUser/>} path="/"exact/>
+            </Routes>
         </BrowserRouter>
     )
 }
