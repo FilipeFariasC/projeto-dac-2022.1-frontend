@@ -1,6 +1,6 @@
 import React from "react";
 import {NavDropdown} from "react-bootstrap";
-import {Router} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import NavItem from "./NavItem";
 
@@ -8,10 +8,10 @@ function Navbar(props) {
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="/">
-                    Navbar
-                    </a>
+                <div className="container container-fluid">
+                    <Link className="navbar-brand" href="/">
+                    ChilDFence
+                    </Link>
                     <button
                     className="navbar-toggler"
                     type="button"
@@ -30,7 +30,7 @@ function Navbar(props) {
                         <NavItem href="/" label="Cercas" />
                         <NavDropdown title="Opções" id="dropdown-opcoes">
                         <NavDropdown.Item href="/createUser">
-                            Cadastrar Usuario
+                            Cadastrar Usuário
                         </NavDropdown.Item>
                         <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
                         <NavDropdown.Item href="/createBracelet"> Cadastrar Pulseira </NavDropdown.Item>

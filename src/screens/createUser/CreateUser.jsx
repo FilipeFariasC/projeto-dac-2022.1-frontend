@@ -6,8 +6,9 @@ import "./css/CreateUser.css"
 
 import NavBar from '../../components/Navbar';
 import GoBack from '../../components/GoBack';
+import {withRouter} from 'react-router-dom';
 
-export default class CreateUser extends React.Component {
+class CreateUser extends React.Component {
 
     state = {
         name: '',
@@ -33,6 +34,7 @@ export default class CreateUser extends React.Component {
             }
         ).then(response => {
             console.log(response);
+            this.props.history.push('/');
         }
         ).catch(error => {
             console.log(error);
@@ -93,3 +95,5 @@ export default class CreateUser extends React.Component {
         )
     }
 }
+
+export default withRouter(CreateUser);
