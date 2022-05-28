@@ -1,10 +1,9 @@
 import React from 'react';
-import 'bootswatch/dist/minty/bootstrap.css';
 import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 
-import NavBar from '../../components/NavBar';
+import NavBar from '../../components/Navbar';
 
 export default class CreateUser extends React.Component {
 

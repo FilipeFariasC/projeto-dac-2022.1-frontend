@@ -1,5 +1,7 @@
 import './App.css';
-import NavBar from "./components/NavBar"
+import NavBar from "./components/Navbar"
+
+import "bootswatch/dist/minty/bootstrap.css";
 
 import AppRoutes from './main/AppRoutes';
 

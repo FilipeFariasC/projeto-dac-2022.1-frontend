@@ -2,7 +2,7 @@ import React from "react";
 
 //import NavBarItem from "./NavBarItem";
 
-function NavBar(props) {
+function Navbar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container-fluid">
