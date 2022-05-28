@@ -1,0 +1,10 @@
+
+.col-md-6 {
+  margin: 0 auto;
+  padding: 5rem;
+}
+
+.buttons-wrapper{
+  display: flex;
+  justify-content: space-between;
+}

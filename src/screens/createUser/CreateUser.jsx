@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
+import "./css/CreateUser.css"
 
 import NavBar from '../../components/Navbar';
+import GoBack from '../../components/GoBack';
 
 export default class CreateUser extends React.Component {
 
@@ -41,9 +43,10 @@ export default class CreateUser extends React.Component {
     render() {
         return (
             <>
+                <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6' style={this.style.colMd6}>
+                        <div className='col-md-6'>
                             <div className='bs-docs-section'>
                                 <Card title='Cadastro de Usuario'>
                                     <div className='row'>
@@ -57,18 +60,20 @@ export default class CreateUser extends React.Component {
                                                                 value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
                                                         </FormGroup>
                                                         <FormGroup label='Email: *' htmlFor='inputEmail'>
-                                                            <input type='email' className='form-control' id='inpultEmail'
+                                                            <input type='email' className='form-control' id='inputEmail'
                                                                 area-aria-describedby='emailHelp' placeholder='Digite o email'
                                                                 value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
                                                         </FormGroup>
                                                         <FormGroup label='Senha:*' htmlFor='inputPassword'>
-                                                            <input type='password' className='form-control' id='inpultPessword'
+                                                            <input type='password' className='form-control' id='inputPessword'
                                                                 placeholder='Digite a senha'
                                                                 value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                                                         </FormGroup>
                                                         <br />
-                                                        <button className='btn btn-danger'>cancel</button>
-                                                        <button className='btn btn-success' onClick={this.create} style={this.style2.btnSuccess}>Cadastrar</button>
+                                                        <div class="buttons-wrapper">
+                                                            <GoBack/>
+                                                            <button className='btn btn-success'>Cadastrar</button>
+                                                        </div>
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -81,23 +86,5 @@ export default class CreateUser extends React.Component {
                 </div>
             </>
         )
-    }
-    style = {
-        colMd6: {
-            position: 'relative',
-            top: '50px',
-            left: '300px'
-
-
-        }
-    }
-    style2 = {
-        btnSuccess: {
-            
-            position: 'absolute',
-            margin :'0 15px',
-            top:'275px',
-            left:'350px'
-        }
     }
 }
