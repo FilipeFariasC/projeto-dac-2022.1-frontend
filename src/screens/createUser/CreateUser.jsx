@@ -17,26 +17,28 @@ export default class CreateUser extends React.Component {
     }
 
     create = async () => {
+        console.log("Criando");
         await axios.post('http://localhost:8080/api/users',
             {
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password
+            },
+            {
                 headers: {
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-
-                },
-                data: {
-                    name: this.state.name,
-                    email: this.state.email,
-                    password: this.state.password
+                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
                 }
             }
         ).then(response => {
             console.log(response);
         }
         ).catch(error => {
-            console.log(error.response);
+            console.log(error);
         }
         );
+        console.log("Finalizado");
     }
 
 
@@ -52,7 +54,10 @@ export default class CreateUser extends React.Component {
                                     <div className='row'>
                                         <div className='col-lg-12'>
                                             <div className='bs-component'>
-                                                <form onSubmit={this.create}>
+                                                <form onSubmit={event=>{
+                                                    event.preventDefault();
+                                                    this.create()}
+                                                    }>
                                                     <fieldset>
                                                         <FormGroup label='Nome: *' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
@@ -70,9 +75,9 @@ export default class CreateUser extends React.Component {
                                                                 value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                                                         </FormGroup>
                                                         <br />
-                                                        <div class="buttons-wrapper">
+                                                        <div className="buttons-wrapper">
                                                             <GoBack/>
-                                                            <button className='btn btn-success'>Cadastrar</button>
+                                                            <button type="submit" className='btn btn-success'>Cadastrar</button>
                                                         </div>
                                                     </fieldset>
                                                 </form>
