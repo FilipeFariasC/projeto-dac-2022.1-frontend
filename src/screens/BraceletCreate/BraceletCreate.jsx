@@ -1,8 +1,12 @@
 import React, {Component} from "react";
 import Navbar from "../../components/Navbar";
+import Card from "../../components/Card";
 import GoBack from "../../components/GoBack";
 import FormGroup from "../../components/FormGroup";
 import axios from "axios";
+import {withRouter} from "react-router-dom";
+import "./css/BraceletCreate.css"
+
 
 class BraceletCreate extends Component {
 
@@ -17,17 +21,28 @@ class BraceletCreate extends Component {
     }
 
     create = async() => {
-        await axios.post("http://localhost:8080/bracelets", 
+        await axios.post("http://localhost:8080/api/login", 
+            {
+                username: 'admin@admin.com',
+                password: 'admin20221'
+            }
+        ).then(response => {
+            window.localStorage.setItem('jwt_token', response.data.response);
+        });
+        await axios.post("http://localhost:8080/api/bracelets", 
             this.state.bracelet,
             {
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
+                    
                 }
             }
-        );
+        ).then(response => {
+            this.props.history.push("/profile");
+        });;
     }
 
     render(){
@@ -35,32 +50,39 @@ class BraceletCreate extends Component {
             <>
                 <Navbar/>
                 <div className="container container-fluid">
-                    <row className="col-md-6">
-                        <form onSubmit={event=>{this.create()}}>
-                            <fieldset>
-                                <FormGroup htmlFor={"braceletFormName"} label={"Nome da Pulseira"}>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="braceletFormName"
-                                        name="braceletFormName"
-                                        placeholder="Nome da Pulseira"
-                                        value={this.state.bracelet.name}
-                                        onChange={(e) => this.setState({ bracelet: { name: e.target.value } })}
-                                    />
-                                </FormGroup>
+                    <div className="col-md-6 braceletRegister">
+                        <Card className="braceletFormCard" title="Cadastro de Pulseira">
+                            <form className="form braceletForm" onSubmit={event=>
+                                {
+                                    event.preventDefault();
+                                    this.create()
+                                }
+                            }>
+                                <fieldset>
+                                    <FormGroup htmlFor={"braceletFormName"} label={"Nome da Pulseira"}>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="braceletFormName"
+                                            name="braceletFormName"
+                                            placeholder="Nome da Pulseira"
+                                            value={this.state.bracelet.name}
+                                            onChange={(e) => this.setState({ bracelet: { name: e.target.value } })}
+                                        />
+                                    </FormGroup>
+                                </fieldset>
                                 <div className="buttons-wrapper">
                                     <GoBack/>
                                     <button type="submit" className="btn btn-primary">Cadastrar</button>
                                 </div>
-                            </fieldset>
-                        </form>
-                    </row>
+                            </form>
+                        </Card>
+                    </div>
                 </div>
             </>
         )
     }
 }
 
-export default BraceletCreate;
+export default withRouter(BraceletCreate);
 

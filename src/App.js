@@ -1,4 +1,3 @@
-import './App.css';
 import "bootswatch/dist/minty/bootstrap.css";
 import AppRoutes from './main/AppRoutes';
 

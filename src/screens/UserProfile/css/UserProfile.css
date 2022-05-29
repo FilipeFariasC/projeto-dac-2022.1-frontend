@@ -4,7 +4,40 @@
     display: flex;
     gap: 1.5rem;
 }
+.profile-wrapper{
+    padding-block: 2.5rem;
+}
+.bracelet-and-fence-profiles{
+    flex-direction: column;
+}
+
+.user-profile {
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+}
 
 .flex > *{
     width: 100%;
 }
+
+.braceletList{
+    align-items: center;
+    justify-content: center;
+}
+
+.braceletName {
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+
+
+.user-info {
+    width: 100%;
+}
+.table-header{
+    text-align: center;
+}
+

@@ -50,7 +50,7 @@ class CreateUser extends React.Component {
                 <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6'>
+                        <div className='col-md-6 userRegister'>
                             <div className='bs-docs-section'>
                                 <Card title='Cadastro de Usuario'>
                                     <div className='row'>
