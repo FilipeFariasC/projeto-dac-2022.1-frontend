@@ -3,6 +3,8 @@ import {NavDropdown} from "react-bootstrap";
 import {Link} from 'react-router-dom';
 
 import NavItem from "./NavItem";
+import "./css/Navbar.css"
+
 
 function Navbar(props) {
     return (
@@ -28,12 +30,12 @@ function Navbar(props) {
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
                         <NavItem href="/" label="Cercas" />
-                        <NavDropdown title="Opções" id="dropdown-opcoes">
-                        <NavDropdown.Item href="/createUser">
-                            Cadastrar Usuário
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
-                        <NavDropdown.Item href="/createBracelet"> Cadastrar Pulseira </NavDropdown.Item>
+                        <NavDropdown title="Opções" id="dropdown-options">
+                            <NavDropdown.Item href="/createUser">
+                                Cadastrar Usuário
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
+                            <NavDropdown.Item href="/createBracelet"> Cadastrar Pulseira </NavDropdown.Item>
                         </NavDropdown>
                     </ul>
                     </div>

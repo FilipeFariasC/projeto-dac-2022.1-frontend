@@ -1,7 +1,7 @@
 import React from "react";
 import {Route, BrowserRouter, Routes} from "react-router-dom";
 import HomePage from "../screens/HomePage/HomePage";
-import CreateUser from '../screens/createUser/CreateUser';
+import CreateUser from '../screens/CreateUser/CreateUser';
 import UserProfile from "../screens/UserProfile/UserProfile";
 import BraceletCreate from "../screens/BraceletCreate/BraceletCreate";
 
