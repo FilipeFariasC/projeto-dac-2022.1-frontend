@@ -15,8 +15,7 @@ class BraceletCreate extends Component {
         this.state = {
             bracelet: {
                 name: ""
-            },
-            error: ""
+            }
         }
     }
 
