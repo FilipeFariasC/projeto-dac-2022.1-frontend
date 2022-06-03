@@ -3,7 +3,6 @@ import Navbar from "../../components/Navbar";
 import Card from "../../components/Card";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import "./css/UserProfile.css";
 
 export default class UserProfile extends Component {
 
@@ -51,10 +50,33 @@ export default class UserProfile extends Component {
         return (
             <>
                 <Navbar/>
-                <div className="container container-fluid flex profile-wrapper">
+                <div className="container container-fluid flex profile-wrapper"
+                    style={
+                        {
+                            width: "100%",
+                            paddingBlock: "2.5rem",
+                            alignItems: "flex-start",
+                            flexGrow: "1",
+                            flexBasis: "1",
+                            flexShrink: "0"
+                        }
+                    }
+                >
                     <Card className="user-profile" title="Perfil do usuário">
-                        <table className="table table-primary table-striped user-info">
-                            <thead className="table-header">
+                        <table className="table table-primary table-striped user-info"
+                            style={
+                                {
+                                    width: "100%"
+                                }
+                            }
+                        >
+                            <thead className="table-header"
+                                style={
+                                    {
+                                        textAlign: "center"
+                                    }
+                                }
+                            >
                                 <tr className="table-primary">
                                     <td colSpan="2">
                                         <h5>Informações</h5>
@@ -82,7 +104,13 @@ export default class UserProfile extends Component {
                         </table>
                     </Card>
                     <Card title="Pulseiras e Cercas">
-                        <div className="bracelet-and-fence-profiles flex">
+                        <div className="bracelet-and-fence-profiles flex"
+                            style={
+                                {
+                                    flexDirection: "column"
+                                }
+                            }
+                        >
                             <div className="bracelet-profile">
                                 <h4>Pulseiras</h4>
                                 <BraceletList/>
@@ -126,12 +154,28 @@ class BraceletList extends Component {
 
     braceletRow(bracelet){
         return (
-            <li key={bracelet.id} className="list-group-item flex braceletList">
-                <strong className="braceletName" >{bracelet.name}</strong>
+            <li key={bracelet.id} className="list-group-item flex braceletRowOptions"
+                style={
+                    {
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                    }
+                }
+            >
+                <strong className="braceletName" 
+                    style={
+                        {
+                            fontSize: "0.75rem",
+                            whiteSpace: "nowrap"
+                        }
+                    }
+                >{bracelet.name}</strong>
                 <a className="btn btn-primary" href="#">
                     Editar
                 </a>
-                <a className="btn btn-secondary" href="#" >
+                <a className="btn btn-danger" href="#" >
                     Excluir
                 </a>
             </li>

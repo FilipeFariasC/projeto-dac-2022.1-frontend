@@ -7,7 +7,9 @@ export default class Card extends React.Component{
 
     render(){
         return(
-            <div className={`card border-primary md-3 ${this.props.className}`} >
+            <div className={`card border-primary md-3 ${this.props.className}`} 
+                style={this.props.style}
+            >
                 <h3 className= 'card-header'>{this.props.title} </h3>
                 <div className= 'card-body'>
                     {this.props.children}

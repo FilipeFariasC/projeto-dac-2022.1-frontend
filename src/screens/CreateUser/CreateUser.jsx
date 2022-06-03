@@ -2,8 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
-import "./css/CreateUser.css"
-
 import NavBar from '../../components/Navbar';
 import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
@@ -50,7 +48,14 @@ class CreateUser extends React.Component {
                 <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6 userRegister'>
+                        <div className='col-md-6 userRegister'
+                            style={
+                                {
+                                    margin: "0 auto",
+                                    paddingBlock: "2.5rem"
+                                }
+                            }
+                        >
                             <div className='bs-docs-section'>
                                 <Card title='Cadastro de Usuario'>
                                     <div className='row'>
@@ -77,7 +82,14 @@ class CreateUser extends React.Component {
                                                                 value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
                                                         </FormGroup>
                                                         <br />
-                                                        <div className="buttons-wrapper">
+                                                        <div className="buttons-wrapper"
+                                                            style={
+                                                                {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                }
+                                                            }
+                                                        >
                                                             <GoBack/>
                                                             <button type="submit" className='btn btn-success'>Cadastrar</button>
                                                         </div>

@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.flex {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.flex:is(.profile-wrapper,.braceletRowOptions) > *{
+    width: 100%;
+}

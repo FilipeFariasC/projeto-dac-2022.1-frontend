@@ -5,7 +5,6 @@ import GoBack from "../../components/GoBack";
 import FormGroup from "../../components/FormGroup";
 import axios from "axios";
 import {withRouter} from "react-router-dom";
-import "./css/BraceletCreate.css"
 
 
 class BraceletCreate extends Component {
@@ -49,14 +48,38 @@ class BraceletCreate extends Component {
             <>
                 <Navbar/>
                 <div className="container container-fluid">
-                    <div className="col-md-6 braceletRegister">
-                        <Card className="braceletFormCard" title="Cadastro de Pulseira">
-                            <form className="form braceletForm" onSubmit={event=>
+                    <div className="col-md-6 braceletRegister" 
+                        style={
+                            {
+                                width: "100%",
+                                paddingBlock: "2.5rem"
+                            }
+                        }
+                    >
+                        <Card className="braceletFormCard" title="Cadastro de Pulseira"
+                            style={
                                 {
-                                    event.preventDefault();
-                                    this.create()
+                                    width: '50%',
+                                    margin: "0 auto"
                                 }
-                            }>
+                            }
+                        >
+                            <form className="form braceletForm" 
+                                onSubmit={
+                                    event=>
+                                        {
+                                            event.preventDefault();
+                                            this.create()
+                                        }
+                                }
+                                style={
+                                    {
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "1rem"
+                                    }
+                                }
+                            >
                                 <fieldset>
                                     <FormGroup htmlFor={"braceletFormName"} label={"Nome da Pulseira"}>
                                         <input
@@ -70,7 +93,14 @@ class BraceletCreate extends Component {
                                         />
                                     </FormGroup>
                                 </fieldset>
-                                <div className="buttons-wrapper">
+                                <div className="buttons-wrapper"
+                                    style={
+                                        {
+                                            display: "flex",
+                                            justifyContent: "space-between"
+                                        }
+                                    }
+                                >
                                     <GoBack/>
                                     <button type="submit" className="btn btn-primary">Cadastrar</button>
                                 </div>
