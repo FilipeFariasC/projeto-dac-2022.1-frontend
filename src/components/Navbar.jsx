@@ -29,7 +29,9 @@ function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
-                        <NavItem href="#" label="Pulseiras" />
+                        <NavItem href="/ListBracelet" label="Pulseiras" />
+                        <NavItem href="/UpdateBracelet" label="Atualizar Pulseira" />
+                        <NavItem href="/UpdateUser" label="Atualizar Usuario" />
                         <NavItem href="#" label="Cercas" />
                         <NavItem href="/profile" label="Perfil" />
                         <NavDropdown title="Opções" id="dropdown-options">
