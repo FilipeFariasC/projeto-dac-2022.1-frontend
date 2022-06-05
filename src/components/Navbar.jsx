@@ -30,16 +30,16 @@ function Navbar(props) {
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
                         <NavItem href="/ListBracelet" label="Pulseiras" />
-                        <NavItem href="/UpdateBracelet" label="Atualizar Pulseira" />
-                        <NavItem href="/UpdateUser" label="Atualizar Usuario" />
                         <NavItem href="#" label="Cercas" />
                         <NavItem href="/profile" label="Perfil" />
                         <NavDropdown title="Opções" id="dropdown-options">
                             <NavDropdown.Item href="/createUser">
                                 Cadastrar Usuário
                             </NavDropdown.Item>
+                            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                             <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
                             <NavDropdown.Item href="/createBracelet"> Cadastrar Pulseira </NavDropdown.Item>
+                            <NavDropdown.Item href="/createFence"> Cadastrar Cerca </NavDropdown.Item>
                         </NavDropdown>
                     </ul>
                     </div>

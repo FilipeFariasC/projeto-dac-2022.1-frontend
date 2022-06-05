@@ -18,24 +18,10 @@ export default class UserProfile extends Component {
     }
 
     async componentDidMount() {
-        await axios.post("http://localhost:8080/api/login", 
-            {
-                username: 'admin@admin.com',
-                password: 'admin20221'
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
-                }
-            }
-        ).then(response => {
-            window.localStorage.setItem('jwt_token', response.data.response);
-        });
         await axios.get("http://localhost:8080/api/users/user", {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
+                "Authorization": "Bearer " + localStorage.getItem("jwt_token"),
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
             }
@@ -102,6 +88,15 @@ export default class UserProfile extends Component {
                                 </tr>
                             </tbody>
                         </table>
+                        <div className="flex"
+                            style={
+                                {
+                                    justifyContent: "flex-end"
+                                }
+                            }
+                        >
+                            <Link to="/updateUser" className="btn btn-primary">Editar Usuário</Link>
+                        </div>
                     </Card>
                     <Card title="Pulseiras e Cercas">
                         <div className="bracelet-and-fence-profiles flex"
@@ -132,21 +127,28 @@ class BraceletList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            braceletList : []
+            braceletList : [],
+            size: 5
         }
     }
 
     async componentDidMount(){
-        await axios.get('http://localhost:8080/api/bracelets/',
+        await axios.get('http://localhost:8080/api/bracelets',
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
                     "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                    "Content-Type": "application/json",
+                    "page": 0,
+                    "size": 5,
+                    "sort": "id,ASC"
                 }
             }
         ).then(response => {
-            this.setState({braceletList: response.data});
+            const page = response.data;
+            this.setState({braceletList: page.content});
+            this.setState({size: page.totalElements});
         }).catch((error) => {
             console.log(error);
         });
@@ -172,9 +174,9 @@ class BraceletList extends Component {
                         }
                     }
                 >{bracelet.name}</strong>
-                <a className="btn btn-primary" href="#">
+                <Link className="btn btn-primary" to={`/updateBracelet/${bracelet.id}`}>
                     Editar
-                </a>
+                </Link>
                 <a className="btn btn-danger" href="#" >
                     Excluir
                 </a>
@@ -186,10 +188,16 @@ class BraceletList extends Component {
     }
 
     render(){
-        if(this.state.braceletList.length === 0){
+        if(this.state.size === 0){
             return (
                 <div className="flex">
-                    <Link className="btn btn-primary" to="/createBracelet">Cadastrar Pulseira</Link>
+                    <Link className="btn btn-primary" to="/createBracelet"
+                        style={
+                            {
+                                width: "100%"
+                            }
+                        }
+                    >Cadastrar Pulseira</Link>
                 </div>
             );
         }
@@ -198,6 +206,20 @@ class BraceletList extends Component {
             <>
                 <ul className="list-group">
                     {this.braceletList()}
+                    {this.state.size > 5 &&
+                        <li key={-1} className="list-group-item flex braceletRowOptions"
+                            style={
+                                {
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    flexDirection: "row",
+                                }
+                            }
+                        >
+                            <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
+                        </li>
+                    }
                 </ul>
             </>
         )
@@ -210,7 +232,8 @@ class FenceList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fenceList : []
+            fenceList : [],
+            size: 0
         }
     }
 
@@ -231,6 +254,20 @@ class FenceList extends Component {
     }
 
     render(){
+        if(this.state.size === 0){
+            return(
+                <div className="flex">
+                    <Link className="btn btn-primary" to="/createFence"
+                        style={
+                            {
+                                width: "100%"
+                            }
+                        }
+                    >Cadastrar Cerca </Link>
+                </div>
+            );
+        }
+
         return (
             <>
             </>

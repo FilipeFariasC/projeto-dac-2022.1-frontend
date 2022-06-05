@@ -4,9 +4,11 @@ import HomePage from "../screens/HomePage/HomePage";
 import CreateUser from '../screens/CreateUser/CreateUser';
 import UserProfile from "../screens/UserProfile/UserProfile";
 import BraceletCreate from "../screens/BraceletCreate/BraceletCreate";
+import FenceCreate from "../screens/FenceCreate/FenceCreate";
 import ListBracelet from "../screens/ListBracelet/ListBracelet";
 import UpdateBracelet from "../screens/UpdateBracelet/UpdateBracelet";
 import UpdateUser from "../screens/UpdateUser/UpdateUser";
+import UserLogin from "../screens/UserLogin/UserLogin";
 
 function AppRoutes(){
     return (
@@ -20,7 +22,10 @@ function AppRoutes(){
             <Route path={["/signIn","/createUser"]} exact >
                 <CreateUser />
             </Route>
-            <Route path={"/updateUser/:id"} exact>
+            <Route path={"/login"} exact >
+                <UserLogin />
+            </Route>
+            <Route path={"/updateUser/"} exact>
                 <UpdateUser />
             </Route>
             <Route path={"/createBracelet"} exact>
@@ -31,6 +36,10 @@ function AppRoutes(){
             </Route>
             <Route path={"/updateBracelet/:id"} exact>
                 <UpdateBracelet />
+            </Route>
+
+            <Route path={"/createFence"} exact>
+                <FenceCreate />
             </Route>
         </BrowserRouter>
     );
