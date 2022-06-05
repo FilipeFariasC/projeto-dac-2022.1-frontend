@@ -161,7 +161,7 @@ const render = (status) => {
 const google = window.google;
 function GoogleMap() {
     return (
-        <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}/>
+        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} render={render}/>
     )
 }
 
@@ -187,7 +187,9 @@ function Map () {
         <div ref={ref} id="map"
             style={
                 {
-                    aspectRatio:"16/9"
+                    // aspectRatio:"16/9",
+                    width: "100%",
+                    height: "100%"
                 }
             }
         />
