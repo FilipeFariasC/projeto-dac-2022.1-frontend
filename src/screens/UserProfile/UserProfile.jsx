@@ -188,7 +188,7 @@ class BraceletList extends Component {
     }
 
     render(){
-        if(this.state.size === 0){
+        if(this.state.braceletList.length === 0){
             return (
                 <div className="flex">
                     <Link className="btn btn-primary" to="/createBracelet"
@@ -233,7 +233,7 @@ class FenceList extends Component {
         super(props);
         this.state = {
             fenceList : [],
-            size: 0
+            size: 5
         }
     }
 
@@ -254,7 +254,7 @@ class FenceList extends Component {
     }
 
     render(){
-        if(this.state.size === 0){
+        if(this.state.fenceList.length === 0){
             return(
                 <div className="flex">
                     <Link className="btn btn-primary" to="/createFence"

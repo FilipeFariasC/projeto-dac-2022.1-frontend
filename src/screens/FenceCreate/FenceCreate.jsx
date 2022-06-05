@@ -7,7 +7,6 @@ import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import {Wrapper, Status, } from "@googlemaps/react-wrapper";
 import {Modal, Button} from "react-bootstrap";
-
 class FenceCreate extends Component {
 
     constructor(props) {
@@ -162,7 +161,7 @@ const render = (status) => {
 const google = window.google;
 function GoogleMap() {
     return (
-        <Wrapper apiKey={"AIzaSyAwLesOXTjcDaLVK1cBUmLibrnuLAXpu4A"} render={render}/>
+        <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY} render={render}/>
     )
 }
 
