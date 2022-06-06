@@ -229,7 +229,7 @@ class BraceletList extends Component {
 
 class FenceList extends Component {
 
-    constructor(props) {
+     constructor(props) {
         super(props);
         this.state = {
             fenceList : [],
@@ -238,19 +238,60 @@ class FenceList extends Component {
     }
 
     async componentDidMount(){
-        await axios.get('http://localhost:8080/api/fences/',
+        await axios.get('http://localhost:8080/api/fences',
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
                     "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                    "Content-Type": "application/json",
+                    "page": 0,
+                    "size": 5,
+                    "sort": "id,ASC"
                 }
             }
         ).then(response => {
-            this.setState({braceletList: response.data});
+            const page = response.data;
+            this.setState({fenceList: page.content});
+            this.setState({size: page.totalElements});
         }).catch((error) => {
             console.log(error);
         });
+    }
+
+    fenceRow(fence){
+
+        console.log(fence);
+        return (
+            <li key={fence.id} className="list-group-item flex fenceRowOptions"
+                style={
+                    {
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                    }
+                }
+            >
+                <strong className="fenceName" 
+                    style={
+                        {
+                            fontSize: "0.75rem",
+                            whiteSpace: "nowrap"
+                        }
+                    }
+                >{fence.name}</strong>
+                <Link className="btn btn-primary" to={`/updateFence/${fence.id}`}>
+                    Editar
+                </Link>
+                <a className="btn btn-danger" href="#" >
+                    Excluir
+                </a>
+            </li>
+        );
+    }
+    fenceList(){
+        return this.state.fenceList.map(fence => this.fenceRow(fence));
     }
 
     render(){
@@ -270,6 +311,23 @@ class FenceList extends Component {
 
         return (
             <>
+                <ul className="list-group">
+                    {this.fenceList()}
+                    {this.state.size > 5 &&
+                        <li key={-1} className="list-group-item flex braceletRowOptions"
+                            style={
+                                {
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    flexDirection: "row",
+                                }
+                            }
+                        >
+                            <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
+                        </li>
+                    }
+                </ul>
             </>
         );
     }

@@ -17,6 +17,6 @@ code {
     gap: 1.5rem;
 }
 
-.flex:is(.profile-wrapper,.braceletRowOptions) > *{
+.flex:is(.profile-wrapper,.braceletRowOptions,.fenceRowOptions) > *{
     width: 100%;
 }

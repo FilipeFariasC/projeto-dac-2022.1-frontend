@@ -10,47 +10,53 @@ import './css/UpdateBracelet.css';
 class UpdateBracelet extends React.Component {
 
     state = {
-        id: '',
         name: ''
     }
 
-    componentDidMount(){
-        const params = this.props.match.params;
-        const id = params.id;
-        this.findById(id);
-    }
-
-    update = async () => {
-        await axios.put(`http://localhost:8080/api/users/bracelets/${this.state.id}`,
+    async componentDidMount(){
+        console.log(this.props.match.params.id)
+        await axios.get(`http://localhost:8080/api/bracelets/${this.props.match.params.id}`,
             {
-                id: this.state.id,
-                name: this.state.name
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
+                }
             }
+
         ).then(response => {
             console.log(response);
+            this.setState({name: response.data.name});
+        }
+        ).catch(response => {
+            console.error();
+        });
+    }
+
+    async update () {
+        await axios.put(`http://localhost:8080/api/users/bracelets/${this.props.match.params.id}`,
+            {
+                name: this.state.name
+            },
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
+                }
+            }
+
+        ).then(response => {
+            console.log(response);
+            
+            this.props.history.push("/listBracelet");
         }
         ).catch(response => {
             console.error();
         }
         );
-    }
-
-    findById = (id) => {
-        axios.get(`http://localhost:8080/api/users/bracelets?id=${id}`)
-        .then( response => 
-            {
-                const bracelet = response.data[0];
-                const id = bracelet.id;
-                const name = bracelet.name;
-
-                this.setState({id,name});
-
-            }
-        ).catch( error => 
-            {
-                console.log(error.response);
-            }
-        )
     }
 
     render() {
@@ -59,9 +65,16 @@ class UpdateBracelet extends React.Component {
                 <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6 braceletUpdadet'>
+                        <div className='col-md-6 braceletUpdated'
+                            style={
+                                {
+                                    margin: "0 auto",
+                                    paddingBlock: "2.5rem"
+                                }
+                            }
+                        >
                             <div className='bs-docs-section'>
-                                <Card title='Atualizar Pulseria'>
+                                <Card title='Atualizar Pulseira'>
                                     <div className='row'>
                                         <div className='col-lg-12'>
                                             <div className='bs-component'>
@@ -71,15 +84,9 @@ class UpdateBracelet extends React.Component {
                                                 }
                                                 }>
                                                     <fieldset>
-                                                        <FormGroup label='Id: *' htmlFor='id'>
-                                                            <input type='text' className='form-control' id='id'
-                                                                disabled={true}
-                                                                placeholder= 'id'
-                                                                value={this.state.id} onChange={(e) => this.setState({ id: e.target.value })} />
-                                                        </FormGroup>
-                                                        <FormGroup label='Nome: *' htmlFor='name'>
+                                                        <FormGroup label='Nome: ' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
-                                                                placeholder='Digite seu nome'
+                                                                placeholder='Nome da pulseira'
                                                                 value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
                                                         </FormGroup>
 

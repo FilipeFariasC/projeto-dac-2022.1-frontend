@@ -19,14 +19,6 @@ class BraceletCreate extends Component {
     }
 
     create = async() => {
-        await axios.post("http://localhost:8080/api/login", 
-            {
-                username: 'admin@admin.com',
-                password: 'admin20221'
-            }
-        ).then(response => {
-            window.localStorage.setItem('jwt_token', response.data.response);
-        });
         await axios.post("http://localhost:8080/api/bracelets", 
             this.state.bracelet,
             {
@@ -34,8 +26,7 @@ class BraceletCreate extends Component {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
                 }
             }
         ).then(response => {

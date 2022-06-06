@@ -10,24 +10,37 @@ import './css/UpdateUser.css';
 class UpdateUser extends React.Component {
 
     state = {
-        id: '',
         name: ''
     }
 
-    componentDidMount(){
-        const params = this.props.match.params;
-        const id = params.id;
-        this.findById(id);
+    async componentDidMount(){
+        await axios.get(`http://localhost:8080/api/users/user`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Content-Type": "application/json",
+                }
+            }
+        ).then( response => {
+            const user = response.data;
+            console.log(user);
+            this.setState({
+                name:user.name
+            });
+
+        }).catch( error =>{
+                console.log(error.response);
+        })
     }
 
     update = async () => {
-        await axios.put(`http://localhost:8080/api/users/${this.state.id}`,
-            {
-                id: this.state.id,
-                name: this.state.name
-            },
+        await axios.patch(`http://localhost:8080/api/users/user`,
+            this.state.name,
             {
                 headers: {
+                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
@@ -35,31 +48,13 @@ class UpdateUser extends React.Component {
             }
         ).then(response => {
             console.log(response);
+            this.props.history.push("/profile")
         }
         ).catch(response => {
             console.error();
         }
         );
     }
-
-    findById = (id) => {
-        axios.get(`http://localhost:8080/api/users?id=${id}`)
-        .then( response => 
-            {
-                const user = response.data[0];
-                const id = user.id;
-                const name = user.name;
-
-                this.setState({id,name});
-
-            }
-        ).catch( error => 
-            {
-                console.log(error.response);
-            }
-        )
-    }
-
     render() {
         return (
             <>
@@ -68,7 +63,7 @@ class UpdateUser extends React.Component {
                     <div className='row'>
                         <div className='col-md-6 userUpdadet'>
                             <div className='bs-docs-section'>
-                                <Card title='Atualizar Usuario'>
+                                <Card title='Atualizar Usuário'>
                                     <div className='row'>
                                         <div className='col-lg-12'>
                                             <div className='bs-component'>
@@ -78,13 +73,7 @@ class UpdateUser extends React.Component {
                                                 }
                                                 }>
                                                     <fieldset>
-                                                        <FormGroup label='Id: *' htmlFor='id'>
-                                                            <input type='text' className='form-control' id='id'
-                                                                disabled={true}
-                                                                placeholder= 'id'
-                                                                value={this.state.id} onChange={(e) => this.setState({ id: e.target.value })} />
-                                                        </FormGroup>
-                                                        <FormGroup label='Nome: *' htmlFor='name'>
+                                                        <FormGroup label='Nome: ' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
                                                                 placeholder='Digite seu nome'
                                                                 value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
