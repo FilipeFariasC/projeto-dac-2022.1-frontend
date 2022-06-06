@@ -199,18 +199,6 @@ class FenceCreate extends Component {
 
 export default withRouter(FenceCreate);
 
-const render = (status) => {
-    switch (status) {
-        case Status.LOADING:
-            return <h2>CARREGANDO</h2>;
-        case Status.FAILURE:
-            return <h2>FALHA</h2>;
-        case Status.SUCCESS:
-            return (
-                <Map/>
-            );
-    };
-};
 const google = window.google;
 function GoogleMap(props) {
     return (

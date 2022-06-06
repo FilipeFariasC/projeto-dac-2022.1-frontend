@@ -5,7 +5,6 @@ import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
-import './css/UpdateBracelet.css';
 
 class UpdateBracelet extends React.Component {
 
@@ -91,7 +90,14 @@ class UpdateBracelet extends React.Component {
                                                         </FormGroup>
 
                                                         <br />
-                                                        <div className="buttons-wrapper">
+                                                        <div className="buttons-wrapper"
+                                                            style={
+                                                                {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                }
+                                                            }
+                                                        >
                                                             
                                                             <button type="submit" className='btn btn-success'>Atualizar</button>
                                                         </div>

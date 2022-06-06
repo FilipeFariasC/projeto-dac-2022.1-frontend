@@ -5,7 +5,6 @@ import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
-import './css/UpdateUser.css';
 
 class UpdateUser extends React.Component {
 
@@ -61,7 +60,14 @@ class UpdateUser extends React.Component {
                 <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6 userUpdadet'>
+                        <div className='col-md-6 userUpdate'
+                            style={
+                                {
+                                    margin: "0 auto",
+                                    paddingBlock: "2.5rem"
+                                }
+                            }
+                        >
                             <div className='bs-docs-section'>
                                 <Card title='Atualizar Usuário'>
                                     <div className='row'>
@@ -80,7 +86,14 @@ class UpdateUser extends React.Component {
                                                         </FormGroup>
 
                                                         <br />
-                                                        <div className="buttons-wrapper">
+                                                        <div className="buttons-wrapper"
+                                                            style={
+                                                                {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                }
+                                                            }
+                                                        >
                                                             
                                                             <button type="submit" className='btn btn-success'>Atualizar</button>
                                                         </div>
