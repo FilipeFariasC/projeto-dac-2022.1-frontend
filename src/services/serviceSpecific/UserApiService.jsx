@@ -18,7 +18,7 @@ export default class UserApiService extends ApiService{
         return this.patch(`/${id}`,object, config);
     }
 
-    delete(id){
+    delete(id, config){
         super.delete(`/${id}`, config);
     }
 

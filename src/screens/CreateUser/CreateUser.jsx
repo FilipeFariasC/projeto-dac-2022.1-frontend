@@ -1,10 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
+import UserApiService from '../../services/serviceSpecific/UserApiService';
 
 class CreateUser extends React.Component {
 
@@ -15,9 +15,14 @@ class CreateUser extends React.Component {
         result: ''
     }
 
+    constructor(){
+        super();
+        this.service = new UserApiService();
+    }
+
     create = async () => {
         console.log("Criando");
-        await axios.post('http://localhost:8080/api/users',
+        await this.service.create(
             {
                 name: this.state.name,
                 email: this.state.email,

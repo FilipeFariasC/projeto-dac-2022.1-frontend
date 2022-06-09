@@ -19,7 +19,7 @@ class UpdateUser extends React.Component {
     }
 
     async componentDidMount() {
-        await this.service.get(this.state.name,
+        await this.service.find(this.state.name,
             {
                 headers: {
                     "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
