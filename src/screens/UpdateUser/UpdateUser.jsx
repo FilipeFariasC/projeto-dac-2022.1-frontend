@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
@@ -54,8 +53,7 @@ class UpdateUser extends React.Component {
                     "Content-Type": "application/json",
                 }
             }
-            ).
-            then(response => {
+            ).then(response => {
                 console.log(response);
                 this.props.history.push("/profile")
             }
