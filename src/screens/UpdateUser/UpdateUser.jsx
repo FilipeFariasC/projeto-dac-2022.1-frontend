@@ -6,6 +6,7 @@ import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
 import './css/UpdateUser.css';
+import UserApiService from '../../services/serviceSpecific/UserApiService';
 
 class UpdateUser extends React.Component {
 
@@ -13,8 +14,13 @@ class UpdateUser extends React.Component {
         name: ''
     }
 
-    async componentDidMount(){
-        await axios.get(`http://localhost:8080/api/users/user`,
+    constructor() {
+        super();
+        this.service = new UserApiService();
+    }
+
+    async componentDidMount() {
+        await this.service.get(this.state.name,
             {
                 headers: {
                     "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
@@ -23,37 +29,40 @@ class UpdateUser extends React.Component {
                     "Content-Type": "application/json",
                 }
             }
-        ).then( response => {
+        ).then(response => {
             const user = response.data;
             console.log(user);
             this.setState({
-                name:user.name
+                name: user.name
             });
 
-        }).catch( error =>{
-                console.log(error.response);
+        }).catch(error => {
+            console.log(error.response);
         })
     }
 
     update = async () => {
-        await axios.patch(`http://localhost:8080/api/users/user`,
-            this.state.name,
+        await this.service.updateOne(this.state.id,
+            {
+                name: this.state.name
+            },
             {
                 headers: {
                     "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Content-Type": "application/json",
                 }
             }
-        ).then(response => {
-            console.log(response);
-            this.props.history.push("/profile")
-        }
-        ).catch(response => {
-            console.error();
-        }
-        );
+            ).
+            then(response => {
+                console.log(response);
+                this.props.history.push("/profile")
+            }
+            ).catch(response => {
+                console.error();
+            }
+            );
     }
     render() {
         return (
@@ -81,7 +90,7 @@ class UpdateUser extends React.Component {
 
                                                         <br />
                                                         <div className="buttons-wrapper">
-                                                            
+
                                                             <button type="submit" className='btn btn-success'>Atualizar</button>
                                                         </div>
                                                     </fieldset>
