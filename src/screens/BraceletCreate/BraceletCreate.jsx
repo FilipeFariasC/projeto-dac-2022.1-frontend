@@ -3,8 +3,8 @@ import Navbar from "../../components/Navbar";
 import Card from "../../components/Card";
 import GoBack from "../../components/GoBack";
 import FormGroup from "../../components/FormGroup";
-import axios from "axios";
 import {withRouter} from "react-router-dom";
+import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
 
 
 class BraceletCreate extends Component {
@@ -16,10 +16,11 @@ class BraceletCreate extends Component {
                 name: ""
             }
         }
+        this.service = new BraceletApiService();
     }
 
     create = async() => {
-        await axios.post("http://localhost:8080/api/bracelets", 
+        await this.service.create( 
             this.state.bracelet,
             {
                 headers: {

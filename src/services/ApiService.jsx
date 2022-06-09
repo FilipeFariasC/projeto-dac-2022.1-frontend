@@ -22,14 +22,14 @@ export default class ApiService {
         return httpClient.put(url, params, config);
     }
 
-    delete(url, params, config) {
+    delete(url, config) {
         url = this.builUrl(url);
-        return httpClient.delete(url, params, config);
+        return httpClient.delete(url, config);
     }
 
-    get(url, params, config) {
+    get(url, config) {
         url = this.builUrl(url);
-        return httpClient.get(url, params, config);
+        return httpClient.get(url, config);
     }
 
     builUrl(url) {

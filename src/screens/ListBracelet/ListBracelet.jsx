@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
+import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
 
 class ListBracelet extends React.Component {
 
@@ -12,8 +12,13 @@ class ListBracelet extends React.Component {
         bracelets: []
     }
 
+    constructor(){
+        super();
+        this.servie = new BraceletApiService(); 
+    }
+
     async componentDidMount() {
-        await axios.get(`http://localhost:8080/api/users/bracelets`,
+        await this.service.find(
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
@@ -39,7 +44,7 @@ class ListBracelet extends React.Component {
         if (this.state.name !== '') {
             params = `search?name=${this.state.name}`;
         }
-        await axios.get(`http://localhost:8080/api/users/bracelets/${params}`,
+        await this.servie.findByName(params,
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
@@ -61,7 +66,18 @@ class ListBracelet extends React.Component {
     }
 
     delete = (id) => {
-        axios.delete(`http://localhost:8080/api/users/bracelets/${id}`
+        this.service.delete(id,
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
+                    "Access-Control-Allow-Origin": '*',
+                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                    "Content-Type": "application/json",
+                    "page": 0,
+                    "size": 15,
+                    "sort": "id,ASC"
+                }
+            }
         ).then(response => {
         }
         ).catch(error => {

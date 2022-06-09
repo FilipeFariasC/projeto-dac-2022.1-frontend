@@ -6,11 +6,17 @@ import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
 import './css/UpdateBracelet.css';
+import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
 
 class UpdateBracelet extends React.Component {
 
     state = {
         name: ''
+    }
+
+    constructor(){
+        super();
+        this.servie = new BraceletApiService();
     }
 
     async componentDidMount(){
