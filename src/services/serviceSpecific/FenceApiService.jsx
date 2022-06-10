@@ -17,10 +17,6 @@ export default class FenceApiService extends ApiService{
         super.delete(`/${id}`, config);
     }
 
-    findByName(params, config){
-        return this.get(`${params}`,config);
-    }
-
     findById(id, config){
         return this.get(id,config);
     }
