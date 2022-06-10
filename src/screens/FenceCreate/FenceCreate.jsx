@@ -7,6 +7,7 @@ import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import {Wrapper, Status } from "@googlemaps/react-wrapper";
 import {Modal, Button} from "react-bootstrap";
+import FenceApiService from '../../services/serviceSpecific/FenceApiService';
 
 var latitude = 0;
 var longitude = 0;
@@ -31,6 +32,8 @@ class FenceCreate extends Component {
             },
             show: false
         }
+        this.service = new FenceApiService();
+
     }
 
     getFence(){
@@ -58,8 +61,7 @@ class FenceCreate extends Component {
         console.log("Criando");
         const fence = this.getFence();
         console.log(fence);
-        await axios.post('http://localhost:8080/api/fences',
-            fence,
+        await this.service.create(fence,
             {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
