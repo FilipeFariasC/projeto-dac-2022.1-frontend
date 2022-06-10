@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
@@ -21,7 +20,7 @@ class UpdateBracelet extends React.Component {
 
     async componentDidMount(){
         console.log(this.props.match.params.id)
-        await axios.get(`http://localhost:8080/api/bracelets/${this.props.match.params.id}`,
+        await this.servie.findById(this.props.match.params.id,
             {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
@@ -41,7 +40,7 @@ class UpdateBracelet extends React.Component {
     }
 
     async update () {
-        await axios.put(`http://localhost:8080/api/users/bracelets/${this.props.match.params.id}`,
+        await this.servie.update(this.props.match.params.id,
             {
                 name: this.state.name
             },

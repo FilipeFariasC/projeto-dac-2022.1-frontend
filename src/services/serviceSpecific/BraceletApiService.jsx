@@ -22,6 +22,10 @@ export default class BraceletApiService extends ApiService{
         return this.get(`${params}`,config);
     }
 
+    findById(id, config){
+        return this.get(id,config);
+    }
+
     find(config){
         return this.get(config);
     }
