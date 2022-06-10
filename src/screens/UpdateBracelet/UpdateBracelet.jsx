@@ -7,6 +7,7 @@ import NavBar from '../../components/Navbar';
 import './css/UpdateBracelet.css';
 import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
 
+
 class UpdateBracelet extends React.Component {
 
     state = {
@@ -96,7 +97,14 @@ class UpdateBracelet extends React.Component {
                                                         </FormGroup>
 
                                                         <br />
-                                                        <div className="buttons-wrapper">
+                                                        <div className="buttons-wrapper"
+                                                            style={
+                                                                {
+                                                                    display: "flex",
+                                                                    justifyContent: "space-between"
+                                                                }
+                                                            }
+                                                        >
                                                             
                                                             <button type="submit" className='btn btn-success'>Atualizar</button>
                                                         </div>
