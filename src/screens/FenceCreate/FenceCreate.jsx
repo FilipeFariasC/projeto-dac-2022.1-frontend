@@ -21,8 +21,8 @@ class FenceCreate extends Component {
             name: '',
             radius: 1,
             coordinate :{
-                latitude: 0,
-                longitude: 0
+                latitude: null,
+                longitude: null
             },
             startTime: null,
             finishTime: null,
@@ -73,8 +73,7 @@ class FenceCreate extends Component {
         ).then(response => {
             console.log(response);
             this.props.history.push('/profile');
-        }
-        ).catch(error => {
+        }).catch(error => {
             console.log(error);
         }
         );
@@ -130,7 +129,15 @@ class FenceCreate extends Component {
                                                                         <Modal.Title>Selecione a localização | RAIO: {this.state.radius}</Modal.Title>
                                                                     </Modal.Header>
                                                                     <Modal.Body>
-                                                                        <GoogleMap name={this.state.name} radius={this.state.radius}/>
+                                                                        <GoogleMap coordinates={
+                                                                            this.state.coordinate.latitude !== null && this.state.coordinate.longitude !== null ?
+                                                                            {
+                                                                                latitude: this.state.coordinate.latitude,
+                                                                                longitude: this.state.coordinate.longitude
+                                                                            }
+                                                                            :
+                                                                            null
+                                                                        } name={this.state.name} radius={this.state.radius}/>
                                                                     </Modal.Body>
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
@@ -148,10 +155,10 @@ class FenceCreate extends Component {
                                                             </FormGroup>
                                                             <div className="coordinates flex">
                                                                 <FormGroup label="Latitude: " htmlFor="latitude">
-                                                                    <input value={this.state.coordinate.latitude} type="text" className="form-control" id="latitude" disabled/>
+                                                                    <input value={this.state.coordinate.latitude? this.state.coordinate.latitude:null} type="text" className="form-control" id="latitude" disabled/>
                                                                 </FormGroup>
                                                                 <FormGroup label="Latitude: " htmlFor="latitude">
-                                                                    <input value={this.state.coordinate.longitude} type="text" className="form-control" id="longitude" disabled/>
+                                                                    <input value={this.state.coordinate.longitude?this.state.coordinate.longitude:null} type="text" className="form-control" id="longitude" disabled/>
                                                                 </FormGroup>
                                                                 <FormGroup label='Raio: *' htmlFor='radius'>
                                                                     <input type='number' className='form-control' id='radius' min="1"
@@ -205,7 +212,7 @@ const google = window.google;
 function GoogleMap(props) {
     return (
         <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-            <Map name={props.name} radius={props.radius} />
+            <Map coordinates={props.coordinates} name={props.name} radius={props.radius} />
         </Wrapper>
     )
 }
@@ -217,13 +224,39 @@ function Map (props) {
 
     let newMarker = null;
     let newCircle = null;
+    var radius = props.radius;
 
     useEffect(() => {
-        if(ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, {
+        let options = null;
+        if (props.coordinates) {
+            options = {
+                center: { lat: props.coordinates.latitude, lng: props.coordinates.longitude },
+                zoom: 15
+            };
+            newMarker = new window.google.maps.Marker({
+                position: {
+                    lat: props.coordinates.latitude,
+                    lng: props.coordinates.longitude
+                },
+                map: map,
+                title: "Localização Selecionada",
+                label: props.name
+            });
+            newCircle = new window.google.maps.Circle({
+                map: map,
+                radius,
+                fillColor: '#00ff00'
+            });
+            newCircle.bindTo('center', newMarker, 'position');
+        } else {
+            options = {
                 center: { lat: -7.897789, lng: -37.118066 },
                 zoom: 15
-            }));
+            }
+        }
+
+        if(ref.current && !map) {
+            setMap(new window.google.maps.Map(ref.current, options));   
         }
     }, [ref, map]);
 
@@ -250,7 +283,7 @@ function Map (props) {
 
                 console.log(latitude, longitude);
 
-                var radius = props.radius;
+                
 
                 newCircle = new window.google.maps.Circle({
                     map: map,

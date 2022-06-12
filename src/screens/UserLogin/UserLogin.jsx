@@ -8,9 +8,13 @@ import {withRouter} from 'react-router-dom';
 
 class UserLogin extends React.Component {
 
-    state = {
-        email: '',
-        password: ''
+
+    constructor() {
+        super();
+        this.state = {
+            email: '',
+            password: ''
+        }
     }
 
     async login() {
@@ -29,7 +33,7 @@ class UserLogin extends React.Component {
             }
         ).then(response => {
             localStorage.setItem('jwt_token', response.data.response);
-            this.props.history.push('/');
+            this.props.history.push('/profile');
         }
         ).catch(error => {
             console.log(error);

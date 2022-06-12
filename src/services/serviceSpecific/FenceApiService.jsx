@@ -3,6 +3,11 @@ import ApiService from "../ApiService";
 export default class FenceApiService extends ApiService{
     constructor(){
         super('/fences');
+        this.headers = {
+            "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        }
     }
 
     create(object, config){

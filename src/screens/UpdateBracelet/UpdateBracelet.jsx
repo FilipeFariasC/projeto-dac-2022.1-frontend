@@ -4,7 +4,6 @@ import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
-import './css/UpdateBracelet.css';
 import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
 
 
@@ -16,12 +15,12 @@ class UpdateBracelet extends React.Component {
 
     constructor(){
         super();
-        this.servie = new BraceletApiService();
+        this.service = new BraceletApiService();
     }
 
     async componentDidMount(){
         console.log(this.props.match.params.id)
-        await this.servie.findById(this.props.match.params.id,
+        await this.service.findById(this.props.match.params.id,
             {
                 headers: {
                     "Access-Control-Allow-Origin": "*",

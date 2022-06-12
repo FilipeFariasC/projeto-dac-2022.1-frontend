@@ -14,11 +14,11 @@ class ListBracelet extends React.Component {
 
     constructor(){
         super();
-        this.servie = new BraceletApiService(); 
+        this.service = new BraceletApiService(); 
     }
 
     async componentDidMount() {
-        await this.service.find(
+        await this.service.find('',
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
@@ -44,7 +44,7 @@ class ListBracelet extends React.Component {
         if (this.state.name !== '') {
             params = `search?name=${this.state.name}`;
         }
-        await this.servie.findByName(params,
+        await this.service.findByName(params,
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,

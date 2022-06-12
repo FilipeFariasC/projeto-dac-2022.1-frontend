@@ -3,11 +3,15 @@ import Navbar from "../../components/Navbar";
 import Card from "../../components/Card";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import UserApiService from "../../services/serviceSpecific/UserApiService";
+import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
+import FenceApiService from "../../services/serviceSpecific/FenceApiService";
 
 export default class UserProfile extends Component {
 
     constructor(props) {
         super(props);
+        this.service= new UserApiService();
         this.state = {
             user: {
                 id: 0,
@@ -18,7 +22,7 @@ export default class UserProfile extends Component {
     }
 
     async componentDidMount() {
-        await axios.get("http://localhost:8080/api/users/user", {
+        await this.service.find("user", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + localStorage.getItem("jwt_token"),
@@ -126,6 +130,7 @@ class BraceletList extends Component {
 
     constructor(props) {
         super(props);
+        this.service = new BraceletApiService();
         this.state = {
             braceletList : [],
             size: 5
@@ -133,7 +138,7 @@ class BraceletList extends Component {
     }
 
     async componentDidMount(){
-        await axios.get('http://localhost:8080/api/bracelets',
+        await this.service.find(
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
@@ -231,6 +236,7 @@ class FenceList extends Component {
 
      constructor(props) {
         super(props);
+        this.service = new FenceApiService();
         this.state = {
             fenceList : [],
             size: 5
@@ -238,7 +244,7 @@ class FenceList extends Component {
     }
 
     async componentDidMount(){
-        await axios.get('http://localhost:8080/api/fences',
+        await this.service.find('',
             {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,

@@ -4,8 +4,6 @@ import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 //import GoBack from '../../component/GoBack';
-
-import './css/UpdateUser.css';
 import UserApiService from '../../services/serviceSpecific/UserApiService';
 
 class UpdateUser extends React.Component {
@@ -20,7 +18,7 @@ class UpdateUser extends React.Component {
     }
 
     async componentDidMount() {
-        await this.service.find(this.state.name,
+        await this.service.find('user',
             {
                 headers: {
                     "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
