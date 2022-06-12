@@ -30,8 +30,19 @@ function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
-                        <NavItem href="/ListBracelet" label="Pulseiras" />
-                        <NavItem href="#" label="Cercas" />
+                        <NavDropdown title="Pulseiras" id="bracelet-options" >
+                            <NavDropdown.Item href="/createBracelet">
+                                Cadastrar Pulseira
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/createBracelet">
+                                Listar Pulseira
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown title="Cercas" id="bracelet-options" >
+                            <NavDropdown.Item href="/createFence">
+                                Cadastrar Cerca
+                            </NavDropdown.Item>
+                        </NavDropdown>
                         <NavItem href="/profile" label="Perfil" />
                         <NavDropdown title="Opções" id="dropdown-options">
                             <NavDropdown.Item href="/createUser">
@@ -39,8 +50,6 @@ function Navbar(props) {
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                             <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
-                            <NavDropdown.Item href="/createBracelet"> Cadastrar Pulseira </NavDropdown.Item>
-                            <NavDropdown.Item href="/createFence"> Cadastrar Cerca </NavDropdown.Item>
                         </NavDropdown>
                     </ul>
                     </div>
