@@ -18,12 +18,16 @@ export default class FenceApiService extends ApiService{
         return this.put(`/${id}`, object, config);
     }
 
+    statusActive(id, object, config){
+        return this.patch(`/${id}`, object, config);
+    }
+
     delete(id, config){
         super.delete(`/${id}`, config);
     }
 
     findById(id, config){
-        return this.get(id,config);
+        return this.get(`/${id}`,config);
     }
 
     find(config){

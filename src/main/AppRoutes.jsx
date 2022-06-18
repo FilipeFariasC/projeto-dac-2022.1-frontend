@@ -9,6 +9,7 @@ import ListBracelet from "../screens/ListBracelet/ListBracelet";
 import UpdateBracelet from "../screens/UpdateBracelet/UpdateBracelet";
 import UpdateUser from "../screens/UpdateUser/UpdateUser";
 import UserLogin from "../screens/UserLogin/UserLogin";
+import UpdateFence from "../screens/UpdateFence/UpdateFence";
 
 function AppRoutes(){
     return (
@@ -40,6 +41,9 @@ function AppRoutes(){
 
             <Route path={"/createFence"} exact>
                 <FenceCreate />
+            </Route>
+            <Route path={"/updateFence/:id"} exact>
+                <UpdateFence />
             </Route>
         </BrowserRouter>
     );
