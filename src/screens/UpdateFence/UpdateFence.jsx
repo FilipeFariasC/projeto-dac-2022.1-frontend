@@ -16,22 +16,22 @@ class UpdateFence extends React.Component {
     constructor() {
         super();
         this.service = new FenceApiService();
-    }
-    state = {
-        name: '',
-        radius: 1,
-        coordinate: {
-            latitude: null,
-            longitude: null
-        },
-        startTime: null,
-        finishTime: null,
-        tempCoordinates: {
-            lat: 0,
-            lng: 0
-        },
-        show: false,
-        active: false
+        this.state = {
+            name: '',
+            radius: 1,
+            coordinate: {
+                latitude: null,
+                longitude: null
+            },
+            startTime: null,
+            finishTime: null,
+            tempCoordinates: {
+                lat: 0,
+                lng: 0
+            },
+            active: false,
+            show: false
+        }
     }
 
 
@@ -43,18 +43,9 @@ class UpdateFence extends React.Component {
     }
 
     async componentDidMount() {
-        await this.service.findById(this.props.match.params.id,
-            {
-                headers: {
-                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                }
-            }
-        ).then(response => {
+        await this.service.findById(this.props.match.params.id)
+        .then(response => {
             const fence = response.data;
-            console.log(fence);
             this.setState({
                 name: fence.name,
                 radius: fence.radius,
@@ -63,13 +54,7 @@ class UpdateFence extends React.Component {
                     longitude: fence.coordinate.longitude
                 },
                 startTime: fence.startTime,
-                finishTime: fence.finishTime,
-                tempCoordinates: {
-                    lat: fence.tempCoordinates.lat,
-                    lng: fence.tempCoordinates.lng
-                },
-                active: fence.active
-
+                finishTime: fence.finishTime
             });
 
         }).catch(error => {
@@ -78,54 +63,20 @@ class UpdateFence extends React.Component {
     }
 
     update = async () => {
+        console.log(this.state.name)
         await this.service.update(this.props.match.params.id,
             {
                 name: this.state.name,
-                radius: this.state.radius,
                 coordinate: {
                     latitude: this.state.coordinate.latitude,
                     longitude: this.state.coordinate.longitude
                 },
                 startTime: this.state.startTime,
                 finishTime: this.state.finishTime,
-                tempCoordinates: {
-                    lat: this.state.tempCoordinates.lat,
-                    lng: this.state.tempCoordinates.lng
-                },
-                active: this.state.active
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
-                }
+                radius: this.state.radius
             }
         ).then(response => {
-            console.log(response);
-        }
-        ).catch(response => {
-            console.error();
-        }
-        );
-    }
-
-    statusActive = async () => {
-        await this.service.statusActive(this.props.match.params.id,
-            {
-                active: this.state.active
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
-                }
-            }
-        ).then(response => {
-            console.log(response);
+            this.props.history.push("/profile");
         }
         ).catch(response => {
             console.error();
@@ -315,8 +266,6 @@ function Map(props) {
     useEffect(() => {
         if (map) {
             map.addListener("click", (event) => {
-                console.log(`Latitude: ${event.latLng.lat()}\nLongitude: ${event.latLng.lng()}`);
-
                 if (newMarker == null) {
                     newMarker = new window.google.maps.Marker({
                         position: event.latLng,
@@ -332,10 +281,6 @@ function Map(props) {
 
                 latitude = event.latLng.lat();
                 longitude = event.latLng.lng();
-
-                console.log(latitude, longitude);
-
-
 
                 newCircle = new window.google.maps.Circle({
                     map: map,

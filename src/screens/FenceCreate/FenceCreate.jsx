@@ -26,10 +26,6 @@ class FenceCreate extends Component {
             },
             startTime: null,
             finishTime: null,
-            tempCoordinates:{
-                lat: 0,
-                lng: 0
-            },
             show: false
         }
         this.service = new FenceApiService();
@@ -37,7 +33,6 @@ class FenceCreate extends Component {
     }
 
     getFence(){
-        console.log(this.state.name);
         return {
             name: this.state.name,
             radius: this.state.radius,
@@ -58,26 +53,14 @@ class FenceCreate extends Component {
     }
 
     async create() {
-        console.log("Criando");
         const fence = this.getFence();
-        console.log(fence);
-        await this.service.create(fence,
-            {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`,
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
-                }
-            }
-        ).then(response => {
-            console.log(response);
+
+        await this.service.create(fence)
+        .then(response => {
             this.props.history.push('/profile');
         }).catch(error => {
             console.log(error);
-        }
-        );
-        console.log("Finalizado");
+        });
     }
 
 
@@ -263,8 +246,6 @@ function Map (props) {
     useEffect(() => {
         if(map){
             map.addListener("click", (event) => {
-                console.log(`Latitude: ${event.latLng.lat()}\nLongitude: ${event.latLng.lng()}`);
-
                 if(newMarker == null){
                     newMarker = new window.google.maps.Marker({
                         position: event.latLng,
@@ -280,10 +261,6 @@ function Map (props) {
 
                 latitude = event.latLng.lat();
                 longitude = event.latLng.lng();
-
-                console.log(latitude, longitude);
-
-                
 
                 newCircle = new window.google.maps.Circle({
                     map: map,

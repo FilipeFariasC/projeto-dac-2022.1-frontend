@@ -5,45 +5,33 @@ import NavBar from '../../components/Navbar';
 import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import UserApiService from '../../services/serviceSpecific/UserApiService';
+import axios from 'axios';
 
 class CreateUser extends React.Component {
-
-    state = {
-        name: '',
-        email: '',
-        password: '',
-        result: ''
-    }
-
+    
     constructor(){
         super();
-        this.service = new UserApiService();
+        this.state = {
+            name: '',
+            email: '',
+            password: '',
+            result: ''
+        }
     }
 
     create = async () => {
-        console.log("Criando");
-        await this.service.create(
+        await axios.post('http://localhost:8080/api/users',
             {
                 name: this.state.name,
                 email: this.state.email,
                 password: this.state.password
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
-                }
             }
         ).then(response => {
-            console.log(response);
             this.props.history.push('/');
         }
         ).catch(error => {
             console.log(error);
-        }
-        );
-        console.log("Finalizado");
+        });
     }
 
 

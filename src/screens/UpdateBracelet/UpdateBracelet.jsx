@@ -19,43 +19,20 @@ class UpdateBracelet extends React.Component {
     }
 
     async componentDidMount(){
-        console.log(this.props.match.params.id)
-        await this.service.findById(this.props.match.params.id,
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-                }
-            }
-
-        ).then(response => {
-            console.log(response);
+        await this.service.findById(this.props.match.params.id)
+        .then(response => {
             this.setState({name: response.data.name});
-        }
-        ).catch(response => {
+        }).catch(response => {
             console.error();
         });
     }
 
     async update () {
-        await this.servie.update(this.props.match.params.id,
+        await this.service.update(this.props.match.params.id,
             {
                 name: this.state.name
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
-                }
             }
-
         ).then(response => {
-            console.log(response);
-            
             this.props.history.push("/listBracelet");
         }
         ).catch(response => {

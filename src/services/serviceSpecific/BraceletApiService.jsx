@@ -6,24 +6,24 @@ export default class BraceletApiService extends ApiService{
         super('/bracelets');
     }
 
-    create(object, config){
-        return this.post('',object, config);
+    create(object){
+        return this.post('',object);
     }
 
-    update(id, object, config){
-        return this.put(`/${id}`, object, config);
+    update(id, object){
+        return this.put(`/${id}`, object);
     }
 
-    delete(id, config){
-        super.delete(`/${id}`, config);
+    delete(id){
+        super.delete(`/${id}`);
     }
 
     findByName(params, config){
         return this.get(`${params}`,config);
     }
 
-    findById(id, config){
-        return this.get(`/${id}`,config);
+    findById(id){
+        return this.get(`/${id}`);
     }
 
     find(config){

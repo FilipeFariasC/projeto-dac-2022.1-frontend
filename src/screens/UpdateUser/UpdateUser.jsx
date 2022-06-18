@@ -18,18 +18,9 @@ class UpdateUser extends React.Component {
     }
 
     async componentDidMount() {
-        await this.service.find('user',
-            {
-                headers: {
-                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                }
-            }
-        ).then(response => {
+        await this.service.find('user')
+        .then(response => {
             const user = response.data;
-            console.log(user);
             this.setState({
                 name: user.name
             });
@@ -40,26 +31,12 @@ class UpdateUser extends React.Component {
     }
 
     update = async () => {
-        await this.service.updateOne(this.state.id,
-            {
-                name: this.state.name
-            },
-            {
-                headers: {
-                    "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                    "Content-Type": "application/json",
-                }
-            }
-            ).then(response => {
-                console.log(response);
-                this.props.history.push("/profile")
-            }
-            ).catch(response => {
-                console.error();
-            }
-            );
+        await this.service.updateName(this.state.name)
+        .then(response => {
+            this.props.history.push("/profile")
+        }).catch(response => {
+            console.error();
+        });
     }
     render() {
         return (

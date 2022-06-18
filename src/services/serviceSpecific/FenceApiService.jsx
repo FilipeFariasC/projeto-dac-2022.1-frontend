@@ -3,35 +3,30 @@ import ApiService from "../ApiService";
 export default class FenceApiService extends ApiService{
     constructor(){
         super('/fences');
-        this.headers = {
-            "Authorization": `Bearer ${window.localStorage.getItem("jwt_token")}`,
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        }
     }
 
-    create(object, config){
-        return this.post('',object, config);
+    create(object){
+        return this.post('',object);
     }
 
-    update(id, object, config){
-        return this.put(`/${id}`, object, config);
+    update(id, object){
+        return this.put(`/${id}`, object);
     }
 
-    statusActive(id, object, config){
-        return this.patch(`/${id}`, object, config);
+    statusActive(id, object){
+        return this.patch(`/${id}`, object);
     }
 
-    delete(id, config){
-        super.delete(`/${id}`, config);
+    delete(id){
+        super.delete(`/${id}`);
     }
 
-    findById(id, config){
-        return this.get(`/${id}`,config);
+    findById(id){
+        return this.get(`/${id}`);
     }
 
     find(config){
-        return this.get(config);
+        return this.get('', config);
     }
 
 }

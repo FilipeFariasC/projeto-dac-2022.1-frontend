@@ -6,20 +6,20 @@ export default class UserApiService extends ApiService{
         super('/users');
     }
 
-    create(object, config){
-        return this.post('',object, config);
+    create(object){
+        return this.post('', object);
     }
 
-    update(id, object, config){
-        return this.put(`/${id}`,object, config);
+    update(id, object){
+        return this.put(`/${id}`, object);
     }
 
-    updateOne(id, object, config){
-        return this.patch(`/${id}`,object, config);
+    updateName(object){
+        return this.patch(`/user`, object);
     }
 
-    delete(id, config){
-        super.delete(`/${id}`, config);
+    delete(id){
+        super.delete(`/${id}`);
     }
 
     find(params, config){

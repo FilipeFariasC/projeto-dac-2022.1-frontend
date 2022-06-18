@@ -18,13 +18,9 @@ class ListBracelet extends React.Component {
     }
 
     async componentDidMount() {
-        await this.service.find('',
+        await this.service.find(
             {
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    "Content-Type": "application/json",
                     "page": 0,
                     "size": 15,
                     "sort": "id,ASC"
@@ -44,19 +40,7 @@ class ListBracelet extends React.Component {
         if (this.state.name !== '') {
             params = `search?name=${this.state.name}`;
         }
-        await this.service.findByName(params,
-            {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    "Content-Type": "application/json",
-                    "page": 0,
-                    "size": 15,
-                    "sort": "id,ASC"
-                }
-            }
-        ).then(response => {
+        await this.service.findByName(params).then(response => {
             const bracelets = response.data;
             this.setState({ bracelets });
         }).catch(error => {
@@ -66,24 +50,10 @@ class ListBracelet extends React.Component {
     }
 
     delete = (id) => {
-        this.service.delete(id,
-            {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    "Content-Type": "application/json",
-                    "page": 0,
-                    "size": 15,
-                    "sort": "id,ASC"
-                }
-            }
-        ).then(response => {
-        }
-        ).catch(error => {
+        this.service.delete(id)
+        .catch(error => {
             console.log(error.response);
-        }
-        )
+        })
     }
 
     edit = (id) => {

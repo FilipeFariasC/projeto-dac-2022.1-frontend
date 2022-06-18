@@ -42,9 +42,6 @@ function Navbar(props) {
                             <NavDropdown.Item href="/createFence">
                                 Cadastrar Cerca
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/updateFence">
-                                Atualizar Cerca
-                            </NavDropdown.Item>
                         </NavDropdown>
                         <NavItem href="/profile" label="Perfil" />
                         <NavDropdown title="Opções" id="dropdown-options">

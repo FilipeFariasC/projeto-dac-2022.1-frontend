@@ -141,10 +141,6 @@ class BraceletList extends Component {
         await this.service.find(
             {
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    "Content-Type": "application/json",
                     "page": 0,
                     "size": 5,
                     "sort": "id,ASC"
@@ -211,20 +207,18 @@ class BraceletList extends Component {
             <>
                 <ul className="list-group">
                     {this.braceletList()}
-                    {this.state.size > 5 &&
-                        <li key={-1} className="list-group-item flex braceletRowOptions"
-                            style={
-                                {
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flexDirection: "row",
-                                }
+                    <li key={-1} className="list-group-item flex braceletRowOptions"
+                        style={
+                            {
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexDirection: "row",
                             }
-                        >
-                            <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
-                        </li>
-                    }
+                        }
+                    >
+                        <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
+                    </li>
                 </ul>
             </>
         )
@@ -234,7 +228,7 @@ class BraceletList extends Component {
 
 class FenceList extends Component {
 
-     constructor(props) {
+    constructor(props) {
         super(props);
         this.service = new FenceApiService();
         this.state = {
@@ -244,13 +238,9 @@ class FenceList extends Component {
     }
 
     async componentDidMount(){
-        await this.service.find('',
+        await this.service.find(
             {
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('jwt_token')}`,
-                    "Access-Control-Allow-Origin": '*',
-                    "Access-Control-Allow-Methods": 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                    "Content-Type": "application/json",
                     "page": 0,
                     "size": 5,
                     "sort": "id,ASC"
@@ -266,8 +256,6 @@ class FenceList extends Component {
     }
 
     fenceRow(fence){
-
-        console.log(fence);
         return (
             <li key={fence.id} className="list-group-item flex fenceRowOptions"
                 style={
@@ -319,20 +307,19 @@ class FenceList extends Component {
             <>
                 <ul className="list-group">
                     {this.fenceList()}
-                    {this.state.size > 5 &&
-                        <li key={-1} className="list-group-item flex braceletRowOptions"
-                            style={
-                                {
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    flexDirection: "row",
-                                }
+
+                    <li key={-1} className="list-group-item flex braceletRowOptions"
+                        style={
+                            {
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                flexDirection: "row",
                             }
-                        >
-                            <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
-                        </li>
-                    }
+                        }
+                    >
+                        <Link className="btn btn-info" to="/listFences"> Cercas </Link>
+                    </li>
                 </ul>
             </>
         );

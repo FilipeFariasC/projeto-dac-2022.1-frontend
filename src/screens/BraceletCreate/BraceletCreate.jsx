@@ -21,15 +21,7 @@ class BraceletCreate extends Component {
 
     create = async() => {
         await this.service.create( 
-            this.state.bracelet,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + window.localStorage.getItem("jwt_token"),
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-                }
-            }
+            this.state.bracelet
         ).then(response => {
             this.props.history.push("/profile");
         });;

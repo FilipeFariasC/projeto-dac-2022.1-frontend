@@ -18,18 +18,10 @@ class UserLogin extends React.Component {
     }
 
     async login() {
-        console.log("Criando");
         await axios.post('http://localhost:8080/api/login',
             {
                 username: this.state.email,
                 password: this.state.password
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
-                }
             }
         ).then(response => {
             localStorage.setItem('jwt_token', response.data.response);
@@ -37,9 +29,7 @@ class UserLogin extends React.Component {
         }
         ).catch(error => {
             console.log(error);
-        }
-        );
-        console.log("Finalizado");
+        });
     }
 
 
