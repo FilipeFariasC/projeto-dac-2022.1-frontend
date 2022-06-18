@@ -232,13 +232,6 @@ class UpdateFence extends React.Component {
                                                                 />
                                                             </FormGroup>
                                                         </div>
-                                                        <fieldset>
-                                                            <legend className="mt-4">Status</legend>
-                                                            <div className="form-check form-switch">
-                                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
-                                                                <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Ativar cerca</label>
-                                                            </div>
-                                                        </fieldset>
                                                         <br />
                                                         <div className="buttons-wrapper"
                                                             style={
