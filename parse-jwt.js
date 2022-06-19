@@ -1,16 +1,11 @@
+
 function parseJwt (token) {
-    console.log(token);
-    // var base64Url = token.split('.')[1];
-    var base64Url = token;
-    console.log(base64Url);
+    var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    console.log(base64);
 
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-
-    console.log(jsonPayload);
 
     return JSON.parse(jsonPayload);
 };
@@ -18,11 +13,13 @@ function parseJwt (token) {
 
 // Language: javascript
 // Path: parse-jwt.js
-var parsed = parseJwt("eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJleHAiOjE2NTU2NDg1MjgsImlhdCI6MTY1NTA0MzcyOH0");
+var parsed = parseJwt(
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmaWxpcGUuZmFyaWFzLmNoYWdhc0BwbS5tZSIsImV4cCI6MTY1NjE5NTkzNiwiaWF0IjoxNjU1NTkxMTM2fQ.oHmdxZhFVBN-tcopf0heM12binuvA6o7DRE5kP0AcOA"
+);
 
 console.log(parsed);
 
-expirationTime = parsed.exp;
+var expirationTime = parsed.exp;
 
 console.log(expirationTime);
 

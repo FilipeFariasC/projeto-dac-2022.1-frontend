@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-dom';
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { Modal, Button } from "react-bootstrap";
 import FenceApiService from '../../services/serviceSpecific/FenceApiService';
+import { switchValidation } from '../../services/ValidationService';
+import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
 
 var latitude = 0;
 var longitude = 0;
@@ -76,9 +78,11 @@ class UpdateFence extends React.Component {
                 radius: this.state.radius
             }
         ).then(response => {
+            showSuccessMessage('', 'Pulseira atualizada com sucesso!');
             this.props.history.push("/profile");
         }
         ).catch(response => {
+            showErrorMessage('', 'Erro ao atualizar a pulseira!');
             console.error();
         }
         );
@@ -113,8 +117,18 @@ class UpdateFence extends React.Component {
                                                         <FormGroup label='Nome: *' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
                                                                 placeholder='Nome da Cerca'
-                                                                value={this.state.name} onChange={(e) =>
-                                                                    this.setState({ name: e.target.value })} />
+                                                                value={this.state.name}
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="Nome da pulseira entre 1 e 50 caracteres, todo caractere espaço de será substituído por espaço simples."
+                                                                onChange={(e) =>{ 
+                                                                        if(e.target.value.length >= 1 && e.target.value.length <= 50 && e.target.value.match(/.*\S.*/)){
+                                                                            switchValidation(e.target, true);
+                                                                        } else{
+                                                                            switchValidation(e.target, false);
+                                                                        }
+                                                                        this.setState({ name: e.target.value });
+                                                                    }
+                                                                } />
                                                         </FormGroup>
                                                         <div className="beside flex"
                                                         >
@@ -146,6 +160,20 @@ class UpdateFence extends React.Component {
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
                                                                         <Button variant="primary" onClick={() => {
+                                                                            var latitudeElement = document.querySelector('#latitude');
+                                                                            var longitudeElement = document.querySelector('#longitude');
+
+                                                                            if(latitudeElement.value.length >= -90 && latitudeElement.value.length <= 90){
+                                                                                switchValidation(latitudeElement, true);
+                                                                            } else{
+                                                                                switchValidation(latitudeElement, false);
+                                                                            }
+                                                                            if(longitudeElement.value.length >= -180 && longitudeElement.value.length <= 180){
+                                                                                switchValidation(longitudeElement, true);
+                                                                            } else{
+                                                                                switchValidation(longitudeElement, false);
+                                                                            }
+
                                                                             this.setState({
                                                                                 coordinate: {
                                                                                     latitude,

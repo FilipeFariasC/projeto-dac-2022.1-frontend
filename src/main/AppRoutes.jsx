@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, BrowserRouter, Routes} from "react-router-dom";
+import {Route, BrowserRouter, Routes, Redirect} from "react-router-dom";
 import HomePage from "../screens/HomePage/HomePage";
 import CreateUser from '../screens/CreateUser/CreateUser';
 import UserProfile from "../screens/UserProfile/UserProfile";
@@ -10,41 +10,56 @@ import UpdateBracelet from "../screens/UpdateBracelet/UpdateBracelet";
 import UpdateUser from "../screens/UpdateUser/UpdateUser";
 import UserLogin from "../screens/UserLogin/UserLogin";
 import UpdateFence from "../screens/UpdateFence/UpdateFence";
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import {isAuthenticated} from "../services/LoginService";
 
 function AppRoutes(){
     return (
         <BrowserRouter>
+            
             <Route path={["/home", "/"]} exact>
                 <HomePage/>
             </Route>
-            <Route path={"/profile"} exact >
-                <UserProfile />
-            </Route>
+            
             <Route path={["/signIn","/createUser"]} exact >
                 <CreateUser />
             </Route>
             <Route path={"/login"} exact >
                 <UserLogin />
             </Route>
-            <Route path={"/updateUser/"} exact>
-                <UpdateUser />
-            </Route>
-            <Route path={"/createBracelet"} exact>
-                <BraceletCreate />
-            </Route>
-            <Route path={"/listBracelet"} exact>
-                <ListBracelet />
-            </Route>
-            <Route path={"/updateBracelet/:id"} exact>
-                <UpdateBracelet />
-            </Route>
 
-            <Route path={"/createFence"} exact>
+            <AuthenticatedRoute path={"/profile"} exact >
+                <UserProfile />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/updateUser"} exact >
+                <UpdateUser />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/createBracelet"} exact >
+                <BraceletCreate />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/updateBracelet/:id"} exact >
+                <UpdateBracelet />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/bracelets"} exact >
+                <ListBracelet />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/createFence"} exact >
                 <FenceCreate />
-            </Route>
-            <Route path={"/updateFence/:id"} exact>
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/updateFence/:id"} exact >
                 <UpdateFence />
-            </Route>
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/fences"} exact >
+                <HomePage />
+            </AuthenticatedRoute>
+
         </BrowserRouter>
     );
 }

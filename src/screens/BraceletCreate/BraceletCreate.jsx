@@ -5,6 +5,8 @@ import GoBack from "../../components/GoBack";
 import FormGroup from "../../components/FormGroup";
 import {withRouter} from "react-router-dom";
 import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
+import {switchValidation} from "../../services/ValidationService";
+import {showSuccessMessage, showErrorMessage} from "../../components/Toastr";
 
 
 class BraceletCreate extends Component {
@@ -23,8 +25,13 @@ class BraceletCreate extends Component {
         await this.service.create( 
             this.state.bracelet
         ).then(response => {
-            this.props.history.push("/profile");
-        });;
+            showSuccessMessage('', 'Pulseira criada com sucesso!');
+            this.props.history.push("/bracelets");
+        }).catch(
+            error => {
+                showErrorMessage('', 'Erro ao criar pulseira!');
+            }
+        );
     }
 
     render(){
@@ -73,7 +80,17 @@ class BraceletCreate extends Component {
                                             name="braceletFormName"
                                             placeholder="Nome da Pulseira"
                                             value={this.state.bracelet.name}
-                                            onChange={(e) => this.setState({ bracelet: { name: e.target.value } })}
+                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                            title="Nome da pulseira entre 1 e 50 caracteres, todo caractere espaço de será substituído por espaço simples."
+                                            onChange={(e) =>{ 
+                                                    if(e.target.value.length >= 1 && e.target.value.length <= 50 && e.target.value.match(/.*\S.*/)){
+                                                        switchValidation(e.target, true);
+                                                    } else{
+                                                        switchValidation(e.target, false);
+                                                    }
+                                                    this.setState({ bracelet: { name: e.target.value } });
+                                                }
+                                            }
                                         />
                                     </FormGroup>
                                 </fieldset>

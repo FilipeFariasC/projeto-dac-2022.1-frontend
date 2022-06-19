@@ -5,6 +5,8 @@ import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
 import GoBack from '../../components/GoBack';
 import {withRouter} from 'react-router-dom';
+import { switchValidation } from '../../services/ValidationService';
+import {showSuccessMessage, showErrorMessage} from "../../components/Toastr";
 
 class UserLogin extends React.Component {
 
@@ -25,13 +27,14 @@ class UserLogin extends React.Component {
             }
         ).then(response => {
             localStorage.setItem('jwt_token', response.data.response);
+            showSuccessMessage('', 'Login realizado com sucesso!');
             this.props.history.push('/profile');
         }
         ).catch(error => {
             console.log(error);
+            showErrorMessage('', 'Email ou senha incorretos!');
         });
     }
-
 
     render() {
         return (
@@ -57,15 +60,38 @@ class UserLogin extends React.Component {
                                                     this.login()}
                                                     }>
                                                     <fieldset>
-                                                        <FormGroup label='Email:' htmlFor='inputEmail'>
+                                                        <FormGroup label='Email' htmlFor='inputEmail'>
                                                             <input type='email' className='form-control' id='inputEmail'
                                                                 area-aria-describedby='emailHelp' placeholder='Digite o email'
-                                                                value={this.state.email} onChange={(e) => this.setState({ email: e.target.value })} />
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Deve seguir o padrão de email, exemplo: adriano.oliveira@protonmail.com"
+                                                                value={this.state.email} onChange={(e) =>
+                                                                    {
+                                                                        if(e.target.value.match("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")){
+                                                                            switchValidation(e.target, true);
+                                                                        } else{
+                                                                            switchValidation(e.target, false);
+                                                                        }
+                                                                        this.setState({ email: e.target.value })
+                                                                    }
+                                                                } />
                                                         </FormGroup>
-                                                        <FormGroup label='Senha:' htmlFor='inputPassword'>
+                                                        <FormGroup label='Senha' htmlFor='inputPassword'>
                                                             <input type='password' className='form-control' id='inputPessword'
                                                                 placeholder='Digite a senha'
-                                                                value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
+                                                                value={this.state.password} 
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Senha entre 8 e 30 caracteres."
+                                                                onChange={(e) =>
+                                                                    {
+                                                                        if(e.target.value.length > 8 && e.target.value.length < 30){
+                                                                            switchValidation(e.target, true);
+                                                                        } else{
+                                                                            switchValidation(e.target, false);
+                                                                        }
+                                                                        this.setState({ password: e.target.value })
+                                                                    }
+                                                                } />
                                                         </FormGroup>
                                                         <br />
                                                         <div className="buttons-wrapper"

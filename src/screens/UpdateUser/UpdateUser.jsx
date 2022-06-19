@@ -3,18 +3,21 @@ import { withRouter } from 'react-router-dom';
 import Card from '../../components/Card';
 import FormGroup from '../../components/FormGroup';
 import NavBar from '../../components/Navbar';
-//import GoBack from '../../component/GoBack';
+import GoBack from '../../components/GoBack';
 import UserApiService from '../../services/serviceSpecific/UserApiService';
+import { switchValidation } from '../../services/ValidationService';
+import {showErrorMessage, showSuccessMessage} from "../../components/Toastr";
 
 class UpdateUser extends React.Component {
-
-    state = {
-        name: ''
-    }
 
     constructor() {
         super();
         this.service = new UserApiService();
+        this.state = {
+            name: '',
+            email: '',
+            password: '123456789'
+        }
     }
 
     async componentDidMount() {
@@ -22,7 +25,8 @@ class UpdateUser extends React.Component {
         .then(response => {
             const user = response.data;
             this.setState({
-                name: user.name
+                name: user.name,
+                email: user.email
             });
 
         }).catch(error => {
@@ -31,13 +35,20 @@ class UpdateUser extends React.Component {
     }
 
     update = async () => {
-        await this.service.updateName(this.state.name)
+        await this.service.updateName({
+            name:this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        })
         .then(response => {
+            showSuccessMessage('','Usuário atualizado com sucesso!');
             this.props.history.push("/profile")
         }).catch(response => {
             console.error();
+            showErrorMessage('','Erro ao atualizar usuário!');
         });
     }
+
     render() {
         return (
             <>
@@ -63,10 +74,20 @@ class UpdateUser extends React.Component {
                                                 }
                                                 }>
                                                     <fieldset>
-                                                        <FormGroup label='Nome: ' htmlFor='name'>
+                                                        <FormGroup label='Nome' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
                                                                 placeholder='Digite seu nome'
-                                                                value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
+                                                                data-bs-toggle="tooltip"
+                                                                title="Nome tem entre 3 e 50 caracteres."
+                                                                value={this.state.name} onChange={(e) =>{
+                                                                        if(e.target.value.length >= 3 && e.target.value.length <= 50){
+                                                                            switchValidation(e.target, true);
+                                                                        } else{
+                                                                            switchValidation(e.target, false);
+                                                                        }
+                                                                        this.setState({ name: e.target.value })
+                                                                    }
+                                                                } />
                                                         </FormGroup>
 
                                                         <br />
@@ -79,7 +100,7 @@ class UpdateUser extends React.Component {
                                                                 }
                                                             }
                                                         >
-                                                            
+                                                            <GoBack/>
                                                             <button type="submit" className='btn btn-success'>Atualizar</button>
                                                         </div>
                                                     </fieldset>

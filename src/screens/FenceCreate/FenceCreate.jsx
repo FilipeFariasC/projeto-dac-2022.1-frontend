@@ -8,6 +8,9 @@ import {withRouter} from 'react-router-dom';
 import {Wrapper, Status } from "@googlemaps/react-wrapper";
 import {Modal, Button} from "react-bootstrap";
 import FenceApiService from '../../services/serviceSpecific/FenceApiService';
+import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
+import { switchValidation } from '../../services/ValidationService';
+import { isBefore, isAfter, isEqual } from 'date-fns';
 
 var latitude = 0;
 var longitude = 0;
@@ -57,12 +60,62 @@ class FenceCreate extends Component {
 
         await this.service.create(fence)
         .then(response => {
+            showSuccessMessage('', 'Fence criada com sucesso!');
             this.props.history.push('/profile');
         }).catch(error => {
+            showErrorMessage('', 'Erro ao criar Fence!');
             console.log(error);
         });
     }
 
+    validateCoordinate(){
+        var latitudeElement = document.querySelector('#latitude');
+        var longitudeElement = document.querySelector('#longitude');
+
+        if(latitude >= -90 && latitude <= 90){
+            switchValidation(latitudeElement, true);
+        } else{
+            switchValidation(latitudeElement, false);
+        }
+        if(longitude >= -180 && longitude <= 180){
+            switchValidation(longitudeElement, true);
+        } else{
+            switchValidation(longitudeElement, false);
+        }
+    }
+
+    getDate(time){
+        if(!time) return;
+
+        var date = new Date()
+        var[hour, minute] = time.split(':');
+        date.setHours(hour);
+        date.setMinutes(minute);
+
+        return date;
+    }
+
+    validateTime(startTime, finishTime){
+        if(!startTime && !finishTime) return;
+
+        const startTimeElement = document.querySelector('#startTime');
+        const finishTimeElement = document.querySelector('#finishTime');
+
+        if(startTime){
+            const startDate = this.getDate(startTime);
+            if(finishTime){
+                const finishDate = this.getDate(finishTime);
+
+                if(isAfter(startDate, finishDate) || isEqual(startDate, finishDate)){
+                    switchValidation(startTimeElement, false);
+                    switchValidation(finishTimeElement, false);
+                    return;
+                }
+            }
+        }
+        switchValidation(startTimeElement, true);
+        switchValidation(finishTimeElement, true);
+    }
 
     render() {
         return (
@@ -93,7 +146,18 @@ class FenceCreate extends Component {
                                                         <FormGroup label='Nome: *' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
                                                                 placeholder='Nome da Cerca'
-                                                                value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
+                                                                value={this.state.name} onChange={(e) =>{
+                                                                        if(e.target.value.length >= 1 && e.target.value.length <= 50){
+                                                                            switchValidation(e.target, true);
+                                                                        } else{
+                                                                            switchValidation(e.target, false);
+                                                                        }
+                                                                        this.setState({ name: e.target.value })
+                                                                    }
+                                                                } 
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="Nome da cerca entre 1 e 50 caracteres, todo caractere espaço de será substituído por espaço simples."
+                                                            />
                                                         </FormGroup>
                                                         <div className="beside flex"
                                                         >
@@ -125,6 +189,8 @@ class FenceCreate extends Component {
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
                                                                         <Button variant="primary" onClick={()=>{
+                                                                            this.validateCoordinate();
+
                                                                             this.setState({
                                                                                 coordinate: {
                                                                                     latitude,
@@ -153,13 +219,24 @@ class FenceCreate extends Component {
                                                         <div className="flex times">
                                                             <FormGroup label="Horário Inicial: " htmlFor="startTime">
                                                                 <input type="time" className="form-control" id="startTime" 
-                                                                    value={this.state.startTime} onChange={(e) => this.setState({ startTime: e.target.value })} 
+                                                                    value={this.state.startTime} onChange={(e) =>{
+                                                                            this.validateTime(e.target.value, this.state.finishTime);
+                                                                            
+                                                                            this.setState({ startTime: e.target.value })
+                                                                        }
+                                                                    } 
                                                                 />
                                                             </FormGroup>
                                                             <FormGroup label="Horário Final: " htmlFor="finishTime">
                                                                 <input type="time" className="form-control" id="finishTime" 
-                                                                    value={this.state.finishTime} onChange={(e) => this.setState({ finishTime: e.target.value })} 
-                                                                />
+                                                                    value={this.state.finishTime} onChange={(e) =>{
+                                                                            this.validateTime(this.state.startTime, e.target.value);
+                                                                            
+                                                                            this.setState({ finishTime: e.target.value })
+                                                                        }
+                                                                    }
+                                                                    
+                                                                    />
                                                             </FormGroup>
                                                         </div>
                                                         <br />

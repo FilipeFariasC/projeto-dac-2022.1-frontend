@@ -217,7 +217,7 @@ class BraceletList extends Component {
                             }
                         }
                     >
-                        <Link className="btn btn-info" to="/listBracelet"> Pulseiras </Link>
+                        <Link className="btn btn-info" to="/bracelets"> Pulseiras </Link>
                     </li>
                 </ul>
             </>
@@ -318,7 +318,7 @@ class FenceList extends Component {
                             }
                         }
                     >
-                        <Link className="btn btn-info" to="/listFences"> Cercas </Link>
+                        <Link className="btn btn-info" to="/fences"> Cercas </Link>
                     </li>
                 </ul>
             </>
