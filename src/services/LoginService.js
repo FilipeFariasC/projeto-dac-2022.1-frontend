@@ -25,7 +25,7 @@ export function getJwtToken(){
         if (loginInfo.exp * 1e3 > new Date().getTime()) {
           return token;
         }
-        console.log(expirationTime);
+        localStorage.removeItem("jwt_token");
         return null;
     }
     return null;

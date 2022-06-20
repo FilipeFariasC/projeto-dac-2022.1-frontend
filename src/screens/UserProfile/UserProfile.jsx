@@ -22,7 +22,6 @@ export default class UserProfile extends Component {
     }
 
     async componentDidMount() {
-        console.log(localStorage.getItem('jwt_token'));
         await this.service.find("user").then(response => {
             this.setState({
                 user: response.data
