@@ -28,9 +28,8 @@ class UpdateUser extends React.Component {
                 name: user.name,
                 email: user.email
             });
-
         }).catch(error => {
-            console.log(error.response);
+            console.log(error);
         })
     }
 
@@ -43,9 +42,10 @@ class UpdateUser extends React.Component {
         .then(response => {
             showSuccessMessage('','Usuário atualizado com sucesso!');
             this.props.history.push("/profile")
-        }).catch(response => {
-            console.error();
-            showErrorMessage('','Erro ao atualizar usuário!');
+        }).catch(error => {
+            error.response.data.errors.forEach(error => {
+                showErrorMessage('', error.messageUser);
+            });
         });
     }
 

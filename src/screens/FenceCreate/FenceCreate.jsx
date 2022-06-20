@@ -38,7 +38,7 @@ class FenceCreate extends Component {
     getFence(){
         return {
             name: this.state.name,
-            radius: this.state.radius,
+            radius: this.state.radius && !isNaN(this.state.radius) ? this.state.radius : null,
             coordinate :{
                 latitude: this.state.coordinate.latitude,
                 longitude: this.state.coordinate.longitude
@@ -63,8 +63,7 @@ class FenceCreate extends Component {
             showSuccessMessage('', 'Fence criada com sucesso!');
             this.props.history.push('/profile');
         }).catch(error => {
-            showErrorMessage('', 'Erro ao criar Fence!');
-            console.log(error);
+            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
         });
     }
 

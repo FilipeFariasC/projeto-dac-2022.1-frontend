@@ -22,14 +22,8 @@ export default class UserProfile extends Component {
     }
 
     async componentDidMount() {
-        await this.service.find("user", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("jwt_token"),
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            }
-        }).then(response => {
+        console.log(localStorage.getItem('jwt_token'));
+        await this.service.find("user").then(response => {
             this.setState({
                 user: response.data
             })

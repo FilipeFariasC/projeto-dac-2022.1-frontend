@@ -64,26 +64,25 @@ class UpdateFence extends React.Component {
         })
     }
 
+    getFence(){
+        return {
+            name: this.state.name,
+            radius: this.state.radius && !isNaN(this.state.radius) ? this.state.radius : null,
+            coordinate :{
+                latitude: this.state.coordinate.latitude,
+                longitude: this.state.coordinate.longitude
+            },
+            startTime: this.state.startTime,
+            finishTime: this.state.finishTime
+        }
+    }
+
     update = async () => {
-        console.log(this.state.name)
-        await this.service.update(this.props.match.params.id,
-            {
-                name: this.state.name,
-                coordinate: {
-                    latitude: this.state.coordinate.latitude,
-                    longitude: this.state.coordinate.longitude
-                },
-                startTime: this.state.startTime,
-                finishTime: this.state.finishTime,
-                radius: this.state.radius
-            }
-        ).then(response => {
+        await this.service.update(this.props.match.params.id, this.getFence() ).then(response => {
             showSuccessMessage('', 'Pulseira atualizada com sucesso!');
             this.props.history.push("/profile");
-        }
-        ).catch(response => {
-            showErrorMessage('', 'Erro ao atualizar a pulseira!');
-            console.error();
+        }).catch(error => {
+            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
         }
         );
     }
@@ -195,7 +194,16 @@ class UpdateFence extends React.Component {
                                                                 <FormGroup label='Raio: *' htmlFor='radius'>
                                                                     <input type='number' className='form-control' id='radius' min="1"
                                                                         placeholder='Raio da Cerca'
-                                                                        value={this.state.radius} onChange={(e) => this.setState({ radius: parseInt(e.target.value) })} />
+                                                                        value={this.state.radius} onChange={(e) =>{
+                                                                                if(e.target.value >= 1){
+                                                                                    switchValidation(e.target, true);
+                                                                                } else{
+                                                                                    switchValidation(e.target, false);
+                                                                                }
+                                                                                this.setState({ radius: parseInt(e.target.value) });
+                                                                            }
+                                                                        } 
+                                                                    />
                                                                 </FormGroup>
                                                             </div>
                                                         </div>

@@ -39,10 +39,10 @@ class UpdateBracelet extends React.Component {
         .then(response => {
             showSuccessMessage('', 'Pulseira atualizada com sucesso!');
             this.props.history.push("/bracelets");
-        }
-        ).catch(response => {
-            showErrorMessage('', 'Erro ao atualizar pulseira!');
-            console.error();
+        }).catch(error => {
+            error.response.data.errors.forEach((error) => {
+                showErrorMessage('', error.messageUser);
+            });
         });
     }
 

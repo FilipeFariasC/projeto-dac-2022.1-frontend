@@ -27,11 +27,9 @@ class BraceletCreate extends Component {
         ).then(response => {
             showSuccessMessage('', 'Pulseira criada com sucesso!');
             this.props.history.push("/bracelets");
-        }).catch(
-            error => {
-                showErrorMessage('', 'Erro ao criar pulseira!');
-            }
-        );
+        }).catch(error => {
+            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
+        });
     }
 
     render(){

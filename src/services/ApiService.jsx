@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getJwtToken} from "./LoginService";
 
 const httpClient = axios.create(
     {
@@ -9,7 +10,7 @@ const httpClient = axios.create(
 export default class ApiService {
 
     constructor(endpoint) {
-        httpClient.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt_token')}`;
+        httpClient.defaults.headers.common['Authorization'] = `Bearer ${getJwtToken()}`;
         httpClient.defaults.headers.common['Content-Type'] = 'application/json';
         httpClient.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
         httpClient.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS';

@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 import UserApiService from '../../services/serviceSpecific/UserApiService';
 import axios from 'axios';
 import {switchValidation } from '../../services/ValidationService';
-import {showMessage} from '../../components/Toastr';
+import {showSuccessMessage, showErrorMessage} from '../../components/Toastr';
 
 class CreateUser extends React.Component {
     
@@ -28,11 +28,13 @@ class CreateUser extends React.Component {
                 password: this.state.password
             }
         ).then(response => {
-            showMessage('success', '', 'Usuario criado com sucesso!');
+            showSuccessMessage('', 'Usuario criado com sucesso!');
             this.props.history.push('/login');
         }
         ).catch(error => {
-            console.log(error);
+            error.response.data.errors.forEach(error => {
+                showErrorMessage('', error.messageUser);
+            });
         });
     }
 
