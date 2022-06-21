@@ -29,6 +29,7 @@ class UserLogin extends React.Component {
             localStorage.setItem('jwt_token', response.data.response);
             showSuccessMessage('', 'Login realizado com sucesso!');
             this.props.history.push('/profile');
+            window.location.reload();
         }
         ).catch(error => {
             console.log(error);

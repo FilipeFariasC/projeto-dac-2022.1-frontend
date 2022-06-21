@@ -1,55 +1,47 @@
 import axios from "axios";
-import {getJwtToken} from "./LoginService";
+import {LoginService, getJwtToken} from "./LoginService";
 
 const httpClient = axios.create(
     {
-        baseURL: 'http://localhost:8080/api/'
+        baseURL: 'http://localhost:8080/api/',
+        headers: {
+            "Authorization": `Bearer ${getJwtToken()}`,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Content-Type": "application/json",
+        }
     }
 );
 
 export default class ApiService {
 
     constructor(endpoint) {
-        httpClient.defaults.headers.common['Authorization'] = `Bearer ${getJwtToken()}`;
-        httpClient.defaults.headers.common['Content-Type'] = 'application/json';
-        httpClient.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-        httpClient.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS';
-
-        
-        this.config = {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("jwt_token")}`,
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                "Content-Type": "application/json",
-            }
-        }
-
         this.endpoint = endpoint;
+        this.loginService = new LoginService();
     }
 
     post(url, params) {
         url = this.builUrl(url);
-        return httpClient.post(url, params, this.config);
+        return httpClient.post(url, params);
     }
 
     put(url, params) {
         url = this.builUrl(url);
-        return httpClient.put(url, params, this.config);
+        return httpClient.put(url, params);
     }
     patch(url, params) {
         url = this.builUrl(url);
-        return httpClient.patch(url, params, this.config);
+        return httpClient.patch(url, params);
     }
 
     delete(url) {
         url = this.builUrl(url);
-        return httpClient.delete(url, this.config);
+        return httpClient.delete(url);
     }
 
     get(url, config) {
         url = this.builUrl(url);
-        return httpClient.get(url, Object.assign(this.config, config));
+        return httpClient.get(url, config);
     }
 
     builUrl(url) {

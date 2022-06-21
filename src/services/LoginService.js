@@ -1,3 +1,16 @@
+import {Buffer} from 'buffer';
+import { showWarningMessage } from 'components/Toastr';
+
+export class LoginService{
+
+    #parseJwt = parseJwt;
+
+    getJwtToken = getJwtToken;
+
+    isAuthenticated = isAuthenticated;
+
+    getExpirationDate = getExpirationDate;
+}
 
 function parseJwt (token) {
     var base64Url = token.split(".")[1];
@@ -5,12 +18,12 @@ function parseJwt (token) {
     var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
 
     var jsonPayload = decodeURIComponent(
-      atob(base64)
+        Buffer.from(base64,'base64')
+        .toString("binary")
         .split("")
-        .map(function (c) {
+        .map((c) => {
           return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
+        }).join("")
     );
 
     return JSON.parse(jsonPayload);
@@ -20,12 +33,14 @@ export function getJwtToken(){
     var token = localStorage.getItem("jwt_token");
     if(token){
         var loginInfo = parseJwt(token);
-        var expirationTime = getExpirationDate(loginInfo);
-
+        
         if (loginInfo.exp * 1e3 > new Date().getTime()) {
           return token;
         }
         localStorage.removeItem("jwt_token");
+        showWarningMessage("Sua sessão expirou.", "Faça login novamente.", {
+          timeOut: "15000",
+        });
         return null;
     }
     return null;

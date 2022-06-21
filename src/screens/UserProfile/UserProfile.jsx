@@ -46,27 +46,27 @@ export default class UserProfile extends Component {
                     }
                 >
                     <Card className="user-profile" title="Perfil do usuário">
-                        <table className="table table-primary table-striped user-info"
+                        <table className="table table-primary table-hover user-info"
                             style={
                                 {
                                     width: "100%"
                                 }
                             }
                         >
-                            <thead className="table-header"
+                            <thead className="table-header table-primary"
                                 style={
                                     {
                                         textAlign: "center"
                                     }
                                 }
                             >
-                                <tr className="table-primary">
+                                <tr>
                                     <td colSpan="2">
                                         <h5>Informações</h5>
                                     </td>
                                 </tr>
                             </thead>
-                            <tbody className="table-secondary">
+                            <tbody className="table-info">
                                 <tr>
                                     <td>
                                         Nome:

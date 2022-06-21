@@ -21,22 +21,22 @@ toastr.options = {
     hideMethod: "fadeOut",
 };
 
-export function showMessage(type, title, message) {
-    toastr[type](message, title);
+export function showMessage(type, title, message, config) {
+    toastr[type](message, title, config);
 }
 
-export function showSuccessMessage(title, message) {
-    showMessage("success", title ? title : "Sucesso" , message);
+export function showSuccessMessage(title, message, config) {
+    showMessage("success", title ? title : "Sucesso" , message, config);
 }
 
-export function showInfoMessage(title, message) {
-    showMessage("info", title ? title : "Informação", message);
+export function showInfoMessage(title, message, config) {
+    showMessage("info", title ? title : "Informação", message, config);
 }
 
-export function showWarningMessage(title, message) {
-    showMessage("warning", title ? title : "Alerta", message);
+export function showWarningMessage(title, message, config) {
+    showMessage("warning", title ? title : "Alerta", message, config);
 }
 
-export function showErrorMessage(title, message) {
-    showMessage("error", title ? title : "Erro", message);
+export function showErrorMessage(title, message, config) {
+    showMessage("error", title ? title : "Erro", message, config);
 }

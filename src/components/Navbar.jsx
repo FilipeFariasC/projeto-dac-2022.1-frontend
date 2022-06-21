@@ -1,10 +1,8 @@
 import React from "react";
 import {NavDropdown} from "react-bootstrap";
 import {Link} from 'react-router-dom';
-
 import NavItem from "./NavItem";
 import "./css/Navbar.css"
-import axios from "axios";
 
 
 function Navbar(props) {
