@@ -1,4 +1,4 @@
-# ChilDFence Front-end
+# ChilDFence Frontend
 
 ## IFPB Campus Monteiro - DAC - 2022.1
 
@@ -6,16 +6,16 @@ Este repositório armazena o código da aplicação front-end do projeto da disc
 
 Esse repositório para funcionamento completo dessa aplicação, é necessário que o aplicativo que está armazenado nesse [repositório](https://github.com/FilipeFariasC/projeto-dac-2022.1-backend/) esteja sendo executado em segundo plano.
 
-### Dependências:
+### Dependências para instalação:
 
-> Node.js (16.16.0 foi utilizado no desenvolvimento);
-> Git.
+- Node.js (versão 16.16.0 foi utilizada durante o desenvolvimento);
+- Git.
 
 ### Obtendo o código-fonte:
 
-Crie uma nova pasta
+Crie uma nova pasta com o nome *childfence*.(OBS: você pode reutilizar a pasta criada na aplicação backend)
 
-Com o Git instalado em seu computador, abre um terminal de linha de comando (no Windows o Git Bash ou WSL).
+Com o Git instalado em seu computador, abre um terminal de linha de comando (no Windows o Git Bash ou WSL) nessa pasta.
 
 Cole o comando descrito abaixo:
 
