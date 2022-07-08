@@ -133,7 +133,7 @@ class BraceletList extends Component {
     async componentDidMount(){
         await this.service.find(
             {
-                headers: {
+                params: {
                     "page": 0,
                     "size": 5,
                     "sort": "id,ASC"
@@ -233,7 +233,7 @@ class FenceList extends Component {
     async componentDidMount(){
         await this.service.find(
             {
-                headers: {
+                params: {
                     "page": 0,
                     "size": 5,
                     "sort": "id,ASC"

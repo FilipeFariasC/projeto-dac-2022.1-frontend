@@ -20,7 +20,7 @@ class ListBracelet extends React.Component {
     async componentDidMount() {
         await this.service.find(
             {
-                headers: {
+                params: {
                     "page": 0,
                     "size": 15,
                     "sort": "id,ASC"
