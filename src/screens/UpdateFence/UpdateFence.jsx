@@ -9,6 +9,7 @@ import { Modal, Button } from "react-bootstrap";
 import FenceApiService from '../../services/serviceSpecific/FenceApiService';
 import { switchValidation } from '../../services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
+import { isAfter,isEqual } from 'date-fns';
 
 var latitude = 0;
 var longitude = 0;
@@ -64,6 +65,22 @@ class UpdateFence extends React.Component {
         })
     }
 
+    validateCoordinate(){
+        var latitudeElement = document.querySelector('#latitude');
+        var longitudeElement = document.querySelector('#longitude');
+
+        if(latitude >= -90 && latitude <= 90){
+            switchValidation(latitudeElement, true);
+        } else{
+            switchValidation(latitudeElement, false);
+        }
+        if(longitude >= -180 && longitude <= 180){
+            switchValidation(longitudeElement, true);
+        } else{
+            switchValidation(longitudeElement, false);
+        }
+    }
+
     getFence(){
         return {
             name: this.state.name,
@@ -85,6 +102,39 @@ class UpdateFence extends React.Component {
             error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
         }
         );
+    }
+
+    validateTime(startTime, finishTime){
+        if(!startTime && !finishTime) return;
+
+        const startTimeElement = document.querySelector('#startTime');
+        const finishTimeElement = document.querySelector('#finishTime');
+
+        if(startTime){
+            const startDate = this.getDate(startTime);
+            if(finishTime){
+                const finishDate = this.getDate(finishTime);
+
+                if(isAfter(startDate, finishDate) || isEqual(startDate, finishDate)){
+                    switchValidation(startTimeElement, false);
+                    switchValidation(finishTimeElement, false);
+                    return;
+                }
+            }
+        }
+        switchValidation(startTimeElement, true);
+        switchValidation(finishTimeElement, true);
+    }
+
+    getDate(time){
+        if(!time) return;
+
+        var date = new Date()
+        var[hour, minute] = time.split(':');
+        date.setHours(hour);
+        date.setMinutes(minute);
+
+        return date;
     }
 
     render() {
@@ -159,19 +209,7 @@ class UpdateFence extends React.Component {
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
                                                                         <Button variant="primary" onClick={() => {
-                                                                            var latitudeElement = document.querySelector('#latitude');
-                                                                            var longitudeElement = document.querySelector('#longitude');
-
-                                                                            if(latitudeElement.value.length >= -90 && latitudeElement.value.length <= 90){
-                                                                                switchValidation(latitudeElement, true);
-                                                                            } else{
-                                                                                switchValidation(latitudeElement, false);
-                                                                            }
-                                                                            if(longitudeElement.value.length >= -180 && longitudeElement.value.length <= 180){
-                                                                                switchValidation(longitudeElement, true);
-                                                                            } else{
-                                                                                switchValidation(longitudeElement, false);
-                                                                            }
+                                                                            this.validateCoordinate();
 
                                                                             this.setState({
                                                                                 coordinate: {
@@ -210,12 +248,21 @@ class UpdateFence extends React.Component {
                                                         <div className="flex times">
                                                             <FormGroup label="Horário Inicial: " htmlFor="startTime">
                                                                 <input type="time" className="form-control" id="startTime"
-                                                                    value={this.state.startTime} onChange={(e) => this.setState({ startTime: e.target.value })}
+                                                                    value={this.state.startTime} onChange={(e) =>{
+                                                                        this.validateTime(e.target.value, this.state.finishTime);
+                                                                        this.setState({ startTime: e.target.value });
+                                                                    }
+                                                                }
                                                                 />
                                                             </FormGroup>
                                                             <FormGroup label="Horário Final: " htmlFor="finishTime">
                                                                 <input type="time" className="form-control" id="finishTime"
-                                                                    value={this.state.finishTime} onChange={(e) => this.setState({ finishTime: e.target.value })}
+                                                                    value={this.state.finishTime} onChange={(e) =>{
+                                                                        this.validateTime(this.state.startTime, e.target.value);
+                                                                        
+                                                                        this.setState({ finishTime: e.target.value });
+                                                                    }
+                                                                }
                                                                 />
                                                             </FormGroup>
                                                         </div>

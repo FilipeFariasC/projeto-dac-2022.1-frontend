@@ -211,7 +211,17 @@ class FenceCreate extends Component {
                                                                 <FormGroup label='Raio: *' htmlFor='radius'>
                                                                     <input type='number' className='form-control' id='radius' min="1"
                                                                         placeholder='Raio da Cerca'
-                                                                        value={this.state.radius} onChange={(e) => this.setState({radius: parseInt(e.target.value)})} />
+                                                                        value={this.state.radius} 
+                                                                        onChange={(e) =>{
+                                                                                if(e.target.value >= 1){
+                                                                                    switchValidation(e.target, true);
+                                                                                } else{
+                                                                                    switchValidation(e.target, false);
+                                                                                }
+                                                                                this.setState({ radius: parseInt(e.target.value) });
+                                                                            }
+                                                                        }
+                                                                        />
                                                                 </FormGroup>
                                                             </div>
                                                         </div>

@@ -32,9 +32,16 @@ class CreateUser extends React.Component {
             this.props.history.push('/login');
         }
         ).catch(error => {
-            error.response.data.errors.forEach(error => {
-                showErrorMessage('', error.messageUser);
-            });
+            console.log(error);
+            const data = error.response.data;
+            if(data.errors){
+                data.errors?.forEach(error => {
+                    showErrorMessage('', error.messageUser);
+                });
+            } else{
+                showErrorMessage('', data);
+            }
+            
         });
     }
 

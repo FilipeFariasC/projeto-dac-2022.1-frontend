@@ -8,7 +8,6 @@ import BraceletApiService from '../../services/serviceSpecific/BraceletApiServic
 import { switchValidation } from '../../services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
 
-
 class UpdateBracelet extends React.Component {
 
     
