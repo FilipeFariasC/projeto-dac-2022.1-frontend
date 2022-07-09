@@ -35,6 +35,9 @@ function Navbar(props) {
                             <NavDropdown.Item href="/bracelets">
                                 Listar Pulseira
                             </NavDropdown.Item>
+                            <NavDropdown.Item href="/braceletProfile">
+                                Perfil Pulseira
+                            </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Cercas" id="bracelet-options" >
                             <NavDropdown.Item href="/createFence">
@@ -42,6 +45,9 @@ function Navbar(props) {
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/fences">
                                 Listar Cercas
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/fenceProfile">
+                                Perfil Cerca
                             </NavDropdown.Item>
                         </NavDropdown>
                         <NavItem href="/profile" label="Perfil" />

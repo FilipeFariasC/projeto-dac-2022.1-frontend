@@ -11,6 +11,8 @@ import UpdateUser from "../screens/UpdateUser/UpdateUser";
 import UserLogin from "../screens/UserLogin/UserLogin";
 import UpdateFence from "../screens/UpdateFence/UpdateFence";
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import FenceProfile from "screens/FenceProfile/FenceProfile";
+import BraceletProfile from "screens/BraceletProfile/BraceletProfile";
 import {isAuthenticated} from "../services/LoginService";
 
 function AppRoutes(){
@@ -58,6 +60,14 @@ function AppRoutes(){
 
             <AuthenticatedRoute path={"/fences"} exact >
                 <HomePage />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/fenceProfile"} exact >
+                <FenceProfile />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path={"/braceletProfile"} exact >
+                <BraceletProfile />
             </AuthenticatedRoute>
 
         </BrowserRouter>
