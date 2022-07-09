@@ -1,16 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Card from '../../components/Card';
-import FormGroup from '../../components/FormGroup';
-import NavBar from '../../components/Navbar';
-import GoBack from '../../components/GoBack';
-import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
-import { switchValidation } from '../../services/ValidationService';
-import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
+import Card from '../../../components/Card';
+import FormGroup from '../../../components/FormGroup';
+import NavBar from '../../../components/Navbar';
+import GoBack from '../../../components/GoBack';
+import BraceletApiService from '../../../services/serviceSpecific/BraceletApiService';
+import { switchValidation } from '../../../services/ValidationService';
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 
-class UpdateBracelet extends React.Component {
-
-    
+class BraceletUpdate extends React.Component {
 
     constructor(){
         super();
@@ -28,20 +26,27 @@ class UpdateBracelet extends React.Component {
         await this.service.findById(this.props.match.params.id)
         .then(response => {
             this.setState({bracelet:{name: response.data.name}});
-        }).catch(response => {
-            console.error();
+        }).catch(error => {
+            if(error.response.data){
+                error.response.data.errors.map(errorResponse => showErrorMessage('', errorResponse.messageUser));
+            }
         });
     }
 
     async update () {
         await this.service.update(this.props.match.params.id, this.state.bracelet)
-        .then(response => {
+        .then(() => {
             showSuccessMessage('', 'Pulseira atualizada com sucesso!');
             this.props.history.push("/bracelets");
         }).catch(error => {
-            error.response.data.errors.forEach((error) => {
-                showErrorMessage('', error.messageUser);
-            });
+            if(error.response.data){
+                error.response.data?.errors.forEach((responseError) => {
+                    showErrorMessage('', responseError.messageUser);
+                });
+            }else {
+                showErrorMessage('', error.response);
+            }
+            
         });
     }
 
@@ -121,4 +126,4 @@ class UpdateBracelet extends React.Component {
 
 }
 
-export default withRouter(UpdateBracelet);
+export default withRouter(BraceletUpdate);

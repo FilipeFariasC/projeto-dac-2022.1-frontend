@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import Card from '../../components/Card';
-import FormGroup from '../../components/FormGroup';
-import NavBar from '../../components/Navbar';
+import Card from '../../../components/Card';
+import { FenceTable } from '../../../components/FenceTable';
+import FormGroup from '../../../components/FormGroup';
+import { ListTable } from '../../../components/ListTable';
+import NavBar from '../../../components/Navbar';
 //import GoBack from '../../component/GoBack';
-import BraceletApiService from '../../services/serviceSpecific/BraceletApiService';
+import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
 
-class ListBracelet extends React.Component {
+class FenceList extends Component {
 
-    state = {
-        bracelets: []
-    }
+    
 
     constructor(){
         super();
-        this.service = new BraceletApiService(); 
+        this.service = new FenceApiService();
+        this.state = {
+            fences: []
+        }
     }
 
     async componentDidMount() {
@@ -27,8 +30,8 @@ class ListBracelet extends React.Component {
                 }
             }
         ).then(response => {
-            const bracelets = response.data.content;
-            this.setState({ bracelets });
+            const fences = response.data.content;
+            this.setState({ fences });
         }).catch(error => {
             console.log(error.response);
         });
@@ -49,72 +52,7 @@ class ListBracelet extends React.Component {
         
     }
 
-    delete = (id) => {
-        this.service.delete(id)
-        .catch(error => {
-            console.log(error.response);
-        })
-    }
 
-    edit = (id) => {
-        this.props.history.push(`/updateBracelet/${id}`);
-    }
-
-    braceletRow(bracelet){
-        return (
-            <tr className="table-info" key={bracelet.id}
-                style={
-                    {
-                        width: "100%"
-                    }
-                }
-            >
-                <td>{bracelet.name}</td>
-                <td
-                    style={
-                        {
-                            width: "100%"
-                        }
-                    }
-                >
-                    <div className="btn-group" role="group" aria-label="Basic example"
-                        style={
-                            {
-                                display: "flex",
-                            }
-                        }
-                    >
-                        <Link className="btn btn-secondary" to={`/updateBracelet/${bracelet.id}`}>Editar</Link>
-                        <a type="button" className="btn btn-danger" href="#">Excluir</a>
-                    </div>
-                </td>
-            </tr>
-        );
-    }
-
-    braceletList(braceletList){
-        return (
-            <table className="table table-hover"
-                style={
-                    {
-                        tableLayout: "fixed",
-                        width: "100%",
-                    }
-                }
-            >
-                <thead>
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Opções</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {braceletList.map(bracelet =>  this.braceletRow(bracelet))}
-                </tbody>
-            </table>
-
-        )
-    }
 
     render() {
         return (
@@ -166,7 +104,7 @@ class ListBracelet extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <div className='bs-component'>
-                                                {this.braceletList(this.state.bracelets)}
+                                                <ListTable entity="fences" data={this.state.fences}/>
                                             </div>
                                         </div>
                                     </div>
@@ -180,5 +118,5 @@ class ListBracelet extends React.Component {
     }
 }
 
-export default withRouter(ListBracelet);
+export default withRouter(FenceList);
 
