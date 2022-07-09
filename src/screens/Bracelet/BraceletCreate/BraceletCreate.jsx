@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import Navbar from "../../components/Navbar";
-import Card from "../../components/Card";
-import GoBack from "../../components/GoBack";
-import FormGroup from "../../components/FormGroup";
+import Navbar from "../../../components/Navbar";
+import Card from "../../../components/Card";
+import GoBack from "../../../components/GoBack";
+import FormGroup from "../../../components/FormGroup";
 import {withRouter} from "react-router-dom";
-import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
-import {switchValidation} from "../../services/ValidationService";
-import {showSuccessMessage, showErrorMessage} from "../../components/Toastr";
+import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
+import {switchValidation} from "../../../services/ValidationService";
+import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
 
 
 class BraceletCreate extends Component {
@@ -24,11 +24,11 @@ class BraceletCreate extends Component {
     create = async() => {
         await this.service.create( 
             this.state.bracelet
-        ).then(response => {
+        ).then(() => {
             showSuccessMessage('', 'Pulseira criada com sucesso!');
             this.props.history.push("/bracelets");
         }).catch(error => {
-            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
+            error.response.data.errors.forEach(responseError => {showErrorMessage('', responseError.messageUser)});
         });
     }
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Card from '../../components/Card';
-import FormGroup from '../../components/FormGroup';
-import NavBar from '../../components/Navbar';
-import GoBack from '../../components/GoBack';
-import UserApiService from '../../services/serviceSpecific/UserApiService';
-import { switchValidation } from '../../services/ValidationService';
-import {showErrorMessage, showSuccessMessage} from "../../components/Toastr";
-import {isAfter, isEqual} from 'date-fns';
+import Card from '../../../components/Card';
+import FormGroup from '../../../components/FormGroup';
+import NavBar from '../../../components/Navbar';
+import GoBack from '../../../components/GoBack';
+import UserApiService from '../../../services/serviceSpecific/UserApiService';
+import { switchValidation } from '../../../services/ValidationService';
+import {showErrorMessage, showSuccessMessage} from "../../../components/Toastr";
 
-class UpdateUser extends React.Component {
+class UserUpdate extends React.Component {
 
     constructor() {
         super();
@@ -40,12 +39,12 @@ class UpdateUser extends React.Component {
             email: this.state.email,
             password: this.state.password
         })
-        .then(response => {
+        .then(() => {
             showSuccessMessage('','Usuário atualizado com sucesso!');
             this.props.history.push("/profile")
         }).catch(error => {
-            error.response.data.errors.forEach(error => {
-                showErrorMessage('', error.messageUser);
+            error.response.data.errors.forEach(responseError => {
+                showErrorMessage('', responseError.messageUser);
             });
         });
     }
@@ -121,4 +120,4 @@ class UpdateUser extends React.Component {
 
 }
 
-export default withRouter(UpdateUser);
+export default withRouter(UserUpdate);

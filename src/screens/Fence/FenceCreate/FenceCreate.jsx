@@ -1,68 +1,70 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
-import Card from '../../components/Card';
-import FormGroup from '../../components/FormGroup';
-import NavBar from '../../components/Navbar';
-import GoBack from '../../components/GoBack';
-import { withRouter } from 'react-router-dom';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { Modal, Button } from "react-bootstrap";
-import FenceApiService from '../../services/serviceSpecific/FenceApiService';
-import { switchValidation } from '../../services/ValidationService';
-import { showErrorMessage, showSuccessMessage } from '../../components/Toastr';
-import { isAfter,isEqual } from 'date-fns';
+import React,{Component, useState, useEffect, useRef} from 'react';
+import axios from 'axios';
+import Card from '../../../components/Card';
+import FormGroup from '../../../components/FormGroup';
+import NavBar from '../../../components/Navbar';
+import GoBack from '../../../components/GoBack';
+import {withRouter} from 'react-router-dom';
+import {Wrapper, Status } from "@googlemaps/react-wrapper";
+import {Modal, Button} from "react-bootstrap";
+import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
+import { switchValidation } from '../../../services/ValidationService';
+import { isBefore, isAfter, isEqual } from 'date-fns';
 
 var latitude = 0;
 var longitude = 0;
 
-class UpdateFence extends React.Component {
+class FenceCreate extends Component {
 
-    constructor() {
-        super();
-        this.service = new FenceApiService();
+
+    constructor(props) {
+        super(props);
         this.state = {
             name: '',
             radius: 1,
-            coordinate: {
+            coordinate :{
                 latitude: null,
                 longitude: null
             },
             startTime: null,
             finishTime: null,
-            tempCoordinates: {
-                lat: 0,
-                lng: 0
-            },
-            active: false,
             show: false
+        }
+        this.service = new FenceApiService();
+
+    }
+
+    getFence(){
+        return {
+            name: this.state.name,
+            radius: this.state.radius && !isNaN(this.state.radius) ? this.state.radius : null,
+            coordinate :{
+                latitude: this.state.coordinate.latitude,
+                longitude: this.state.coordinate.longitude
+            },
+            startTime: this.state.startTime,
+            finishTime: this.state.finishTime
         }
     }
 
-
     closeModal = () => {
-        this.setState({ show: false });
+        this.setState({show: false});
     }
     showModal = () => {
-        this.setState({ show: true });
+        this.setState({show: true});
     }
 
-    async componentDidMount() {
-        await this.service.findById(this.props.match.params.id)
-        .then(response => {
-            const fence = response.data;
-            this.setState({
-                name: fence.name,
-                radius: fence.radius,
-                coordinate: {
-                    latitude: fence.coordinate.latitude,
-                    longitude: fence.coordinate.longitude
-                },
-                startTime: fence.startTime,
-                finishTime: fence.finishTime
-            });
+    async create() {
+        const fence = this.getFence();
 
+        await this.service.create(fence)
+        .then(response => {
+            showSuccessMessage('', 'Fence criada com sucesso!');
+            this.props.history.push('/profile');
         }).catch(error => {
-            console.log(error.response);
-        })
+            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
+        });
     }
 
     validateCoordinate(){
@@ -81,27 +83,15 @@ class UpdateFence extends React.Component {
         }
     }
 
-    getFence(){
-        return {
-            name: this.state.name,
-            radius: this.state.radius && !isNaN(this.state.radius) ? this.state.radius : null,
-            coordinate :{
-                latitude: this.state.coordinate.latitude,
-                longitude: this.state.coordinate.longitude
-            },
-            startTime: this.state.startTime,
-            finishTime: this.state.finishTime
-        }
-    }
+    getDate(time){
+        if(!time) return;
 
-    update = async () => {
-        await this.service.update(this.props.match.params.id, this.getFence() ).then(response => {
-            showSuccessMessage('', 'Pulseira atualizada com sucesso!');
-            this.props.history.push("/profile");
-        }).catch(error => {
-            error.response.data.errors.forEach(error => {showErrorMessage('', error.messageUser)});
-        }
-        );
+        var date = new Date()
+        var[hour, minute] = time.split(':');
+        date.setHours(hour);
+        date.setMinutes(minute);
+
+        return date;
     }
 
     validateTime(startTime, finishTime){
@@ -126,24 +116,13 @@ class UpdateFence extends React.Component {
         switchValidation(finishTimeElement, true);
     }
 
-    getDate(time){
-        if(!time) return;
-
-        var date = new Date()
-        var[hour, minute] = time.split(':');
-        date.setHours(hour);
-        date.setMinutes(minute);
-
-        return date;
-    }
-
     render() {
         return (
             <>
-                <NavBar />
+                <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
-                        <div className='col-md-6 updateFence'
+                        <div className='col-md-6 userRegister'
                             style={
                                 {
                                     margin: "0 auto",
@@ -152,32 +131,32 @@ class UpdateFence extends React.Component {
                             }
                         >
                             <div className='bs-docs-section'>
-                                <Card title='Atualizar Cerca'>
+                                <Card title='Cadastro de Cerca'>
                                     <div className='row'>
                                         <div className='col-lg-12'>
                                             <div className='bs-component'>
-                                                <form onSubmit={event => {
-                                                    event.preventDefault();
-                                                    this.update()
-                                                }
-                                                }
+                                                <form onSubmit={event=>{
+                                                            event.preventDefault();
+                                                            this.create()
+                                                        }
+                                                    }
                                                 >
                                                     <fieldset>
                                                         <FormGroup label='Nome: *' htmlFor='name'>
                                                             <input type='text' className='form-control' id='name'
                                                                 placeholder='Nome da Cerca'
-                                                                value={this.state.name}
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="Nome da pulseira entre 1 e 50 caracteres, todo caractere espaço de será substituído por espaço simples."
-                                                                onChange={(e) =>{ 
-                                                                        if(e.target.value.length >= 1 && e.target.value.length <= 50 && e.target.value.match(/.*\S.*/)){
+                                                                value={this.state.name} onChange={(e) =>{
+                                                                        if(e.target.value.length >= 1 && e.target.value.length <= 50){
                                                                             switchValidation(e.target, true);
                                                                         } else{
                                                                             switchValidation(e.target, false);
                                                                         }
-                                                                        this.setState({ name: e.target.value });
+                                                                        this.setState({ name: e.target.value })
                                                                     }
-                                                                } />
+                                                                } 
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="Nome da cerca entre 1 e 50 caracteres, todo caractere espaço de será substituído por espaço simples."
+                                                            />
                                                         </FormGroup>
                                                         <div className="beside flex"
                                                         >
@@ -198,17 +177,17 @@ class UpdateFence extends React.Component {
                                                                     <Modal.Body>
                                                                         <GoogleMap coordinates={
                                                                             this.state.coordinate.latitude !== null && this.state.coordinate.longitude !== null ?
-                                                                                {
-                                                                                    latitude: this.state.coordinate.latitude,
-                                                                                    longitude: this.state.coordinate.longitude
-                                                                                }
-                                                                                :
-                                                                                null
-                                                                        } name={this.state.name} radius={this.state.radius} />
+                                                                            {
+                                                                                latitude: this.state.coordinate.latitude,
+                                                                                longitude: this.state.coordinate.longitude
+                                                                            }
+                                                                            :
+                                                                            null
+                                                                        } name={this.state.name} radius={this.state.radius}/>
                                                                     </Modal.Body>
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
-                                                                        <Button variant="primary" onClick={() => {
+                                                                        <Button variant="primary" onClick={()=>{
                                                                             this.validateCoordinate();
 
                                                                             this.setState({
@@ -224,15 +203,16 @@ class UpdateFence extends React.Component {
                                                             </FormGroup>
                                                             <div className="coordinates flex">
                                                                 <FormGroup label="Latitude: " htmlFor="latitude">
-                                                                    <input value={this.state.coordinate.latitude ? this.state.coordinate.latitude : null} type="text" className="form-control" id="latitude" disabled />
+                                                                    <input value={this.state.coordinate.latitude? this.state.coordinate.latitude:null} type="text" className="form-control" id="latitude" disabled/>
                                                                 </FormGroup>
                                                                 <FormGroup label="Latitude: " htmlFor="latitude">
-                                                                    <input value={this.state.coordinate.longitude ? this.state.coordinate.longitude : null} type="text" className="form-control" id="longitude" disabled />
+                                                                    <input value={this.state.coordinate.longitude?this.state.coordinate.longitude:null} type="text" className="form-control" id="longitude" disabled/>
                                                                 </FormGroup>
                                                                 <FormGroup label='Raio: *' htmlFor='radius'>
                                                                     <input type='number' className='form-control' id='radius' min="1"
                                                                         placeholder='Raio da Cerca'
-                                                                        value={this.state.radius} onChange={(e) =>{
+                                                                        value={this.state.radius} 
+                                                                        onChange={(e) =>{
                                                                                 if(e.target.value >= 1){
                                                                                     switchValidation(e.target, true);
                                                                                 } else{
@@ -240,30 +220,32 @@ class UpdateFence extends React.Component {
                                                                                 }
                                                                                 this.setState({ radius: parseInt(e.target.value) });
                                                                             }
-                                                                        } 
-                                                                    />
+                                                                        }
+                                                                        />
                                                                 </FormGroup>
                                                             </div>
                                                         </div>
                                                         <div className="flex times">
                                                             <FormGroup label="Horário Inicial: " htmlFor="startTime">
-                                                                <input type="time" className="form-control" id="startTime"
+                                                                <input type="time" className="form-control" id="startTime" 
                                                                     value={this.state.startTime} onChange={(e) =>{
-                                                                        this.validateTime(e.target.value, this.state.finishTime);
-                                                                        this.setState({ startTime: e.target.value });
-                                                                    }
-                                                                }
+                                                                            this.validateTime(e.target.value, this.state.finishTime);
+                                                                            
+                                                                            this.setState({ startTime: e.target.value })
+                                                                        }
+                                                                    } 
                                                                 />
                                                             </FormGroup>
                                                             <FormGroup label="Horário Final: " htmlFor="finishTime">
-                                                                <input type="time" className="form-control" id="finishTime"
+                                                                <input type="time" className="form-control" id="finishTime" 
                                                                     value={this.state.finishTime} onChange={(e) =>{
-                                                                        this.validateTime(this.state.startTime, e.target.value);
-                                                                        
-                                                                        this.setState({ finishTime: e.target.value });
+                                                                            this.validateTime(this.state.startTime, e.target.value);
+                                                                            
+                                                                            this.setState({ finishTime: e.target.value })
+                                                                        }
                                                                     }
-                                                                }
-                                                                />
+                                                                    
+                                                                    />
                                                             </FormGroup>
                                                         </div>
                                                         <br />
@@ -275,8 +257,8 @@ class UpdateFence extends React.Component {
                                                                 }
                                                             }
                                                         >
-                                                            <GoBack />
-                                                            <button type="submit" className='btn btn-success'>Atualizar</button>
+                                                            <GoBack/>
+                                                            <button type="submit" className='btn btn-success'>Cadastrar</button>
                                                         </div>
                                                     </fieldset>
                                                 </form>
@@ -291,8 +273,9 @@ class UpdateFence extends React.Component {
             </>
         )
     }
-
 }
+
+export default withRouter(FenceCreate);
 
 const google = window.google;
 function GoogleMap(props) {
@@ -303,7 +286,7 @@ function GoogleMap(props) {
     )
 }
 
-function Map(props) {
+function Map (props) {
     const ref = useRef();
     const [map, setMap] = useState();
     const [marker, setMarker] = useState();
@@ -341,22 +324,22 @@ function Map(props) {
             }
         }
 
-        if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, options));
+        if(ref.current && !map) {
+            setMap(new window.google.maps.Map(ref.current, options));   
         }
     }, [ref, map]);
 
     useEffect(() => {
-        if (map) {
+        if(map){
             map.addListener("click", (event) => {
-                if (newMarker == null) {
+                if(newMarker == null){
                     newMarker = new window.google.maps.Marker({
                         position: event.latLng,
                         map: map,
                         title: "Localização Selecionada",
                         label: props.name
                     });
-                } else {
+                }else{
                     newMarker.setOptions({
                         position: event.latLng,
                     });
@@ -371,7 +354,7 @@ function Map(props) {
                     fillColor: '#00ff00'
                 });
                 newCircle.bindTo('center', newMarker, 'position');
-
+                
                 setMarker(newMarker);
             });
         }
@@ -386,9 +369,8 @@ function Map(props) {
                 }
             }
         >
-
+            
         </div>
     )
 }
 
-export default withRouter(UpdateFence);

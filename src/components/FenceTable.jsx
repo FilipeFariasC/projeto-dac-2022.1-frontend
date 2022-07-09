@@ -1,20 +1,18 @@
-/* eslint-disable import/no-anonymous-default-export */
-import React, { Component } from "react";
+import { Component } from "react";
 import { Link } from "react-router-dom";
 
-
-export class BraceletTable extends Component{
+export class FenceTable extends Component {
     constructor(props){
-        super();
+        super(props);
         this.props = props;
     }
 
-    createRow(bracelet){
+    createRow(fence){
         return(
             <tr>
-                <td>{bracelet.name}</td>
+                <td>{fence.name}</td>
                 <td>
-                    <Link className="btn btn-secondary" to={`/updateBracelet/${bracelet.id}`}>Editar</Link>
+                    <Link className="btn btn-secondary" to={`/updateFence/${fence.id}`}>Editar</Link>
                     <a type="button" className="btn btn-danger" href="#">Excluir</a>
                 </td>
             </tr>
@@ -31,9 +29,10 @@ export class BraceletTable extends Component{
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.bracelets}
+                    {this.props.fences.map(element => this.createRow(element))}
                 </tbody>
             </table>
         );
     }
+
 }
