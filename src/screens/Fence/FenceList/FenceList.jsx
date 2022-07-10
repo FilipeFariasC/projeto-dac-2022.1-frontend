@@ -67,7 +67,7 @@ class FenceList extends Component {
                             }
                         >
                             <div className='bs-docs-section'>
-                                <Card title='Listar Pulseiras'>
+                                <Card title='Listar Cercas'>
                                     <div className='row'>
                                         <div className='col-lg-12'>
                                             <div className='bs-component'>
@@ -102,7 +102,7 @@ class FenceList extends Component {
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <div className='bs-component'>
-                                                <ListTable entity="fences" data={this.state.fences}/>
+                                                <ListTable entity="fence" data={this.state.fences}/>
                                             </div>
                                         </div>
                                     </div>
