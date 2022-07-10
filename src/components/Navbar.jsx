@@ -33,31 +33,6 @@ function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
-<<<<<<< HEAD
-                        <NavDropdown title="Pulseiras" id="bracelet-options" >
-                            <NavDropdown.Item href="/createBracelet">
-                                Cadastrar Pulseira
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/bracelets">
-                                Listar Pulseira
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/braceletProfile">
-                                Perfil Pulseira
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Cercas" id="bracelet-options" >
-                            <NavDropdown.Item href="/createFence">
-                                Cadastrar Cerca
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/fences">
-                                Listar Cercas
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/fenceProfile">
-                                Perfil Cerca
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                        <NavItem href="/profile" label="Perfil" />
-=======
                         {loginService.isAuthenticated() &&
                         <>
                             <NavDropdown title="Pulseiras" id="bracelet-options" >
@@ -71,7 +46,7 @@ function Navbar(props) {
                             <NavItem href="/profile" label="Perfil" />
                         </>
                         }
->>>>>>> 17200d9292f7fe71504bef2e3e04cff967010965
+
                         <NavDropdown title="Opções" id="dropdown-options">
                             {loginService.isAuthenticated() ?
                                 <>

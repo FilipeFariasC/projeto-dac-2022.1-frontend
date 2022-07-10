@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
+import GoBack from "components/GoBack";
 //import UserApiService from "../../services/serviceSpecific/UserApiService";
 import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
-import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+//import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 import ListMin from "../../../components/ListMin";
 
 
@@ -13,17 +14,11 @@ export default class BraceletProfile extends Component {
     constructor(props) {
         super(props);
         this.serviceBracelet = new BraceletApiService();
-        this.serviceFence = new FenceApiService();
         this.state = {
             bracelet: {
                 name: '',  
                 fences:[]
             },
-        }
-        this.params = {
-            page: 0,
-            size: 5,
-            sort: 'id,ASC'
         }
     }
     /* recebe um id de uma bracelet selecionada;*/
@@ -33,17 +28,6 @@ export default class BraceletProfile extends Component {
                 bracelet: response.data
             })
         });
-
-        await this.serviceFence.find(this.params)
-        .then(response => {
-            const page = response.data;
-            this.setState({fenceList: page.content});
-            this.setState({size: page.totalElements});
-        }).catch((error) => {
-            console.log(error);
-        });
-
-
     }
 
     render() {
@@ -101,6 +85,7 @@ export default class BraceletProfile extends Component {
                                 }
                             }
                         >
+                            <GoBack/>
                             <Link to="/updateBracelet/:id" className="btn btn-primary">Editar Pulseira</Link>
                         </div>
                     </Card>
@@ -115,7 +100,7 @@ export default class BraceletProfile extends Component {
                             <div className="fence-profile">
                                 <h4>Cercas</h4>
                                 <ListMin 
-                                    data={this.state.fences} 
+                                    data={this.state.bracelet.fences} 
                                     entity="Cercas" 
                                     list="/fences"
                                 />

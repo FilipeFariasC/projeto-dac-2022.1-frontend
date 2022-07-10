@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
+import GoBack from "components/GoBack";
+import ListMin from "components/ListMin";
 //import UserApiService from "../../services/serviceSpecific/UserApiService";
 import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
@@ -27,7 +29,8 @@ export default class FenceProfile extends Component {
                     lng: 0
                 },
                 active: false,
-                show: false
+                show: false,
+                bracelets: []
             }
         }
     }
@@ -37,7 +40,7 @@ export default class FenceProfile extends Component {
      colocar a localização do google map e 
      mostrar status da fence */
     async componentDidMount() {
-        await this.service.findById(8).then(response => {
+        await this.service.findById(1).then(response => {
             this.setState({
                 fence: response.data
             })
@@ -139,6 +142,7 @@ export default class FenceProfile extends Component {
                                 }
                             }
                         >
+                            <GoBack/>
                             <Link to="/updateFence" className="btn btn-primary">Editar Cerca</Link>
                         </div>
                     </Card>
@@ -152,7 +156,11 @@ export default class FenceProfile extends Component {
                         >
                             <div className="bracelet-profile">
                                 <h4>Pulseiras</h4>
-                                <BraceletList />
+                                <ListMin 
+                                    data={this.state.fence.bracelets} 
+                                    entity="Puceiras" 
+                                    list="/bracelets"
+                                />
                             </div>
                         </div>
                     </Card>
@@ -162,101 +170,3 @@ export default class FenceProfile extends Component {
     }
 }
 
-class BraceletList extends Component {
-
-    constructor(props) {
-        super(props);
-        this.service = new BraceletApiService();
-        this.state = {
-            braceletList: [],
-            size: 5
-        }
-    }
-
-    async componentDidMount() {
-        await this.service.find(
-            {
-                params: {
-                    "page": 0,
-                    "size": 5,
-                    "sort": "id,ASC"
-                }
-            }
-        ).then(response => {
-            const page = response.data;
-            this.setState({ braceletList: page.content });
-            this.setState({ size: page.totalElements });
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    braceletRow(bracelet) {
-        return (
-            <li key={bracelet.id} className="list-group-item flex braceletRowOptions"
-                style={
-                    {
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexDirection: "row",
-                    }
-                }
-            >
-                <strong className="braceletName"
-                    style={
-                        {
-                            fontSize: "0.75rem",
-                            whiteSpace: "nowrap"
-                        }
-                    }
-                >{bracelet.name}</strong>
-                <Link className="btn btn-primary" to={`/updateBracelet/${bracelet.id}`}>
-                    Editar
-                </Link>
-                <a className="btn btn-danger" href="#" >
-                    Excluir
-                </a>
-            </li>
-        );
-    }
-    braceletList() {
-        return this.state.braceletList.map(bracelet => this.braceletRow(bracelet));
-    }
-
-    render() {
-        if (this.state.braceletList.length === 0) {
-            return (
-                <div className="flex">
-                    <Link className="btn btn-primary" to="/createBracelet"
-                        style={
-                            {
-                                width: "100%"
-                            }
-                        }
-                    >Cadastrar Pulseira</Link>
-                </div>
-            );
-        }
-
-        return (
-            <>
-                <ul className="list-group">
-                    {this.braceletList()}
-                    <li key={-1} className="list-group-item flex braceletRowOptions"
-                        style={
-                            {
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexDirection: "row",
-                            }
-                        }
-                    >
-                        <Link className="btn btn-info" to="/bracelets"> Pulseiras </Link>
-                    </li>
-                </ul>
-            </>
-        )
-    }
-}
