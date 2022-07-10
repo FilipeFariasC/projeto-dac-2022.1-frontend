@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Navbar from "../../components/Navbar";
-import Card from "../../components/Card";
+import Navbar from "../../../components/Navbar";
+import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
 //import UserApiService from "../../services/serviceSpecific/UserApiService";
-import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
-import FenceApiService from "../../services/serviceSpecific/FenceApiService";
+import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
+import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 
 
 export default class FenceProfile extends Component {

@@ -7,19 +7,37 @@ import GoBack from '../../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import { switchValidation } from '../../../services/ValidationService';
 import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
+import { LoginService } from 'services/LoginService';
 
 class UserLogin extends React.Component {
 
 
     constructor() {
         super();
+        this.loginService = new LoginService();
         this.state = {
             email: '',
             password: ''
         }
     }
 
+    #getUserDetails(){
+        return {
+            username: this.state.email,
+            password: this.state.password
+        }
+    }
+
     async login() {
+        await this.loginService.login(this.#getUserDetails())
+        .then(response =>{
+            showSuccessMessage('', 'Login realizado com sucesso!');
+            this.props.history.push('/profile');
+        }).catch(error => {
+            console.log(error);
+            showErrorMessage('', 'Email ou senha incorretos!');
+        });
+        /*
         await axios.post('http://localhost:8080/api/login',
             {
                 username: this.state.email,
@@ -29,12 +47,13 @@ class UserLogin extends React.Component {
             localStorage.setItem('jwt_token', response.data.response);
             showSuccessMessage('', 'Login realizado com sucesso!');
             this.props.history.push('/profile');
-            window.location.reload();
+            // window.location.reload();
         }
         ).catch(error => {
             console.log(error);
             showErrorMessage('', 'Email ou senha incorretos!');
         });
+        */
     }
 
     render() {

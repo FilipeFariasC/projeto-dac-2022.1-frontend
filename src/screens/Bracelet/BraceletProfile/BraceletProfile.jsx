@@ -1,31 +1,49 @@
 import React, { Component } from "react";
-import Navbar from "../../components/Navbar";
-import Card from "../../components/Card";
+import Navbar from "../../../components/Navbar";
+import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
 //import UserApiService from "../../services/serviceSpecific/UserApiService";
-import BraceletApiService from "../../services/serviceSpecific/BraceletApiService";
-import FenceApiService from "../../services/serviceSpecific/FenceApiService";
+import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
+import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+import ListMin from "../../../components/ListMin";
 
 
 export default class BraceletProfile extends Component {
 
     constructor(props) {
         super(props);
-        this.service = new BraceletApiService();
+        this.serviceBracelet = new BraceletApiService();
+        this.serviceFence = new FenceApiService();
         this.state = {
             bracelet: {
-                name: ''
-                
-            }
+                name: '',  
+                fences:[]
+            },
+        }
+        this.params = {
+            page: 0,
+            size: 5,
+            sort: 'id,ASC'
         }
     }
     /* recebe um id de uma bracelet selecionada;*/
     async componentDidMount() {
-        await this.service.findById(2).then(response => {
+        await this.serviceBracelet.findById(1).then(response => {
             this.setState({
                 bracelet: response.data
             })
         });
+
+        await this.serviceFence.find(this.params)
+        .then(response => {
+            const page = response.data;
+            this.setState({fenceList: page.content});
+            this.setState({size: page.totalElements});
+        }).catch((error) => {
+            console.log(error);
+        });
+
+
     }
 
     render() {
@@ -95,8 +113,12 @@ export default class BraceletProfile extends Component {
                             }
                         >
                             <div className="fence-profile">
-                                <h4>Cerca</h4>
-                                <FenceList />
+                                <h4>Cercas</h4>
+                                <ListMin 
+                                    data={this.state.fences} 
+                                    entity="Cercas" 
+                                    list="/fences"
+                                />
                             </div>
                         </div>
                     </Card>
@@ -106,102 +128,4 @@ export default class BraceletProfile extends Component {
     }
 }
 
-class FenceList extends Component {
 
-    constructor(props) {
-        super(props);
-        this.service = new FenceApiService();
-        this.state = {
-            fenceList : [],
-            size: 5
-        }
-    }
-
-    async componentDidMount(){
-        await this.service.find(
-            {
-                params: {
-                    "page": 0,
-                    "size": 5,
-                    "sort": "id,ASC"
-                }
-            }
-        ).then(response => {
-            const page = response.data;
-            this.setState({fenceList: page.content});
-            this.setState({size: page.totalElements});
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    fenceRow(fence){
-        return (
-            <li key={fence.id} className="list-group-item flex fenceRowOptions"
-                style={
-                    {
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexDirection: "row",
-                    }
-                }
-            >
-                <strong className="fenceName" 
-                    style={
-                        {
-                            fontSize: "0.75rem",
-                            whiteSpace: "nowrap"
-                        }
-                    }
-                >{fence.name}</strong>
-                <Link className="btn btn-primary" to={`/updateFence/${fence.id}`}>
-                    Editar
-                </Link>
-                <a className="btn btn-danger" href="#" >
-                    Excluir
-                </a>
-            </li>
-        );
-    }
-    fenceList(){
-        return this.state.fenceList.map(fence => this.fenceRow(fence));
-    }
-
-    render(){
-        if(this.state.fenceList.length === 0){
-            return(
-                <div className="flex">
-                    <Link className="btn btn-primary" to="/createFence"
-                        style={
-                            {
-                                width: "100%"
-                            }
-                        }
-                    >Cadastrar Cerca </Link>
-                </div>
-            );
-        }
-
-        return (
-            <>
-                <ul className="list-group">
-                    {this.fenceList()}
-
-                    <li key={-1} className="list-group-item flex braceletRowOptions"
-                        style={
-                            {
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                flexDirection: "row",
-                            }
-                        }
-                    >
-                        <Link className="btn btn-info" to="/fences"> Cercas </Link>
-                    </li>
-                </ul>
-            </>
-        );
-    }
-}

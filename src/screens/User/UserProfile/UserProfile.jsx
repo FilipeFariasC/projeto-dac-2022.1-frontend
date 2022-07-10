@@ -117,7 +117,7 @@ export default class UserProfile extends Component {
                                 }
                             }
                         >
-                            <Link to="/updateUser" className="btn btn-primary">Editar Usuário</Link>
+                            <Link to="/users/update" className="btn btn-primary">Editar Usuário</Link>
                         </div>
                     </Card>
                     <Card title="Pulseiras e Cercas">

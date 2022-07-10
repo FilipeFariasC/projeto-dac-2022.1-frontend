@@ -26,16 +26,16 @@ function AppRoutes(){
             <Route path={["/home", "/"]} exact>
                 <HomePage/>
             </Route>
-            <Route path={["/signIn","/createUser", "/user/create"]} exact >
+            <Route path={["/signIn","/createUser", "/users/create"]} exact >
                 <CreateUser />
             </Route>
             <Route path={"/login"} exact >
                 <UserLogin />
             </Route>
-            <AuthenticatedRoute path={"/profile"} exact >
+            <AuthenticatedRoute path={["/profile", "/user"]} exact >
                 <UserProfile />
             </AuthenticatedRoute>
-            <AuthenticatedRoute path={["/updateUser", "/user/update"]} exact >
+            <AuthenticatedRoute path={["/updateUser", "/users/update"]} exact >
                 <UpdateUser />
             </AuthenticatedRoute>
 

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Card from '../../../components/Card';
-import { FenceTable } from '../../../components/FenceTable';
 import FormGroup from '../../../components/FormGroup';
 import { ListTable } from '../../../components/ListTable';
 import NavBar from '../../../components/Navbar';
-//import GoBack from '../../component/GoBack';
 import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
 
 class FenceList extends Component {
