@@ -1,11 +1,16 @@
 import React from "react";
 import {NavDropdown} from "react-bootstrap";
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import NavItem from "./NavItem";
 import "./css/Navbar.css"
+import { LoginService } from "services/LoginService";
+import { withRouter } from "react-router-dom";
 
 
 function Navbar(props) {
+    const loginService = new LoginService();
+    const history = useHistory();
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -28,29 +33,38 @@ function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
-                        <NavDropdown title="Pulseiras" id="bracelet-options" >
-                            <NavDropdown.Item href="/bracelets/create">
-                                Cadastrar Pulseira
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/bracelets">
-                                Listar Pulseira
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                        <NavDropdown title="Cercas" id="bracelet-options" >
-                            <NavDropdown.Item href="/fences/create">
-                                Cadastrar Cerca
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/fences">
-                                Listar Cercas
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                        <NavItem href="/profile" label="Perfil" />
+                        {loginService.isAuthenticated() &&
+                        <>
+                            <NavDropdown title="Pulseiras" id="bracelet-options" >
+                                <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
+                                <Link className="dropdown-item" to="/bracelets"> Listar Pulseira </Link>
+                            </NavDropdown>
+                            <NavDropdown title="Cercas" id="bracelet-options" >
+                                <Link className="dropdown-item" to="/fences/create"> Cadastrar Cerca </Link>
+                                <Link className="dropdown-item" to="/fences"> Listar Cerca </Link>
+                            </NavDropdown>
+                            <NavItem href="/profile" label="Perfil" />
+                        </>
+                        }
                         <NavDropdown title="Opções" id="dropdown-options">
-                            <NavDropdown.Item href="/users/create">
-                                Cadastrar Usuário
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                            <NavDropdown.Item href="/profile"> Perfil </NavDropdown.Item>
+                            {loginService.isAuthenticated() ?
+                                <>
+                                    <Link className="dropdown-item" to="/profile"> Perfil </Link>
+                                    <NavDropdown.Divider />
+                                    <button className="dropdown-item" onClick={(event)=>{
+                                        loginService.logout();
+                                        history.push("/login");
+                                    }}>
+                                        Logout
+                                    </button>
+                                </>
+                                :
+                                <>
+                                    <Link className="dropdown-item" to="/users/create"> Cadastrar Usuário </Link>
+                                    <Link className="dropdown-item" to="/login"> Login </Link>
+                                </>
+                            }
+                            
                         </NavDropdown>
                     </ul>
                     </div>
@@ -60,4 +74,4 @@ function Navbar(props) {
     );
 }
 
-export default Navbar;
+export default withRouter(Navbar);

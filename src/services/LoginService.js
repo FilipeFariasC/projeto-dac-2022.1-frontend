@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Buffer} from 'buffer';
-import { showErrorMessage, showSuccessMessage, showWarningMessage } from 'components/Toastr';
+import {  showWarningMessage } from 'components/Toastr';
 
 export class LoginService {
 
@@ -19,6 +19,9 @@ export class LoginService {
           .then((response) => {
               localStorage.setItem("jwt_token", response.data.response);
           });
+    }
+    logout(){
+      localStorage.removeItem("jwt_token");
     }
 
     #parseJwt(token) {
