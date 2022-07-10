@@ -29,7 +29,7 @@ function Navbar(props) {
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
                         <NavDropdown title="Pulseiras" id="bracelet-options" >
-                            <NavDropdown.Item href="/createBracelet">
+                            <NavDropdown.Item href="/bracelets/create">
                                 Cadastrar Pulseira
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/bracelets">
@@ -37,7 +37,7 @@ function Navbar(props) {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Cercas" id="bracelet-options" >
-                            <NavDropdown.Item href="/createFence">
+                            <NavDropdown.Item href="/fences/create">
                                 Cadastrar Cerca
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/fences">
@@ -46,7 +46,7 @@ function Navbar(props) {
                         </NavDropdown>
                         <NavItem href="/profile" label="Perfil" />
                         <NavDropdown title="Opções" id="dropdown-options">
-                            <NavDropdown.Item href="/createUser">
+                            <NavDropdown.Item href="/users/create">
                                 Cadastrar Usuário
                             </NavDropdown.Item>
                             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
