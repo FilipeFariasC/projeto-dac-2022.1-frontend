@@ -86,7 +86,6 @@ export default class BraceletProfile extends Component {
                             }
                         >
                             <GoBack/>
-                            <Link to="/updateBracelet/:id" className="btn btn-primary">Editar Pulseira</Link>
                         </div>
                     </Card>
                     <Card title="Cercas">

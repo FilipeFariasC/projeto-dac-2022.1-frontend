@@ -51,6 +51,9 @@ function AppRoutes(){
             <AuthenticatedRoute path={"/bracelet/:id"} exact >
                 <HomePage />
             </AuthenticatedRoute>
+            <AuthenticatedRoute path={"/braceletProfile"} exact >
+                <BraceletProfile />
+            </AuthenticatedRoute>
 
 
             <AuthenticatedRoute path={["/createFence", "/fences/create"]} exact >
@@ -73,9 +76,6 @@ function AppRoutes(){
                 <FenceProfile />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path={"/braceletProfile"} exact >
-                <BraceletProfile />
-            </AuthenticatedRoute>
 
         </BrowserRouter>
     );

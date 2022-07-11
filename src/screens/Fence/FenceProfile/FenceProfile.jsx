@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useRef } from 'react';
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
-import { Link } from "react-router-dom";
 import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
-//import UserApiService from "../../services/serviceSpecific/UserApiService";
-import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 
+var latitude = 0;
+var longitude = 0;
 
 export default class FenceProfile extends Component {
 
@@ -16,35 +16,40 @@ export default class FenceProfile extends Component {
         this.service = new FenceApiService();
         this.state = {
             fence: {
+                id: 0,
                 name: '',
-                radius: 1,
                 coordinate: {
                     latitude: null,
                     longitude: null
                 },
                 startTime: null,
                 finishTime: null,
+                active: false,
+                radius: 1,
+                bracelets: [],
                 tempCoordinates: {
                     lat: 0,
                     lng: 0
                 },
-                active: false,
                 show: false,
-                bracelets: []
-            }
+            },
+            status: ''
         }
     }
     /*recebe um id de uma fence selecionada;
-     não há relação entre fence e bracelet;
+     não há uma relação entre fence e bracelet;
      mostrar as bracelets cadastradas na fence,
-     colocar a localização do google map e 
-     mostrar status da fence */
+     colocar a localização do google map */
     async componentDidMount() {
-        await this.service.findById(1).then(response => {
-            this.setState({
-                fence: response.data
-            })
-        });
+        await this.service.findById(this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    fence: response.data,
+                })
+                console.log(response.data);
+            });
+
+
     }
 
     render() {
@@ -99,6 +104,7 @@ export default class FenceProfile extends Component {
                                     </td>
                                     <td>
                                         {this.state.fence.localizacao}
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -122,7 +128,7 @@ export default class FenceProfile extends Component {
                                         Status:
                                     </td>
                                     <td>
-                                        {this.state.fence.active}
+                                        {this.state.active ? 'ATIVADA' : 'DESATIVADA'}
                                     </td>
                                 </tr>
                                 <tr>
@@ -142,8 +148,7 @@ export default class FenceProfile extends Component {
                                 }
                             }
                         >
-                            <GoBack/>
-                            <Link to="/updateFence" className="btn btn-primary">Editar Cerca</Link>
+                            <GoBack />
                         </div>
                     </Card>
                     <Card title="Pulseiras">
@@ -156,9 +161,9 @@ export default class FenceProfile extends Component {
                         >
                             <div className="bracelet-profile">
                                 <h4>Pulseiras</h4>
-                                <ListMin 
-                                    data={this.state.fence.bracelets} 
-                                    entity="Puceiras" 
+                                <ListMin
+                                    data={this.state.fence.bracelets}
+                                    entity="Puseiras"
                                     list="/bracelets"
                                 />
                             </div>
@@ -169,4 +174,101 @@ export default class FenceProfile extends Component {
         );
     }
 }
+
+const google = window.google;
+function GoogleMap(props) {
+    return (
+        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+            <Map coordinates={props.coordinates} name={props.name} radius={props.radius} />
+        </Wrapper>
+    )
+}
+
+function Map(props) {
+    const ref = useRef();
+    const [map, setMap] = useState();
+    const [marker, setMarker] = useState();
+
+    let newMarker = null;
+    let newCircle = null;
+    var radius = props.radius;
+
+    useEffect(() => {
+        let options = null;
+        if (props.coordinates) {
+            options = {
+                center: { lat: props.coordinates.latitude, lng: props.coordinates.longitude },
+                zoom: 15
+            };
+            newMarker = new window.google.maps.Marker({
+                position: {
+                    lat: props.coordinates.latitude,
+                    lng: props.coordinates.longitude
+                },
+                map: map,
+                title: "Localização Selecionada",
+                label: props.name
+            });
+            newCircle = new window.google.maps.Circle({
+                map: map,
+                radius,
+                fillColor: '#00ff00'
+            });
+            newCircle.bindTo('center', newMarker, 'position');
+        } else {
+            options = {
+                center: { lat: -7.897789, lng: -37.118066 },
+                zoom: 15
+            }
+        }
+
+        if (ref.current && !map) {
+            setMap(new window.google.maps.Map(ref.current, options));
+        }
+    }, [ref, map]);
+
+    useEffect(() => {
+        if (map) {
+            map.addListener("click", (event) => {
+                if (newMarker == null) {
+                    newMarker = new window.google.maps.Marker({
+                        position: event.latLng,
+                        map: map,
+                        title: "Localização Selecionada",
+                        label: props.name
+                    });
+                } else {
+                    newMarker.setOptions({
+                        position: event.latLng,
+                    });
+                }
+
+                latitude = event.latLng.lat();
+                longitude = event.latLng.lng();
+
+                newCircle = new window.google.maps.Circle({
+                    map: map,
+                    radius,
+                    fillColor: '#00ff00'
+                });
+                newCircle.bindTo('center', newMarker, 'position');
+
+                setMarker(newMarker);
+            });
+        }
+    }, [map]);
+
+    return (
+        <div ref={ref} id="map"
+            style={
+                {
+                    width: "100%",
+                    height: "100%"
+                }
+            }
+        >
+        </div>
+    )
+}
+
 

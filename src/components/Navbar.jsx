@@ -38,10 +38,12 @@ function Navbar(props) {
                             <NavDropdown title="Pulseiras" id="bracelet-options" >
                                 <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
                                 <Link className="dropdown-item" to="/bracelets"> Listar Pulseira </Link>
+                                <Link className="dropdown-item" to="/braceletProfile"> Detalhes da Pulseira </Link>
                             </NavDropdown>
                             <NavDropdown title="Cercas" id="bracelet-options" >
                                 <Link className="dropdown-item" to="/fences/create"> Cadastrar Cerca </Link>
                                 <Link className="dropdown-item" to="/fences"> Listar Cerca </Link>
+                                <Link className="dropdown-item" to="/fenceProfile"> Detalhe da Cerca </Link>
                             </NavDropdown>
                             <NavItem href="/profile" label="Perfil" />
                         </>
