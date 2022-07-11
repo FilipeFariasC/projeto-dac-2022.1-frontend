@@ -11,12 +11,12 @@ import UserProfile from '../screens/User/UserProfile/UserProfile';
 import BraceletCreate from '../screens/Bracelet/BraceletCreate/BraceletCreate';
 import BraceletList from '../screens/Bracelet/BraceletList/BraceletList';
 import UpdateBracelet from '../screens/Bracelet/BraceletUpdate/BraceletUpdate';
-import BraceletProfile from 'screens/Bracelet/BraceletProfile/BraceletProfile';
+import BraceletProfile from '../screens/Bracelet/BraceletProfile/BraceletProfile';
 // Fence
 import FenceCreate from '../screens/Fence/FenceCreate/FenceCreate';
 import FenceList from "../screens/Fence/FenceList/FenceList"
 import UpdateFence from '../screens/Fence/FenceUpdate/FenceUpdate';
-import FenceProfile from 'screens/Fence/FenceProfile/FenceProfile';
+import FenceProfile from '../screens/Fence/FenceProfile/FenceProfile';
 
 
 function AppRoutes(){
@@ -51,7 +51,7 @@ function AppRoutes(){
             <AuthenticatedRoute path={"/bracelet/:id"} exact >
                 <HomePage />
             </AuthenticatedRoute>
-            <AuthenticatedRoute path={"/braceletProfile"} exact >
+            <AuthenticatedRoute path={"/braceletProfile/:id"} exact >
                 <BraceletProfile />
             </AuthenticatedRoute>
 
@@ -72,7 +72,7 @@ function AppRoutes(){
                 <HomePage />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path={"/fenceProfile"} exact >
+            <AuthenticatedRoute path={"/fenceProfile/:id"} exact >
                 <FenceProfile />
             </AuthenticatedRoute>
 

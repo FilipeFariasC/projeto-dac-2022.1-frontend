@@ -4,12 +4,15 @@ import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
 import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
+import { withRouter } from 'react-router';
+import { Modal, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+//import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
 
 var latitude = 0;
 var longitude = 0;
 
-export default class FenceProfile extends Component {
+class FenceProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -50,6 +53,13 @@ export default class FenceProfile extends Component {
             });
 
 
+    }
+
+    closeModal = () => {
+        this.setState({ show: false });
+    }
+    showModal = () => {
+        this.setState({ show: true });
     }
 
     render() {
@@ -103,8 +113,8 @@ export default class FenceProfile extends Component {
                                         Localização:
                                     </td>
                                     <td>
-                                        {this.state.fence.localizacao}
-
+                                        <button type="button" className="btn btn-info"
+                                            onClick={this.showModal}>Mostrar Localização</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -174,6 +184,13 @@ export default class FenceProfile extends Component {
         );
     }
 }
+
+export default withRouter(FenceProfile);
+
+
+
+
+
 
 const google = window.google;
 function GoogleMap(props) {

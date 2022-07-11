@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import GoBack from "components/GoBack";
 //import UserApiService from "../../services/serviceSpecific/UserApiService";
 import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
@@ -9,24 +9,27 @@ import BraceletApiService from "../../../services/serviceSpecific/BraceletApiSer
 import ListMin from "../../../components/ListMin";
 
 
-export default class BraceletProfile extends Component {
+class BraceletProfile extends Component {
 
     constructor(props) {
         super(props);
         this.serviceBracelet = new BraceletApiService();
         this.state = {
             bracelet: {
+                id: 0,
                 name: '',  
                 fences:[]
             },
         }
     }
-    /* recebe um id de uma bracelet selecionada;*/
+
     async componentDidMount() {
-        await this.serviceBracelet.findById(1).then(response => {
+        await this.serviceBracelet.findById(this.props.match.params.id)
+        .then(response => {
             this.setState({
                 bracelet: response.data
             })
+            console.log(response.data);
         });
     }
 
@@ -46,7 +49,7 @@ export default class BraceletProfile extends Component {
                         }
                     }
                 >
-                    <Card className="fence-profile" title="Perfil da Pulseira">
+                    <Card className="fence-profile" title="Detalhes da Pulseira">
                         <table className="table table-primary table-hover user-info"
                             style={
                                 {
@@ -112,4 +115,4 @@ export default class BraceletProfile extends Component {
     }
 }
 
-
+export default withRouter(BraceletProfile);
