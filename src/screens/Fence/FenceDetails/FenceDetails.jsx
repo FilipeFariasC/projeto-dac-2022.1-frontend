@@ -172,7 +172,7 @@ class FenceProfile extends Component {
                                 <h4>Pulseiras</h4>
                                 <ListMin
                                     data={this.state.fence.bracelets}
-                                    entity="Puseiras"
+                                    entity="Pulseiras"
                                     list="/bracelets"
                                 />
                             </div>

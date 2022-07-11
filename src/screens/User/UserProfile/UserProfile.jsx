@@ -133,7 +133,7 @@ export default class UserProfile extends Component {
                                 <ListMin 
                                     data={this.state.bracelets} 
                                     entity="Pulseiras" 
-                                    
+                                    context='list'
                                     list="/bracelets" 
                                 />
                             </div>
@@ -143,6 +143,7 @@ export default class UserProfile extends Component {
                                     data={this.state.fences} 
                                     entity="Cercas" 
                                     list="/fences"
+                                    context='list'
                                 />
                             </div>
                         </div>

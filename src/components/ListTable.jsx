@@ -21,7 +21,7 @@ export class ListTable extends Component {
                                 display: "flex",
                             }
                         }>
-                        <Link className="btn btn-secondary" to={`/${this.props.entity}s/update/${element.id}`}>Editar</Link>
+                        <Link className="btn btn-secondary" to={`/${this.props.entity}/update/${element.id}`}>Editar</Link>
                         <a type="button" className="btn btn-danger" href="#">Excluir</a>
                     </div>
                 </td>

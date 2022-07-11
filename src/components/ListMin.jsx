@@ -27,7 +27,11 @@ export class ListMin extends Component {
                             whiteSpace: "nowrap"
                         }
                     }
-                >{row.name}</strong>
+                >
+                    <Link className="text-reset text-decoration-none" to={`${this.props.list}/${row.id}`}>
+                        {row.name}
+                    </Link>
+                </strong>
                 <Link className="btn btn-primary" to={`${this.props.list}/update/${row.id}`}>
                     Editar
                 </Link>

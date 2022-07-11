@@ -49,7 +49,7 @@ class BraceletProfile extends Component {
                         }
                     }
                 >
-                    <Card className="fence-profile" title="Detalhes da Pulseira">
+                    <Card className="bracelet-profile" title="Detalhes da Pulseira">
                         <table className="table table-primary table-hover user-info"
                             style={
                                 {

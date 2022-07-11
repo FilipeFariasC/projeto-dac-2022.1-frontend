@@ -42,16 +42,13 @@ function AppRoutes(){
             <AuthenticatedRoute path={["/createBracelet", "/bracelets/create"]} exact >
                 <BraceletCreate />
             </AuthenticatedRoute>
-            <AuthenticatedRoute path={["/updateBracelet/:id", "/bracelets/update/:id"]} exact >
+            <AuthenticatedRoute path={["/updateBracelet/:id(\\d+)", "/bracelets/update/:id(\\d+)"]} exact >
                 <UpdateBracelet />
             </AuthenticatedRoute>
             <AuthenticatedRoute path={"/bracelets"} exact >
                 <BraceletList />
             </AuthenticatedRoute>
-            <AuthenticatedRoute path={"/bracelet/:id"} exact >
-                <HomePage />
-            </AuthenticatedRoute>
-            <AuthenticatedRoute path={"/braceletDetails/:id"} exact >
+            <AuthenticatedRoute path={"/bracelets/:id(\\d+)"} exact >
                 <BraceletDetails />
             </AuthenticatedRoute>
 
@@ -60,7 +57,7 @@ function AppRoutes(){
                 <FenceCreate />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path={["/updateFence/:id", "/fences/update/:id"]} exact >
+            <AuthenticatedRoute path={["/updateFence/:id(\\d+)", "/fences/update/:id(\\d+)"]} exact >
                 <UpdateFence />
             </AuthenticatedRoute>
 
@@ -68,11 +65,7 @@ function AppRoutes(){
                 <FenceList />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path={"/fence/:id"} exact >
-                <HomePage />
-            </AuthenticatedRoute>
-
-            <AuthenticatedRoute path={"/fenceDetails/:id"} exact >
+            <AuthenticatedRoute path={"/fences/:id(\\d+)"} exact >
                 <FenceDetails />
             </AuthenticatedRoute>
 
