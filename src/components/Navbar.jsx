@@ -7,7 +7,7 @@ import { LoginService } from "services/LoginService";
 import { withRouter } from "react-router-dom";
 
 
-function Navbar(props) {
+function Navbar() {
     const loginService = new LoginService();
     const history = useHistory();
 
@@ -54,7 +54,7 @@ function Navbar(props) {
                                 <>
                                     <Link className="dropdown-item" to="/profile"> Perfil </Link>
                                     <NavDropdown.Divider />
-                                    <button className="dropdown-item" onClick={(event)=>{
+                                    <button className="dropdown-item" onClick={()=>{
                                         loginService.logout();
                                         history.push("/login");
                                     }}>

@@ -11,7 +11,9 @@ export class ListTable extends Component {
     createRow(element){
         return(
             <tr key={element.id}>
-                <td>{element.name}</td>
+                <td>
+                    <Link className="text-reset text-decoration-none" to={`/${this.props.entity}/${element.id}`}>{element.name}</Link>
+                </td>
                 <td>
                     <div className="btn-group" role="group" aria-label="Basic example"
                         style={
@@ -19,7 +21,7 @@ export class ListTable extends Component {
                                 display: "flex",
                             }
                         }>
-                        <Link className="btn btn-secondary" to={`/${this.props.entity}/update/${element.id}`}>Editar</Link>
+                        <Link className="btn btn-secondary" to={`/${this.props.entity}s/update/${element.id}`}>Editar</Link>
                         <a type="button" className="btn btn-danger" href="#">Excluir</a>
                     </div>
                 </td>
