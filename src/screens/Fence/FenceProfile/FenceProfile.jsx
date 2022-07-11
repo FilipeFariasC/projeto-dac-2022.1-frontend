@@ -39,8 +39,7 @@ class FenceProfile extends Component {
             status: ''
         }
     }
-    /*recebe um id de uma fence selecionada;
-     não há uma relação entre fence e bracelet;
+    /*não há uma relação entre fence e bracelet;
      mostrar as bracelets cadastradas na fence,
      colocar a localização do google map */
     async componentDidMount() {
@@ -78,7 +77,7 @@ class FenceProfile extends Component {
                         }
                     }
                 >
-                    <Card className="fence-profile" title="Perfil da Cerca">
+                    <Card className="fence-profile" title="Detalhes da Cerca">
                         <table className="table table-primary table-hover user-info"
                             style={
                                 {
