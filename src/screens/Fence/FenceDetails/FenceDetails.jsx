@@ -5,6 +5,7 @@ import Card from "../../../components/Card";
 import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
+import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
@@ -12,7 +13,7 @@ import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 var latitude = 0;
 var longitude = 0;
 
-class FenceProfile extends Component {
+class FenceDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -158,6 +159,8 @@ class FenceProfile extends Component {
                             }
                         >
                             <GoBack />
+                            <Link to={`/updateFence/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
+
                         </div>
                     </Card>
                     <Card title="Pulseiras">
@@ -184,7 +187,7 @@ class FenceProfile extends Component {
     }
 }
 
-export default withRouter(FenceProfile);
+export default withRouter(FenceDetails);
 
 
 
@@ -286,5 +289,3 @@ function Map(props) {
         </div>
     )
 }
-
-
