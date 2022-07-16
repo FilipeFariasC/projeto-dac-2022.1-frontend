@@ -84,11 +84,12 @@ class BraceletProfile extends Component {
                         <div className="flex"
                             style={
                                 {
-                                    justifyContent: "flex-end"
+                                    justifyContent: "space-between"
                                 }
                             }
                         >
                             <GoBack/>
+                            <Link to={`/updateBracelet/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
                         </div>
                     </Card>
                     <Card title="Cercas">

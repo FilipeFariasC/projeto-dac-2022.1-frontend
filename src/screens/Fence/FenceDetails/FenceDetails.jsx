@@ -154,7 +154,7 @@ class FenceDetails extends Component {
                         <div className="flex"
                             style={
                                 {
-                                    justifyContent: "flex-end"
+                                    justifyContent: "space-between"
                                 }
                             }
                         >
@@ -179,6 +179,25 @@ class FenceDetails extends Component {
                                     list="/bracelets"
                                 />
                             </div>
+                        </div>
+                    </Card>
+                </div>
+                <div className="container container-fluid flex profile-wrapper"
+                    tyle={
+                        {
+                            width: "100%",
+                            paddingBlock: "2.5rem",
+                            alignItems: "flex-start",
+                            flexGrow: "1",
+                            flexBasis: "1",
+                            flexShrink: "0"
+                        }
+                    }
+                >
+                    <Card title="Localização no mapa">
+                        <div id="map">
+
+                            
                         </div>
                     </Card>
                 </div>
@@ -281,8 +300,8 @@ function Map(props) {
         <div ref={ref} id="map"
             style={
                 {
-                    width: "100%",
-                    height: "100%"
+                    width: "30%",
+                    height: "30%"
                 }
             }
         >
