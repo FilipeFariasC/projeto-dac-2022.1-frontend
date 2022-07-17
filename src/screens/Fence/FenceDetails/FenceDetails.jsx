@@ -195,9 +195,16 @@ class FenceDetails extends Component {
                     }
                 >
                     <Card title="Localização no mapa">
-                        <div id="map">
-
-                            
+                        <div>
+                            <GoogleMap coordinates={
+                                this.state.fence.coordinate.latitude !== null && this.state.fence.coordinate.longitude !== null ?
+                                    {
+                                        latitude: this.state.fence.coordinate.latitude,
+                                        longitude: this.state.fence.coordinate.longitude
+                                    }
+                                    :
+                                    null
+                            } name={this.state.name} radius={this.state.radius} />
                         </div>
                     </Card>
                 </div>
@@ -300,8 +307,8 @@ function Map(props) {
         <div ref={ref} id="map"
             style={
                 {
-                    width: "30%",
-                    height: "30%"
+                    width: "60%",
+                    height: "50%"
                 }
             }
         >
