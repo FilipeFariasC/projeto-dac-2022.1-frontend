@@ -31,7 +31,6 @@ class FenceList extends Component {
             const fences = response.data.content;
             this.setState({ fences });
         }).catch(error => {
-            console.log(error.response);
         });
     }
 
@@ -45,7 +44,6 @@ class FenceList extends Component {
             const bracelets = response.data;
             this.setState({ bracelets });
         }).catch(error => {
-            console.log(error.response);
         });
         
     }

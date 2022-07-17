@@ -1,5 +1,5 @@
-const { Component } = require("react");
-const { Link, withRouter } = require("react-router-dom");
+import { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 
 
 export class ListMin extends Component {
@@ -49,20 +49,7 @@ export class ListMin extends Component {
     dataList() {
         return this.props.data.map(element => this.createRow(element));
     }
-
-    Delete = (props) => {
-        //this.props.deletedeleteBracelet(id)
-        props.delete(this.props.match.params.id)
-            .then(response => {
-                console.log(response);
-            }
-            ).catch(error => {
-                console.log(error.response);
-            }
-            );
-    }
-
-
+    
     render() {
         if (this.props.data.length === 0) {
             return (

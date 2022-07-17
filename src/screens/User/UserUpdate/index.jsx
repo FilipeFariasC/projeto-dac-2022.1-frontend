@@ -29,7 +29,6 @@ class UserUpdate extends React.Component {
                 email: user.email
             });
         }).catch(error => {
-            console.log(error);
         })
     }
 

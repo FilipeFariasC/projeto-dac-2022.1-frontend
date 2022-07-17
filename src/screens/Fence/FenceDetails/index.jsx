@@ -52,13 +52,10 @@ class FenceDetails extends Component {
                     fence: response.data,
                     found: true
                 })
-                console.log(response.data);
             })
             .catch(()=>{
                 this.setState({found: false});
             });
-
-
     }
 
     closeModal = () => {

@@ -30,7 +30,6 @@ class BraceletList extends React.Component {
             const bracelets = response.data.content;
             this.setState({ bracelets });
         }).catch(error => {
-            console.log(error.response);
         });
     }
 
@@ -44,7 +43,6 @@ class BraceletList extends React.Component {
             const bracelets = response.data;
             this.setState({ bracelets });
         }).catch(error => {
-            console.log(error.response);
         });
         
     }
@@ -52,7 +50,6 @@ class BraceletList extends React.Component {
     delete = (id) => {
         this.service.delete(id)
         .catch(error => {
-            console.log(error.response);
         })
     }
 

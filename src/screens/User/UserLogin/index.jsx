@@ -34,26 +34,8 @@ class UserLogin extends React.Component {
             showSuccessMessage('', 'Login realizado com sucesso!');
             this.props.history.push('/profile');
         }).catch(error => {
-            console.log(error);
             showErrorMessage('', 'Email ou senha incorretos!');
         });
-        /*
-        await axios.post('http://localhost:8080/api/login',
-            {
-                username: this.state.email,
-                password: this.state.password
-            }
-        ).then(response => {
-            localStorage.setItem('jwt_token', response.data.response);
-            showSuccessMessage('', 'Login realizado com sucesso!');
-            this.props.history.push('/profile');
-            // window.location.reload();
-        }
-        ).catch(error => {
-            console.log(error);
-            showErrorMessage('', 'Email ou senha incorretos!');
-        });
-        */
     }
 
     render() {

@@ -17,6 +17,8 @@ import FenceCreate from '../screens/Fence/FenceCreate';
 import FenceList from "../screens/Fence/FenceList"
 import UpdateFence from '../screens/Fence/FenceUpdate';
 import FenceDetails from '../screens/Fence/FenceDetails';
+import FenceBraceletRegister from '../screens/Fence/FenceBraceletRegister';
+
 import PaginaNaoEncontrada from "../components/PaginaNaoEncontrada"
 
 
@@ -68,6 +70,10 @@ function AppRoutes(){
 
                 <AuthenticatedRoute path={"/fences/:id(\\d+)"} exact >
                     <FenceDetails />
+                </AuthenticatedRoute>
+
+                <AuthenticatedRoute path={"/fences/:id(\\d+)/bracelets"} exact >
+                    <FenceBraceletRegister />
                 </AuthenticatedRoute>
 
 

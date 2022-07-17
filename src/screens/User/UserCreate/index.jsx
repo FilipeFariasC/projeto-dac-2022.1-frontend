@@ -31,7 +31,6 @@ class UserCreate extends React.Component {
             this.props.history.push('/login');
         }
         ).catch(error => {
-            console.log(error);
             const data = error.response.data;
             if(data.errors){
                 data.errors?.forEach(responseError => {

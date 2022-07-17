@@ -32,7 +32,6 @@ class BraceletProfile extends Component {
                 bracelet: response.data,
                 found: true
             })
-            console.log(response.data);
         })
         .catch(()=>{
             this.setState({
