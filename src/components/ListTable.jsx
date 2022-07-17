@@ -22,7 +22,7 @@ export class ListTable extends Component {
                             }
                         }>
                         <Link className="btn btn-secondary" to={`/${this.props.entity}/update/${element.id}`}>Editar</Link>
-                        <a type="button" className="btn btn-danger" href="#">Excluir</a>
+                        <button className="btn btn-danger" onClick={()=> this.props.delete(element.id)}>Excluir</button>
                     </div>
                 </td>
             </tr>

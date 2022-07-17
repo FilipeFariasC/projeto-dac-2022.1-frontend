@@ -3,33 +3,34 @@ import {Buffer} from 'buffer';
 import {  showWarningMessage } from 'components/Toastr';
 
 export class LoginService {
-
     #httpClient = axios.create({
         baseURL: "http://localhost:8080/api/",
         headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Methods": "*",
             "Content-Type": "application/json",
         },
     });
 
-    login(userDetails) {
-      return this.#httpClient
-          .post("/login", userDetails)
-          .then((response) => {
-              localStorage.setItem("jwt_token", response.data.response);
-          });
+    #token_key = "token";
+
+    async login(userDetails) {
+        return await this.#httpClient
+            .post("/login", userDetails)
+            .then((response) => {
+                localStorage.setItem(this.#token_key, response.data.token);
+            });
     }
-    logout(){
-      localStorage.removeItem("jwt_token");
+    logout() {
+        localStorage.removeItem(this.#token_key);
     }
 
     #parseJwt(token) {
-        var base64Url = token.split(".")[1];
+        const base64Url = token.split(".")[1];
 
-        var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
 
-        var jsonPayload = decodeURIComponent(
+        const jsonPayload = decodeURIComponent(
             Buffer.from(base64, "base64")
                 .toString("binary")
                 .split("")
@@ -44,15 +45,27 @@ export class LoginService {
         return JSON.parse(jsonPayload);
     }
 
-    getJwtToken() {
-        var token = localStorage.getItem("jwt_token");
-        if (token) {
-            var loginInfo = this.#parseJwt(token);
+    async isValidToken() {
+        this.#httpClient.post("/isValidToken", 
+            {
+                token:localStorage.getItem(this.#token_key)
+            }
+        ).then(()=>{
+            return true;
+        }).catch(()=>{
+            return false;
+        })
+    }
 
-            if (loginInfo.exp * 1e3 > new Date().getTime()) {
+    getJwtToken() {
+        const token = localStorage.getItem(this.#token_key);
+        this.isValidToken();
+        if (token) {
+
+            if(this.isValidToken()){
                 return token;
             }
-            localStorage.removeItem("jwt_token");
+            localStorage.removeItem(this.#token_key);
             showWarningMessage("Sua sessão expirou.", "Faça login novamente.", {
                 timeOut: "15000",
             });
@@ -61,65 +74,18 @@ export class LoginService {
         return null;
     }
 
-    isAuthenticated(){
+    isAuthenticated() {
         var token = this.getJwtToken();
-        if(token){
+        if (token) {
             return true;
         }
         return false;
     }
 
-    getExpirationDate(jwtToken){
-        return new Date(jwtToken.exp * 1e3).toLocaleString("pt-BR", {timeZone: "America/Recife"})
-    }
-}
-
-/*
-function parseJwt (token) {
-    var base64Url = token.split(".")[1];
-
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-
-    var jsonPayload = decodeURIComponent(
-        Buffer.from(base64,'base64')
-        .toString("binary")
-        .split("")
-        .map((c) => {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join("")
-    );
-
-    return JSON.parse(jsonPayload);
-};
-
-export function getJwtToken(){
-    var token = localStorage.getItem("jwt_token");
-    if(token){
-        var loginInfo = parseJwt(token);
-        
-        if (loginInfo.exp * 1e3 > new Date().getTime()) {
-          return token;
-        }
-        localStorage.removeItem("jwt_token");
-        showWarningMessage("Sua sessão expirou.", "Faça login novamente.", {
-          timeOut: "15000",
+    getExpirationDate(jwtToken) {
+        return new Date(jwtToken.exp * 1e3).toLocaleString("pt-BR", {
+            timeZone: "America/Recife",
         });
-        return null;
     }
-    return null;
 }
 
-export function isAuthenticated(){
-    var token = getJwtToken();
-    if(token){
-        return true;
-    }
-    return false;
-}
-
-
-
-function getExpirationDate(jwtToken){
-    return new Date(jwtToken.exp * 1e3).toLocaleString("pt-BR", {timeZone: "America/Recife"})
-}
-*/

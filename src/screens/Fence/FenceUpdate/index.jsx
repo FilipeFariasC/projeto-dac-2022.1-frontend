@@ -10,6 +10,8 @@ import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
 import { switchValidation } from '../../../services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 import { isAfter,isEqual } from 'date-fns';
+import Navbar from '../../../components/Navbar';
+import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 
 var latitude = 0;
 var longitude = 0;
@@ -33,7 +35,8 @@ class FenceUpdate extends React.Component {
                 lng: 0
             },
             active: false,
-            show: false
+            show: false,
+            found: false
         }
     }
 
@@ -57,11 +60,13 @@ class FenceUpdate extends React.Component {
                     longitude: fence.coordinate.longitude
                 },
                 startTime: fence.startTime,
-                finishTime: fence.finishTime
+                finishTime: fence.finishTime,
+                found: true
             });
 
         }).catch(error => {
             console.log(error.response);
+            this.setState({found:false});
         })
     }
 
@@ -138,6 +143,13 @@ class FenceUpdate extends React.Component {
     }
 
     render() {
+        if(!this.state.found){
+            return <>
+                <Navbar />
+                <PaginaNaoEncontrada/>
+            </>;
+        }
+
         return (
             <>
                 <NavBar />

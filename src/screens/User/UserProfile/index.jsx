@@ -134,7 +134,8 @@ export default class UserProfile extends Component {
                                     data={this.state.bracelets} 
                                     entity="Pulseiras" 
                                     context='list'
-                                    list="/bracelets" 
+                                    list="/bracelets"
+                                    service={this.braceletService}
                                 />
                             </div>
                             <div className="fence-profile">
@@ -144,6 +145,7 @@ export default class UserProfile extends Component {
                                     entity="Cercas" 
                                     list="/fences"
                                     context='list'
+                                    service={this.fenceService}
                                 />
                             </div>
                         </div>

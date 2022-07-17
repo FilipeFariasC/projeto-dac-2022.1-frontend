@@ -7,6 +7,7 @@ import GoBack from "components/GoBack";
 import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
 //import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 import ListMin from "../../../components/ListMin";
+import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
 
 
 class BraceletProfile extends Component {
@@ -20,6 +21,7 @@ class BraceletProfile extends Component {
                 name: '',  
                 fences:[]
             },
+            found: false
         }
     }
 
@@ -27,13 +29,25 @@ class BraceletProfile extends Component {
         await this.serviceBracelet.findById(this.props.match.params.id)
         .then(response => {
             this.setState({
-                bracelet: response.data
+                bracelet: response.data,
+                found: true
             })
             console.log(response.data);
+        })
+        .catch(()=>{
+            this.setState({
+                found: false
+            })
         });
     }
 
     render() {
+        if(!this.state.found){
+            return <>
+                <Navbar />
+                <PaginaNaoEncontrada/>
+            </>;
+        }
         return (
             <>
                 <Navbar />

@@ -35,9 +35,15 @@ export class ListMin extends Component {
                 <Link className="btn btn-primary" to={`${this.props.list}/update/${row.id}`}>
                     Editar
                 </Link>
-                <a className="btn btn-danger" href="#" >
+                <button className="btn btn-danger" onClick={()=>
+                    {
+                        console.log(this.props.location.pathname);
+                        this.props.service.delete(row.id);
+                        this.props.history.push(`/refresh/${this.props.location.pathname.replace('/','')}`);
+                    } 
+                }>
                     Excluir
-                </a>
+                </button>
             </li>
         );
     }

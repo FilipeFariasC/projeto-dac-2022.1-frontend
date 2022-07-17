@@ -7,6 +7,7 @@ import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
 import { Modal, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
 
 var latitude = 0;
@@ -36,7 +37,8 @@ class FenceProfile extends Component {
                 },
                 show: false,
             },
-            status: ''
+            status: '',
+            found: false
         }
     }
     /*não há uma relação entre fence e bracelet;
@@ -47,8 +49,12 @@ class FenceProfile extends Component {
             .then(response => {
                 this.setState({
                     fence: response.data,
+                    found: true
                 })
                 console.log(response.data);
+            })
+            .catch(()=>{
+                this.setState({found: false});
             });
 
 
@@ -62,6 +68,12 @@ class FenceProfile extends Component {
     }
 
     render() {
+        if(!this.state.found){
+            return <>
+                <Navbar />
+                <PaginaNaoEncontrada/>
+            </>;
+        }
         return (
             <>
                 <Navbar />

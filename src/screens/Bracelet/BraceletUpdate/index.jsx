@@ -7,6 +7,8 @@ import GoBack from '../../../components/GoBack';
 import BraceletApiService from '../../../services/serviceSpecific/BraceletApiService';
 import { switchValidation } from '../../../services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
+import Navbar from '../../../components/Navbar';
+import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 
 class BraceletUpdate extends React.Component {
 
@@ -16,17 +18,21 @@ class BraceletUpdate extends React.Component {
         this.state = {
             bracelet:{
                 name: ''
-            }
+            },
+            found: false
         }
-
         this.service = new BraceletApiService();
     }
 
     async componentDidMount(){
         await this.service.findById(this.props.match.params.id)
         .then(response => {
-            this.setState({bracelet:{name: response.data.name}});
+            this.setState({
+                bracelet:{name: response.data.name},
+                found: true
+            });
         }).catch(error => {
+            this.setState({found:false});
             if(error.response.data){
                 error.response.data.errors.map(errorResponse => showErrorMessage('', errorResponse.messageUser));
             }
@@ -51,6 +57,13 @@ class BraceletUpdate extends React.Component {
     }
 
     render() {
+        if(!this.state.found){
+            return <>
+                <Navbar />
+                <PaginaNaoEncontrada/>
+            </>;
+        }
+
         return (
             <>
                 <NavBar />
