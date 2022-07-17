@@ -1,17 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import UserApiService from "../../../services/serviceSpecific/UserApiService";
 import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
-import ListMin from "../../../components/ListMin"
+import ListMin from "../../../components/ListMin";
 
 export default class UserProfile extends Component {
 
     constructor(props) {
         super(props);
-        this.userService= new UserApiService();
+        this.userService = new UserApiService();
         this.fenceService = new FenceApiService();
         this.braceletService = new BraceletApiService();
 
@@ -21,7 +21,7 @@ export default class UserProfile extends Component {
                 name: '',
                 email: ''
             },
-            fences:[],
+            fences: [],
             bracelets: []
         }
         this.params = {
@@ -33,31 +33,33 @@ export default class UserProfile extends Component {
 
     async componentDidMount() {
         await this.userService.find("user")
-        .then(response => {
-            this.setState({
-                user: response.data
-            })
-        });
+            .then(response => {
+                this.setState({
+                    user: response.data
+                })
+            });
         await this.fenceService.find(this.params)
-        .then(response => {
-            const fences = response.data.content;
-            this.setState({
-                fences
-            })
-        });
+            .then(response => {
+                const fences = response.data.content;
+                this.setState({
+                    fences
+                })
+            });
         await this.braceletService.find(this.params)
-        .then(response => {
-            const bracelets = response.data.content;
-            this.setState({
-                bracelets
-            })
-        });
+            .then(response => {
+                const bracelets = response.data.content;
+                this.setState({
+                    bracelets
+                })
+            }
+        );
     }
 
-    render(){
+
+    render() {
         return (
             <>
-                <Navbar/>
+                <Navbar />
                 <div className="container container-fluid flex profile-wrapper"
                     style={
                         {
@@ -130,9 +132,9 @@ export default class UserProfile extends Component {
                         >
                             <div className="bracelet-profile">
                                 <h4>Pulseiras</h4>
-                                <ListMin 
-                                    data={this.state.bracelets} 
-                                    entity="Pulseiras" 
+                                <ListMin
+                                    data={this.state.bracelets}
+                                    entity="Pulseiras"
                                     context='list'
                                     list="/bracelets"
                                     service={this.braceletService}
@@ -140,9 +142,9 @@ export default class UserProfile extends Component {
                             </div>
                             <div className="fence-profile">
                                 <h4>Cercas</h4>
-                                <ListMin 
-                                    data={this.state.fences} 
-                                    entity="Cercas" 
+                                <ListMin
+                                    data={this.state.fences}
+                                    entity="Cercas"
                                     list="/fences"
                                     context='list'
                                     service={this.fenceService}

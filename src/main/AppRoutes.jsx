@@ -93,7 +93,9 @@ function Refresh() {
     const history = useHistory();
     const {page} = useParams();
 
-    useEffect(() => history.push(`/${page}`), []);
+    useEffect(() => {
+        history.replace(`/${page}`);
+    }, []);
     return <></>;
 }
 

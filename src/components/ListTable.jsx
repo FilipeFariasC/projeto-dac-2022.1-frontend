@@ -1,15 +1,15 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import styles from "./ListTable.css"
 
-export class ListTable extends Component {
-    constructor(props){
+class ListTable extends Component {
+    constructor(props) {
         super(props);
         this.props = props;
     }
 
-    createRow(element){
-        return(
+    createRow(element) {
+        return (
             <tr key={element.id}>
                 <td>
                     <Link className="text-reset text-decoration-none" to={`/${this.props.entity}/${element.id}`}>{element.name}</Link>
@@ -22,7 +22,13 @@ export class ListTable extends Component {
                             }
                         }>
                         <Link className="btn btn-secondary" to={`/${this.props.entity}/update/${element.id}`}>Editar</Link>
-                        <button className="btn btn-danger" onClick={()=> this.props.delete(element.id)}>Excluir</button>
+                        <button className="btn btn-danger"
+                            onClick={e => {
+                                this.props.service.delete(element.id);
+                                this.props.history.push(`/refresh${this.props.location.pathname}`);
+                            }}>
+                            Excluir
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -51,3 +57,5 @@ export class ListTable extends Component {
     }
 
 }
+
+export default withRouter(ListTable);

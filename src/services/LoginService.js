@@ -46,46 +46,25 @@ export class LoginService {
     }
 
     async isValidToken() {
-        this.#httpClient.post("/isValidToken", 
-            {
-                token:localStorage.getItem(this.#token_key)
-            }
-        ).then(()=>{
-            return true;
-        }).catch(()=>{
-            return false;
-        })
+        return this.#httpClient
+            .post("/isValidToken", {
+                token: localStorage.getItem(this.#token_key),
+            })
+            .then((response) => {
+                return !!(response.data.valid);
+            })
+            .catch((error) => false);
     }
 
     getJwtToken() {
-        const token = localStorage.getItem(this.#token_key);
-        this.isValidToken();
-        if (token) {
-
-            if(this.isValidToken()){
-                return token;
-            }
-            localStorage.removeItem(this.#token_key);
-            showWarningMessage("Sua sessão expirou.", "Faça login novamente.", {
-                timeOut: "15000",
-            });
-            return null;
-        }
-        return null;
+        return localStorage.getItem(this.#token_key);
     }
 
-    isAuthenticated() {
-        var token = this.getJwtToken();
-        if (token) {
-            return true;
-        }
-        return false;
+    async isAuthenticated() {
+        if(this.getJwtToken() === null) return false;
+
+        return this.isValidToken();
     }
 
-    getExpirationDate(jwtToken) {
-        return new Date(jwtToken.exp * 1e3).toLocaleString("pt-BR", {
-            timeZone: "America/Recife",
-        });
-    }
 }
 

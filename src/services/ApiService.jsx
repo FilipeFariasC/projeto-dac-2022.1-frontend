@@ -8,13 +8,15 @@ export default class ApiService {
     constructor(endpoint) {
         this.endpoint = endpoint;
         this.loginService = new LoginService();
+        const token = this.loginService.getJwtToken();
+
         this.httpClient = axios.create(
             {
                 baseURL: 'http://localhost:8080/api/',
                 headers: {
-                    "Authorization": `Bearer ${this.loginService.getJwtToken()}`,
+                    "Authorization": `Bearer ${token}`,
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                    "Access-Control-Allow-Methods": "*",
                     "Content-Type": "application/json",
                 }
             }

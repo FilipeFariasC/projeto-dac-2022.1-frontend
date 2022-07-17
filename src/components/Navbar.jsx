@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {NavDropdown} from "react-bootstrap";
-import {Link, useHistory} from 'react-router-dom';
+import {Link, useHistory, withRouter} from 'react-router-dom';
 import NavItem from "./NavItem";
 import "./css/Navbar.css"
 import { LoginService } from "services/LoginService";
-import { withRouter } from "react-router-dom";
 
 
 function Navbar() {
     const loginService = new LoginService();
     const history = useHistory();
+    const [isAuthenticated,setAuthenticated] = useState(false);
 
+    useEffect(()=>{
+        const fetchData = async () => {
+            const authenticated = await loginService.isAuthenticated();
+            setAuthenticated(authenticated);
+        };
+        fetchData();
+    });
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -33,7 +40,7 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <NavItem href="/" label="Home" />
-                        {loginService.isAuthenticated() &&
+                        {isAuthenticated &&
                         <>
                             <NavDropdown title="Pulseiras" id="bracelet-options" >
                                 <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
@@ -48,7 +55,7 @@ function Navbar() {
                         }
 
                         <NavDropdown title="Opções" id="dropdown-options">
-                            {loginService.isAuthenticated() ?
+                            {isAuthenticated ?
                                 <>
                                     <Link className="dropdown-item" to="/profile"> Perfil </Link>
                                     <NavDropdown.Divider />

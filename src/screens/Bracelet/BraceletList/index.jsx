@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import { ListTable } from '../../../components/ListTable';
+import ListTable from '../../../components/ListTable';
 import NavBar from '../../../components/Navbar';
 import BraceletApiService from '../../../services/serviceSpecific/BraceletApiService';
 
@@ -110,7 +110,8 @@ class BraceletList extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <div className='bs-component'>
-                                                <ListTable entity="bracelets" data={this.state.bracelets}/>
+                                                <ListTable entity="bracelets" data={this.state.bracelets} 
+                                                service = {this.service}/>
                                             </div>
                                         </div>
                                     </div>

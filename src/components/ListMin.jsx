@@ -8,7 +8,7 @@ export class ListMin extends Component {
         super(props);
     }
 
-    createRow(row){
+    createRow(row) {
         return (
             <li key={row.id} className="list-group-item flex dataRowOptions"
                 style={
@@ -20,7 +20,7 @@ export class ListMin extends Component {
                     }
                 }
             >
-                <strong className="fenceName" 
+                <strong className="fenceName"
                     style={
                         {
                             fontSize: "0.75rem",
@@ -37,9 +37,8 @@ export class ListMin extends Component {
                 </Link>
                 <button className="btn btn-danger" onClick={()=>
                     {
-                        console.log(this.props.location.pathname);
                         this.props.service.delete(row.id);
-                        this.props.history.push(`/refresh/${this.props.location.pathname.replace('/','')}`);
+                        this.props.history.push(`/refresh${this.props.location.pathname}`);
                     } 
                 }>
                     Excluir
@@ -47,13 +46,26 @@ export class ListMin extends Component {
             </li>
         );
     }
-    dataList(){
+    dataList() {
         return this.props.data.map(element => this.createRow(element));
     }
 
-    render(){
-        if(this.props.data.length === 0){
-            return(
+    Delete = (props) => {
+        //this.props.deletedeleteBracelet(id)
+        props.delete(this.props.match.params.id)
+            .then(response => {
+                console.log(response);
+            }
+            ).catch(error => {
+                console.log(error.response);
+            }
+            );
+    }
+
+
+    render() {
+        if (this.props.data.length === 0) {
+            return (
                 <div className="flex">
                     <Link className="btn btn-primary" to={`${this.props.list}/create`}
                         style={

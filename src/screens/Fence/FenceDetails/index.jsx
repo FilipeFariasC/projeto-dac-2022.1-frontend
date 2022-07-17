@@ -5,6 +5,7 @@ import Card from "../../../components/Card";
 import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
+import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
@@ -13,7 +14,7 @@ import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 var latitude = 0;
 var longitude = 0;
 
-class FenceProfile extends Component {
+class FenceDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -165,11 +166,13 @@ class FenceProfile extends Component {
                         <div className="flex"
                             style={
                                 {
-                                    justifyContent: "flex-end"
+                                    justifyContent: "space-between"
                                 }
                             }
                         >
                             <GoBack />
+                            <Link to={`/updateFence/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
+
                         </div>
                     </Card>
                     <Card title="Pulseiras">
@@ -191,12 +194,38 @@ class FenceProfile extends Component {
                         </div>
                     </Card>
                 </div>
+                <div className="container container-fluid flex profile-wrapper"
+                    tyle={
+                        {
+                            width: "100%",
+                            paddingBlock: "2.5rem",
+                            alignItems: "flex-start",
+                            flexGrow: "1",
+                            flexBasis: "1",
+                            flexShrink: "0"
+                        }
+                    }
+                >
+                    <Card title="Localização no mapa">
+                        <div>
+                            <GoogleMap coordinates={
+                                this.state.fence.coordinate.latitude !== null && this.state.fence.coordinate.longitude !== null ?
+                                    {
+                                        latitude: this.state.fence.coordinate.latitude,
+                                        longitude: this.state.fence.coordinate.longitude
+                                    }
+                                    :
+                                    null
+                            } name={this.state.name} radius={this.state.radius} />
+                        </div>
+                    </Card>
+                </div>
             </>
         );
     }
 }
 
-export default withRouter(FenceProfile);
+export default withRouter(FenceDetails);
 
 
 
@@ -290,13 +319,11 @@ function Map(props) {
         <div ref={ref} id="map"
             style={
                 {
-                    width: "100%",
-                    height: "100%"
+                    width: "60%",
+                    height: "50%"
                 }
             }
         >
         </div>
     )
 }
-
-
