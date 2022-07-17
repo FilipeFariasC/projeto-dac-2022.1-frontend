@@ -41,6 +41,22 @@ npm install
 ```bash
 npm install --legacy-peer-deps
 ```
+#### Configurando o Google Maps:
+
+Esse projeto faz o uso da API do Google Maps, e por isso se faz necessário uma chave de acesso a essa API.
+**Para isso será necessário você informar a sua chave de acesso manualmente.**
+Na raiz do projeto, criei um arquivo com o nome " ***.env*** ".
+
+Dentro do arquivo ***.env***, insira o seguinte texto:
+
+```
+REACT_APP_GOOGLE_MAPS_API_KEY={CHAVE}
+```
+Substitua *{CHAVE}* pela sua chave de acesso.
+
+NÃO SABE COMO CONSEGUIR UMA CHAVE DE ACESSO? acesse esse [link](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=pt-br)(em inglês).
+
+#### Executando a aplicação
 
 Para a execução da aplicação, digite:
 
