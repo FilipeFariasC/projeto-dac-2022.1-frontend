@@ -102,7 +102,8 @@ class FenceList extends Component {
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <div className='bs-component'>
-                                                <ListTable entity="fences" data={this.state.fences}/>
+                                                <ListTable entity="fences" data={this.state.fences}
+                                                service = {this.service}/>
                                             </div>
                                         </div>
                                     </div>
