@@ -110,7 +110,8 @@ class BraceletList extends React.Component {
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <div className='bs-component'>
-                                                <ListTable entity="bracelets" data={this.state.bracelets}/>
+                                                <ListTable entity="bracelets" data={this.state.bracelets} 
+                                                service = {this.service}/>
                                             </div>
                                         </div>
                                     </div>

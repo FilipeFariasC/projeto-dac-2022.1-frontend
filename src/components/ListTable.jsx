@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import styles from "./ListTable.css"
 
 export class ListTable extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.props = props;
     }
 
-    createRow(element){
-        return(
+    createRow(element) {
+        return (
             <tr key={element.id}>
                 <td>
                     <Link className="text-reset text-decoration-none" to={`/${this.props.entity}/${element.id}`}>{element.name}</Link>
@@ -22,7 +22,10 @@ export class ListTable extends Component {
                             }
                         }>
                         <Link className="btn btn-secondary" to={`/${this.props.entity}/update/${element.id}`}>Editar</Link>
-                        <a type="button" className="btn btn-danger" href="#">Excluir</a>
+                        <button className="btn btn-danger"
+                            onClick={e => this.props.service.delete(`${element.id}`)}>
+                            Excluir
+                        </button>
                     </div>
                 </td>
             </tr>
