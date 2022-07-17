@@ -5,7 +5,10 @@ import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
 
 import FenceApiService from "services/serviceSpecific/FenceApiService";
 import BraceletApiService from "services/serviceSpecific/BraceletApiService";
+import FenceBraceletApiService from "services/serviceSpecific/FenceBraceletApiService";
 
+import {showErrorMessage} from  "components/Toastr";
+import InputGroup from "components/InputGroup";
 import Card from "components/Card";
 import {Container} from "components/Container"
 import { Link } from "react-router-dom";
@@ -16,6 +19,7 @@ class FenceBraceletRegister extends Component {
         super(props);
         this.fenceService = new FenceApiService();
         this.braceletService = new BraceletApiService();
+        this.fenceBraceletService = new FenceBraceletApiService();
         this.state = {
             found: false,
             fence: {},
@@ -32,6 +36,8 @@ class FenceBraceletRegister extends Component {
                     fence,
                     found: true
                 })
+                const bracelets = fence.bracelets.map(bracelet => bracelet.id);
+                this.setState({selected: bracelets});
             })
             .catch(()=>{
                 this.setState({found: false});
@@ -43,38 +49,63 @@ class FenceBraceletRegister extends Component {
         }).then(response => {
             const bracelets = response.data.content;
             this.setState({
-                bracelets,
-                found: true
+                bracelets
             })
         }).catch(()=>{
             this.setState({found: false});
         });
     }
 
-    changeStateSelected(bracelet) {
-        console.log(this.state.selected);
-        if(this.state.selected.includes(bracelet)){
-            console.log("CONTÉM");
-            const index = this.state.selected.indexOf(bracelet);
+    async changeStateSelected(bracelet) {
+        if(this.state.selected.includes(bracelet.id)){
+            const index = this.state.selected.indexOf(bracelet.id);
             this.state.selected.splice(index, 1);
             this.setState({selected: this.state.selected})
+            await this.fenceBraceletService.delete(
+            {
+                params: {
+                    fence: this.state.fence.id,
+                    bracelet: bracelet.id
+                }
+            }).catch((error)=>{
+                showErrorMessage('',error);
+            });
         } else {
-            console.log(bracelet);
-            this.state.selected.push(bracelet);
+            this.state.selected.push(bracelet.id);
             this.setState({selected: this.state.selected});
+            await this.fenceBraceletService.save(
+            {
+                params: {
+                    fence: this.state.fence.id,
+                    bracelet: bracelet.id
+                }
+            }).catch((error)=>{
+                showErrorMessage('',error);
+            });
         }
     }
     createBraceletRow(bracelet) {
         return (
-            <div key={bracelet.id}>
+            <div key={bracelet.id}
+                style={
+                    {
+                        display: "flex",
+                        gap: "1rem"
+                    }
+                }
+                className="form-check form-switch"
+            >
                 <input key={bracelet.id}
-                    id={`bracelet-${bracelet.id}`}
-                    name={`bracelet-${bracelet.id}`}
-                    type="checkbox"
-                    onChange={(event)=>this.changeStateSelected(bracelet)}
-                    value={bracelet}
-                    label={bracelet.name}
-                    />
+                id={`bracelet-${bracelet.id}`}
+                checked={this.state.selected.includes(bracelet.id)}
+                name={`bracelet-${bracelet.id}`}
+                type="checkbox"
+                onChange={(event)=>this.changeStateSelected(bracelet)}
+                value={bracelet.id}
+                label={bracelet.name}
+                role="switch"
+                className="form-check-input"
+                />
                 <label htmlFor={`bracelet-${bracelet.id}`}><Link className="text-decoration-none text-reset" to={`/bracelets/${bracelet.id}`}>{bracelet.name}</Link></label>
             </div>
         );
@@ -90,10 +121,16 @@ class FenceBraceletRegister extends Component {
                 </>
             );
         }
+
         return (
             <>
                 <Navbar/>
-                <Container>
+                <Container style={
+                    {
+                        marginBlock: "2.5rem",
+                        width: "25%"
+                    }
+                }>
                     <Card title={this.state.fence.name}>
                         {this.state.bracelets.map(bracelet=>this.createBraceletRow(bracelet))}
                     </Card>

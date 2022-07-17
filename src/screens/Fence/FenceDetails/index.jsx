@@ -168,8 +168,8 @@ class FenceDetails extends Component {
                             }
                         >
                             <GoBack />
-                            <Link to={`/updateFence/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
-
+                            <Link to={`/fences/update/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
+                            <Link to={`${this.props.location.pathname}/bracelets`} className="btn btn-info"> Pulseiras </Link>
                         </div>
                     </Card>
                     <Card title="Pulseiras">

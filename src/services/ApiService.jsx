@@ -23,28 +23,28 @@ export default class ApiService {
         );
     }
 
-    post(url, params) {
+    post(url, body, config) {
         url = this.builUrl(url);
-        return this.httpClient.post(url, params);
+        return this.httpClient.post(url, body, config);
     }
 
-    put(url, params) {
+    put(url, body, config) {
         url = this.builUrl(url);
-        return this.httpClient.put(url, params);
+        return this.httpClient.put(url, body, config);
     }
-    patch(url, params) {
+    patch(url, body, config) {
         url = this.builUrl(url);
-        return this.httpClient.patch(url, params);
-    }
-
-    delete(url) {
-        url = this.builUrl(url);
-        return this.httpClient.delete(url);
+        return this.httpClient.patch(url, body, config);
     }
 
-    get(url, config) {
+    delete(url, config) {
         url = this.builUrl(url);
-        return this.httpClient.get(url, config);
+        return this.httpClient.delete(url, config);
+    }
+
+    get(url, body, config) {
+        url = this.builUrl(url);
+        return this.httpClient.get(url, body, config);
     }
 
     builUrl(url) {
