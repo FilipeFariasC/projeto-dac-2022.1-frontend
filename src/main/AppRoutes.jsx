@@ -3,21 +3,27 @@ import { BrowserRouter, Route, Switch, useHistory, useParams } from 'react-route
 import HomePage from '../screens/HomePage';
 import AuthenticatedRoute from './AuthenticatedRoute';
 // User
-import CreateUser from '../screens/User/UserCreate';
-import UpdateUser from '../screens/User/UserUpdate';
-import UserLogin from '../screens/User/UserLogin';
-import UserProfile from '../screens/User/UserProfile';
+import {
+    UserCreate,
+    UserUpdate,
+    UserLogin,
+    UserProfile
+} from '../screens/User';
 // Bracelet
-import BraceletCreate from '../screens/Bracelet/BraceletCreate';
-import BraceletList from '../screens/Bracelet/BraceletList';
-import UpdateBracelet from '../screens/Bracelet/BraceletUpdate';
-import BraceletDetails from '../screens/Bracelet/BraceletDetails';
+import {
+    BraceletCreate,
+    BraceletList,
+    BraceletUpdate,
+    BraceletDetails
+} from '../screens/Bracelet';
 // Fence
-import FenceCreate from '../screens/Fence/FenceCreate';
-import FenceList from "../screens/Fence/FenceList"
-import UpdateFence from '../screens/Fence/FenceUpdate';
-import FenceDetails from '../screens/Fence/FenceDetails';
-import FenceBraceletRegister from '../screens/Fence/FenceBraceletRegister';
+import {
+    FenceBraceletRegister,
+    FenceCreate,
+    FenceDetails,
+    FenceList,
+    FenceUpdate
+} from "../screens/Fence";
 
 import PaginaNaoEncontrada from "../components/PaginaNaoEncontrada"
 
@@ -30,7 +36,7 @@ function AppRoutes(){
                     <HomePage/>
                 </Route>
                 <Route path={["/signIn","/createUser", "/users/create"]} exact >
-                    <CreateUser />
+                    <UserCreate />
                 </Route>
                 <Route path={"/login"} exact >
                     <UserLogin />
@@ -39,14 +45,14 @@ function AppRoutes(){
                     <UserProfile />
                 </AuthenticatedRoute>
                 <AuthenticatedRoute path={["/updateUser", "/users/update"]} exact >
-                    <UpdateUser />
+                    <UserUpdate />
                 </AuthenticatedRoute>
 
                 <AuthenticatedRoute path={["/createBracelet", "/bracelets/create"]} exact >
                     <BraceletCreate />
                 </AuthenticatedRoute>
                 <AuthenticatedRoute path={["/updateBracelet/:id(\\d+)", "/bracelets/update/:id(\\d+)"]} exact >
-                    <UpdateBracelet />
+                    <BraceletUpdate />
                 </AuthenticatedRoute>
                 <AuthenticatedRoute path={"/bracelets"} exact >
                     <BraceletList />
@@ -61,7 +67,7 @@ function AppRoutes(){
                 </AuthenticatedRoute>
 
                 <AuthenticatedRoute path={["/updateFence/:id(\\d+)", "/fences/update/:id(\\d+)"]} exact >
-                    <UpdateFence />
+                    <FenceUpdate />
                 </AuthenticatedRoute>
 
                 <AuthenticatedRoute path={"/fences"} exact >
@@ -101,7 +107,7 @@ function Refresh() {
 
     useEffect(() => {
         history.replace(`/${page}`);
-    }, []);
+    }, [history, page]);
     return <></>;
 }
 

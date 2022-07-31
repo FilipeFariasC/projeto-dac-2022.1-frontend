@@ -20,7 +20,7 @@ function Navbar() {
     });
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-dark bg-primary">
                 <div className="container container-fluid">
                     <Link className="navbar-brand" to="/">
                         ChilDFence
@@ -38,7 +38,7 @@ function Navbar() {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarColor01">
-                    <ul className="navbar-nav me-auto">
+                    <ul className="navbar-nav">
                         <NavItem href="/" label="Home" />
                         {isAuthenticated &&
                         <>

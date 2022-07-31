@@ -12,7 +12,7 @@ export default class ApiService {
 
         this.httpClient = axios.create(
             {
-                baseURL: 'http://localhost:8080/api/',
+                baseURL: `http://${process.env.REACT_APP_BACKEND_URL}:8080/api/`,
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Access-Control-Allow-Origin": "*",

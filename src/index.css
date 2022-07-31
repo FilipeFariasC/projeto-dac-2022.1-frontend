@@ -20,3 +20,32 @@ code {
 .flex:is(.profile-wrapper,.braceletRowOptions,.fenceRowOptions,.dataRowOptions) > *{
     width: 100%;
 }
+.navbar-collapse.collapse.show{
+    background-color: #78C2AD;
+    border-radius: 0.25rem;
+}
+.nav-link,
+.nav-item {
+    padding-inline: 2.5rem;
+}
+.nav-item:hover {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+}
+
+@media screen and (min-width: 575px) {
+    .nav-link,
+    .nav-item {
+        padding-inline: 0;
+    }
+    .nav-item:hover {
+        box-shadow: unset;
+    }
+    .navbar-collapse.collapse.show{
+        background-color: #78C2AD;
+        border-radius: 0;
+        padding-inline: 0;
+    }
+    .navbar-collapse.collapse.show .navbar-nav{
+        width: 100%;
+    }
+}

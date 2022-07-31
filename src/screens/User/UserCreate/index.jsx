@@ -20,7 +20,7 @@ class UserCreate extends React.Component {
     }
 
     create = async () => {
-        await axios.post('http://localhost:8080/api/users',
+        await axios.post(`http://${process.env.REACT_APP_BACKEND_URL}:8080/api/users`,
             {
                 name: this.state.name,
                 email: this.state.email,
@@ -68,7 +68,7 @@ class UserCreate extends React.Component {
                                                     }>
                                                     <fieldset>
                                                         <FormGroup label='Nome' htmlFor='name'>
-                                                            <input type='text' className='form-control' id='name'
+                                                            <input type='text' className='form-control' id='inputName'
                                                                 placeholder='Digite seu nome'
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                                 title="Nome tem entre 3 e 50 caracteres."
@@ -99,7 +99,7 @@ class UserCreate extends React.Component {
                                                                 } />
                                                         </FormGroup>
                                                         <FormGroup label='Senha:*' htmlFor='inputPassword'>
-                                                            <input type='password' className='form-control' id='inputPessword'
+                                                            <input type='password' className='form-control' id='inputPassword'
                                                                 placeholder='Digite a senha'
                                                                 value={this.state.password} 
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
