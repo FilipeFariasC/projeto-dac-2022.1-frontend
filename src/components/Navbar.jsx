@@ -3,7 +3,7 @@ import {NavDropdown} from "react-bootstrap";
 import {Link, useHistory, withRouter} from 'react-router-dom';
 import NavItem from "./NavItem";
 import "./css/Navbar.css"
-import { LoginService } from "services/LoginService";
+import { LoginService } from "services";
 
 
 function Navbar() {

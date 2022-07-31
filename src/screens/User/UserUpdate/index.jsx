@@ -4,8 +4,8 @@ import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
 import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import UserApiService from '../../../services/serviceSpecific/UserApiService';
-import { switchValidation } from '../../../services/ValidationService';
+import {UserApiService} from 'services';
+import { switchValidation } from 'services/ValidationService';
 import {showErrorMessage, showSuccessMessage} from "../../../components/Toastr";
 
 class UserUpdate extends React.Component {

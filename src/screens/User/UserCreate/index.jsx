@@ -5,7 +5,7 @@ import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
-import {switchValidation } from '../../../services/ValidationService';
+import {switchValidation } from 'services/ValidationService';
 import {showSuccessMessage, showErrorMessage} from '../../../components/Toastr';
 
 class UserCreate extends React.Component {

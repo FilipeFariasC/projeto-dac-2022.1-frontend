@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Buffer} from 'buffer';
-import {  showWarningMessage } from 'components/Toastr';
+import { showWarningMessage } from 'components/Toastr';
 
 export class LoginService {
     #httpClient = axios.create({
@@ -67,3 +67,4 @@ export class LoginService {
     }
 }
 
+export default LoginService;

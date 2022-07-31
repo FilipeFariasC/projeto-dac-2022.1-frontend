@@ -7,7 +7,7 @@ import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+import {FenceApiService} from "services";
 import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
 

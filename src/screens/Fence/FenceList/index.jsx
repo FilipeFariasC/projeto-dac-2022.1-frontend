@@ -4,7 +4,7 @@ import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
 import ListTable from '../../../components/ListTable';
 import NavBar from '../../../components/Navbar';
-import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
+import {FenceApiService} from 'services';
 
 class FenceList extends Component {
 

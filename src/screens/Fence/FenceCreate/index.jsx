@@ -7,9 +7,9 @@ import GoBack from '../../../components/GoBack';
 import {withRouter} from 'react-router-dom';
 import {Wrapper, Status } from "@googlemaps/react-wrapper";
 import {Modal, Button} from "react-bootstrap";
-import FenceApiService from '../../../services/serviceSpecific/FenceApiService';
+import {FenceApiService} from 'services';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
-import { switchValidation } from '../../../services/ValidationService';
+import { switchValidation } from 'services/ValidationService';
 import { isBefore, isAfter, isEqual } from 'date-fns';
 
 var latitude = 0;

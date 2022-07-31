@@ -3,9 +3,11 @@ import { Component } from "react";
 import Navbar from "components/Navbar";
 import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
 
-import FenceApiService from "services/serviceSpecific/FenceApiService";
-import BraceletApiService from "services/serviceSpecific/BraceletApiService";
-import FenceBraceletApiService from "services/serviceSpecific/FenceBraceletApiService";
+import {
+    FenceApiService,
+    BraceletApiService,
+    FenceBraceletApiService
+} from "services";
 
 import {showErrorMessage} from  "components/Toastr";
 import InputGroup from "components/InputGroup";

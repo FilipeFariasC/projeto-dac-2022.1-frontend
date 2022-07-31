@@ -1,4 +1,4 @@
-import ApiService from "../ApiService";
+import {ApiService} from "..";
 
 export default class UserApiService extends ApiService{
 
