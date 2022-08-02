@@ -228,6 +228,7 @@ class FenceCreate extends Component {
                                                         <div className="flex times">
                                                             <FormGroup label="Horário Inicial: " htmlFor="startTime">
                                                                 <input type="time" className="form-control" id="startTime" 
+                                                                    step="60000"
                                                                     value={this.state.startTime} onChange={(e) =>{
                                                                             this.validateTime(e.target.value, this.state.finishTime);
                                                                             
@@ -237,7 +238,8 @@ class FenceCreate extends Component {
                                                                 />
                                                             </FormGroup>
                                                             <FormGroup label="Horário Final: " htmlFor="finishTime">
-                                                                <input type="time" className="form-control" id="finishTime" 
+                                                                <input type="time" className="form-control" id="finishTime"
+                                                                    step="60000"
                                                                     value={this.state.finishTime} onChange={(e) =>{
                                                                             this.validateTime(this.state.startTime, e.target.value);
                                                                             

@@ -1,13 +1,13 @@
 import {ApiService} from "..";
 
-export default class BraceletApiService extends ApiService{
+export default class BraceletApiService extends ApiService {
 
     constructor(){
         super('/bracelets');
     }
 
     create(object){
-        return this.post('',object);
+        return this.post('',object,{});
     }
 
     update(id, object){

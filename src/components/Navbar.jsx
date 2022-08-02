@@ -42,11 +42,11 @@ function Navbar() {
                         <NavItem href="/" label="Home" />
                         {isAuthenticated &&
                         <>
-                            <NavDropdown title="Pulseiras" id="bracelet-options" >
+                            <NavDropdown title="Pulseiras" id="bracelet-dropdown" >
                                 <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
                                 <Link className="dropdown-item" to="/bracelets"> Listar Pulseira </Link>
                             </NavDropdown>
-                            <NavDropdown title="Cercas" id="bracelet-options" >
+                            <NavDropdown title="Cercas" id="fence-dropdown" >
                                 <Link className="dropdown-item" to="/fences/create"> Cadastrar Cerca </Link>
                                 <Link className="dropdown-item" to="/fences"> Listar Cerca </Link>
                             </NavDropdown>
@@ -54,12 +54,12 @@ function Navbar() {
                         </>
                         }
 
-                        <NavDropdown title="Opções" id="dropdown-options">
+                        <NavDropdown title="Opções" id="options-dropdown">
                             {isAuthenticated ?
                                 <>
                                     <Link className="dropdown-item" to="/profile"> Perfil </Link>
                                     <NavDropdown.Divider />
-                                    <button className="dropdown-item" onClick={()=>{
+                                    <button type="reset" id="logout" className="dropdown-item" onClick={()=>{
                                         loginService.logout();
                                         history.push("/login");
                                     }}>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LoginService} from ".";
+import LoginService from "./LoginService";
 
 class ApiService {
 
@@ -53,4 +53,4 @@ class ApiService {
 
 }
 
-export default LoginService;
+export default ApiService;
