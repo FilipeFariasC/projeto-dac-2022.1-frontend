@@ -74,7 +74,7 @@ class UserUpdate extends React.Component {
                                                 }>
                                                     <fieldset>
                                                         <FormGroup label='Nome' htmlFor='name'>
-                                                            <input type='text' className='form-control' id='name'
+                                                            <input type='text' className='form-control' id='inputName'
                                                                 placeholder='Digite seu nome'
                                                                 data-bs-toggle="tooltip"
                                                                 title="Nome tem entre 3 e 50 caracteres."
