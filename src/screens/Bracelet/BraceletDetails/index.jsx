@@ -86,7 +86,7 @@ class BraceletProfile extends Component {
                                     <td>
                                         Nome:
                                     </td>
-                                    <td>
+                                    <td id={this.state.bracelet.id} class="bracelet-name">
                                         {this.state.bracelet.name}
                                     </td>
                                 </tr>
