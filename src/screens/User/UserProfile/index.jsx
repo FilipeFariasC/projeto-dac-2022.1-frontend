@@ -100,7 +100,7 @@ export default class UserProfile extends Component {
                                     <td>
                                         Nome:
                                     </td>
-                                    <td>
+                                    <td id="user-name">
                                         {this.state.user.name}
                                     </td>
                                 </tr>
@@ -108,7 +108,7 @@ export default class UserProfile extends Component {
                                     <td >
                                         Email:
                                     </td>
-                                    <td>
+                                    <td id="user-email">
                                         {this.state.user.email}
                                     </td>
                                 </tr>
