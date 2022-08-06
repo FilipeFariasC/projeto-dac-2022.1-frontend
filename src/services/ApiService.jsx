@@ -16,7 +16,7 @@ class ApiService {
         this.httpClient = axios.create(
             {
                 baseURL: `http://${process.env.REACT_APP_BACKEND_URL}:8080/api/`,
-                // withCredentials: true,
+                withCredentials: true,
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Access-Control-Allow-Origin": "*",
