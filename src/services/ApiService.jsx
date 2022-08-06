@@ -1,18 +1,22 @@
 import axios from "axios";
-import LoginService from "./LoginService";
+import StorageService from "./StorageService";
 
+export const TOKEN = 'token';
+export const LOGGED_USER = 'loggedUser';
 class ApiService {
 
     #httpCliente;
 
     constructor(endpoint) {
         this.endpoint = endpoint;
-        this.loginService = new LoginService();
-        const token = this.loginService.getJwtToken();
+        this.storageService = new StorageService();
+
+        const token = this.storageService.getItem(TOKEN);
 
         this.httpClient = axios.create(
             {
                 baseURL: `http://${process.env.REACT_APP_BACKEND_URL}:8080/api/`,
+                // withCredentials: true,
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Access-Control-Allow-Origin": "*",

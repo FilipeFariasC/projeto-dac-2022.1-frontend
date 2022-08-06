@@ -1,15 +1,17 @@
 import ApiService from "./ApiService";
-import LoginService from "./LoginService";
+import AuthenticationService from "./AuthenticationService";
 import BraceletApiService from "./serviceSpecific/BraceletApiService";
 import FenceApiService from "./serviceSpecific/FenceApiService";
 import FenceBraceletApiService from "./serviceSpecific/FenceBraceletApiService";
 import UserApiService from "./serviceSpecific/UserApiService";
+import StorageService from "./StorageService"
 
 export {
     ApiService,
     BraceletApiService,
     FenceApiService,
     FenceBraceletApiService,
-    LoginService,
-    UserApiService
+    AuthenticationService,
+    UserApiService,
+    StorageService
 };

@@ -1,14 +1,13 @@
+import PageNotFound from 'components/PageNotFound';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { BraceletApiService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import {BraceletApiService} from 'services';
-import { switchValidation } from 'services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
-import Navbar from '../../../components/Navbar';
-import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 
 class BraceletUpdate extends React.Component {
 
@@ -58,15 +57,11 @@ class BraceletUpdate extends React.Component {
 
     render() {
         if(!this.state.found){
-            return <>
-                <Navbar />
-                <PaginaNaoEncontrada/>
-            </>;
+            return <PageNotFound/>;
         }
 
         return (
             <>
-                <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 braceletUpdated'

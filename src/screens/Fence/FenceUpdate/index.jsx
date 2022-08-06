@@ -1,17 +1,16 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import { Wrapper } from '@googlemaps/react-wrapper';
+import PageNotFound from 'components/PageNotFound';
+import { isAfter, isEqual } from 'date-fns';
+import React, { Component, useEffect, useRef, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { FenceApiService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import { withRouter } from 'react-router-dom';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { Modal, Button } from "react-bootstrap";
-import {FenceApiService} from 'services';
-import { switchValidation } from 'services/ValidationService';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
-import { isAfter,isEqual } from 'date-fns';
-import Navbar from '../../../components/Navbar';
-import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 
 var latitude = 0;
 var longitude = 0;
@@ -144,14 +143,12 @@ class FenceUpdate extends React.Component {
     render() {
         if(!this.state.found){
             return <>
-                <Navbar />
-                <PaginaNaoEncontrada/>
+                <PageNotFound/>
             </>;
         }
 
         return (
             <>
-                <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 updateFence'

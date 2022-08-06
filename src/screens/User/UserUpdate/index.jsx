@@ -1,12 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { UserApiService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import {UserApiService} from 'services';
-import { switchValidation } from 'services/ValidationService';
-import {showErrorMessage, showSuccessMessage} from "../../../components/Toastr";
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 
 class UserUpdate extends React.Component {
 
@@ -51,7 +51,6 @@ class UserUpdate extends React.Component {
     render() {
         return (
             <>
-                <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 userUpdate'

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Navbar from "../../../components/Navbar";
-import Card from "../../../components/Card";
-import { Link, withRouter } from "react-router-dom";
-import GoBack from "components/GoBack";
-import {BraceletApiService} from "services";
-import ListMin from "../../../components/ListMin";
-import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
+import GoBack from 'components/GoBack';
+import PageNotFound from 'components/PageNotFound';
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { BraceletApiService } from 'services';
+
+import Card from '../../../components/Card';
+import ListMin from '../../../components/ListMin';
 
 
 class BraceletProfile extends Component {
@@ -41,13 +41,11 @@ class BraceletProfile extends Component {
     render() {
         if(!this.state.found){
             return <>
-                <Navbar />
-                <PaginaNaoEncontrada/>
+                <PageNotFound/>
             </>;
         }
         return (
             <>
-                <Navbar />
                 <div className="container container-fluid flex profile-wrapper"
                     style={
                         {

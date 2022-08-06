@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { FenceApiService } from 'services';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
 import ListTable from '../../../components/ListTable';
-import NavBar from '../../../components/Navbar';
-import {FenceApiService} from 'services';
 
 class FenceList extends Component {
 
@@ -53,7 +53,6 @@ class FenceList extends Component {
     render() {
         return (
             <>
-                <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 braceletList'

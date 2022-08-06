@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { BraceletApiService } from 'services';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
 import ListTable from '../../../components/ListTable';
-import NavBar from '../../../components/Navbar';
-import {BraceletApiService} from 'services';
 
 class BraceletList extends React.Component {
 
@@ -60,7 +60,6 @@ class BraceletList extends React.Component {
     render() {
         return (
             <>
-                <NavBar />
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 braceletList'

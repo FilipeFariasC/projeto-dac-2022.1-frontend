@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import Navbar from "../../../components/Navbar";
-import Card from "../../../components/Card";
-import GoBack from "../../../components/GoBack";
-import FormGroup from "../../../components/FormGroup";
-import {withRouter} from "react-router-dom";
-import {BraceletApiService} from "services";
-import {switchValidation} from "services/ValidationService";
-import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { BraceletApiService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
+import Card from '../../../components/Card';
+import FormGroup from '../../../components/FormGroup';
+import GoBack from '../../../components/GoBack';
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 
 
 class BraceletCreate extends Component {
@@ -35,7 +35,6 @@ class BraceletCreate extends Component {
     render(){
         return(
             <>
-                <Navbar/>
                 <div className="container container-fluid">
                     <div className="col-md-6 braceletRegister" 
                         style={

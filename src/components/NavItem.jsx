@@ -1,10 +1,11 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 
-function NavItem(props){
+function NavItem({render, ...props}){
+    if(!render){return false;}
     return(
         <li className="nav-item">
-            <NavLink className="nav-link" to={props.href}> {props.label}</NavLink>
+            <NavLink className={props.className? props.className : "nav-link"} onClick={props.onClick} to={props.href}> {props.label}</NavLink>
             {props.children}
         </li>
     )

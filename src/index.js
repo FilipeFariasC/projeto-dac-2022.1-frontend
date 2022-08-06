@@ -10,7 +10,12 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App />
+        <div id="childfence-feedback">
+            <a href="https://forms.gle/wouaUNJDvkvJeGeu7" target="_blank">
+                ?
+            </a>
+        </div>
+    </React.StrictMode>
 );

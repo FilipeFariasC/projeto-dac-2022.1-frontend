@@ -1,12 +1,12 @@
+import axios from 'axios';
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import {withRouter} from 'react-router-dom';
-import axios from 'axios';
-import {switchValidation } from 'services/ValidationService';
-import {showSuccessMessage, showErrorMessage} from '../../../components/Toastr';
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 
 class UserCreate extends React.Component {
     
@@ -46,7 +46,6 @@ class UserCreate extends React.Component {
     render() {
         return (
             <>
-                <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 userRegister'
