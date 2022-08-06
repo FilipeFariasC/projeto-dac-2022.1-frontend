@@ -29,13 +29,12 @@ class UserLogin extends React.Component {
     }
 
     async login() {
-        this.loginService.login(this.state.email, this.state.password)
+        this.context.login(this.state.email, this.state.password)
         .then(user =>{
 
             if(user){
                 showSuccessMessage('', `Bem vindo ${user.name}`);
                 this.props.history.push('/refresh/profile');
-                this.props.history.go(0);
             } else {
                 showErrorMessage('', 'Login Invalido')
             }
@@ -127,6 +126,6 @@ class UserLogin extends React.Component {
     }
 }
 
-UserLogin.context = AuthContext;
+UserLogin.contextType = AuthContext;
 
 export default withRouter(UserLogin);
