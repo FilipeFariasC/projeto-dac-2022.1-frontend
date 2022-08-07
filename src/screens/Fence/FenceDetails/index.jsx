@@ -6,7 +6,7 @@ import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
 import { Link } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
+import { FormCheck, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
 import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
@@ -38,13 +38,10 @@ class FenceDetails extends Component {
                 },
                 show: false,
             },
-            status: '',
             found: false
         }
     }
-    /*não há uma relação entre fence e bracelet;
-     mostrar as bracelets cadastradas na fence,
-     colocar a localização do google map */
+
     async componentDidMount() {
         await this.service.findById(this.props.match.params.id)
             .then(response => {
@@ -53,9 +50,45 @@ class FenceDetails extends Component {
                     found: true
                 })
             })
-            .catch(()=>{
-                this.setState({found: false});
+            .catch(() => {
+                this.setState({ found: false });
             });
+    }
+
+    getFence() {
+        return {
+            fence: {
+                id: this.state.fence.id,
+                name: this.state.fence.name,
+                coordinate: {
+                    latitude: this.state.fence.coordinate.latitude,
+                    longitude: this.state.fence.coordinate.longitude
+                },
+                startTime: this.state.fence.startTime,
+                finishTime: this.state.fence.finishTime,
+                active: this.state.fence.active,
+                radius: this.state.fence.radius,
+                bracelets: this.state.fence.bracelets
+            }
+        }
+    }
+
+    async status() {
+        await this.service.statusActive(
+            this.props.match.params.id,
+            this.getFence())
+            .then(response => {
+                this.setState({
+                    fence: response.data,
+                    found: true
+                })
+            })
+            .catch(() => {
+                this.setState({ found: false });
+            }
+        );
+
+
     }
 
     closeModal = () => {
@@ -66,10 +99,10 @@ class FenceDetails extends Component {
     }
 
     render() {
-        if(!this.state.found){
+        if (!this.state.found) {
             return <>
                 <Navbar />
-                <PaginaNaoEncontrada/>
+                <PaginaNaoEncontrada />
             </>;
         }
         return (
@@ -147,7 +180,26 @@ class FenceDetails extends Component {
                                         Status:
                                     </td>
                                     <td>
-                                        {this.state.active ? 'ATIVADA' : 'DESATIVADA'}
+                                        <form onSubmit={event => {
+                                            event.preventDefault();
+
+
+                                        }
+                                        }
+                                        >
+                                            <fieldset className="form-group">
+                                                <div className="form-check form-switch">
+                                                    <input className="form-check-input"
+                                                        type="checkbox"
+                                                        id="flexSwitchCheckDefault"
+                                                        value={this.state.fence.active}
+                                                        onChange={() => this.status()}
+                                                        role="switch"
+                                                    />
+                                                    <label className="form-check-label" forhtml="flexSwitchCheckDefault"></label>
+                                                </div>
+                                            </fieldset>
+                                        </form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -203,8 +255,13 @@ class FenceDetails extends Component {
                         }
                     }
                 >
-                    <Card title="Localização no mapa">
-                        <div>
+                    <Card title="Localização no mapa" >
+                        <div className="localization" tyle={
+                            {
+                                width: '50%',
+                                height: '60vh'
+                            }
+                        } >
                             <GoogleMap coordinates={
                                 this.state.fence.coordinate.latitude !== null && this.state.fence.coordinate.longitude !== null ?
                                     {
@@ -213,7 +270,7 @@ class FenceDetails extends Component {
                                     }
                                     :
                                     null
-                            } name={this.state.name} radius={this.state.radius} />
+                            } name={this.state.fence.name} radius={this.state.fence.radius} />
                         </div>
                     </Card>
                 </div>
@@ -221,11 +278,6 @@ class FenceDetails extends Component {
         );
     }
 }
-
-export default withRouter(FenceDetails);
-
-
-
 
 
 
@@ -281,46 +333,18 @@ function Map(props) {
         }
     }, [ref, map]);
 
-    useEffect(() => {
-        if (map) {
-            map.addListener("click", (event) => {
-                if (newMarker == null) {
-                    newMarker = new window.google.maps.Marker({
-                        position: event.latLng,
-                        map: map,
-                        title: "Localização Selecionada",
-                        label: props.name
-                    });
-                } else {
-                    newMarker.setOptions({
-                        position: event.latLng,
-                    });
-                }
-
-                latitude = event.latLng.lat();
-                longitude = event.latLng.lng();
-
-                newCircle = new window.google.maps.Circle({
-                    map: map,
-                    radius,
-                    fillColor: '#00ff00'
-                });
-                newCircle.bindTo('center', newMarker, 'position');
-
-                setMarker(newMarker);
-            });
-        }
-    }, [map]);
-
     return (
         <div ref={ref} id="map"
             style={
                 {
                     width: "60%",
-                    height: "50%"
+                    height: "60%"
                 }
             }
         >
+
         </div>
     )
 }
+
+export default withRouter(FenceDetails);
