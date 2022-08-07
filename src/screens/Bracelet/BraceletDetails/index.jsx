@@ -3,9 +3,7 @@ import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
 import { Link, withRouter } from "react-router-dom";
 import GoBack from "components/GoBack";
-//import UserApiService from "../../services/serviceSpecific/UserApiService";
-import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
-//import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+import {BraceletApiService} from "services";
 import ListMin from "../../../components/ListMin";
 import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
 
@@ -88,7 +86,7 @@ class BraceletProfile extends Component {
                                     <td>
                                         Nome:
                                     </td>
-                                    <td>
+                                    <td id={this.state.bracelet.id} class="bracelet-name">
                                         {this.state.bracelet.name}
                                     </td>
                                 </tr>

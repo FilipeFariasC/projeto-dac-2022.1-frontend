@@ -5,7 +5,7 @@ import FormGroup from '../../../components/FormGroup';
 import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
 import {withRouter} from 'react-router-dom';
-import { switchValidation } from '../../../services/ValidationService';
+import { switchValidation } from 'services/ValidationService';
 import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
 import { LoginService } from 'services/LoginService';
 
@@ -79,7 +79,7 @@ class UserLogin extends React.Component {
                                                                 } />
                                                         </FormGroup>
                                                         <FormGroup label='Senha' htmlFor='inputPassword'>
-                                                            <input type='password' className='form-control' id='inputPessword'
+                                                            <input type='password' className='form-control' id='inputPassword'
                                                                 placeholder='Digite a senha'
                                                                 value={this.state.password} 
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"

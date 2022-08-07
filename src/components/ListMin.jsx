@@ -60,7 +60,7 @@ export class ListMin extends Component {
                                 width: "100%"
                             }
                         }
-                    >Cadastrar Cerca </Link>
+                    >Cadastrar {this.props.entity} </Link>
                 </div>
             );
         }

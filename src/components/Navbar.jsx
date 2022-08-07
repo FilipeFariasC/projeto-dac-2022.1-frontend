@@ -3,7 +3,7 @@ import {NavDropdown} from "react-bootstrap";
 import {Link, useHistory, withRouter} from 'react-router-dom';
 import NavItem from "./NavItem";
 import "./css/Navbar.css"
-import { LoginService } from "services/LoginService";
+import { LoginService } from "services";
 
 
 function Navbar() {
@@ -20,7 +20,7 @@ function Navbar() {
     });
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-dark bg-primary">
                 <div className="container container-fluid">
                     <Link className="navbar-brand" to="/">
                         ChilDFence
@@ -38,15 +38,15 @@ function Navbar() {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarColor01">
-                    <ul className="navbar-nav me-auto">
+                    <ul className="navbar-nav">
                         <NavItem href="/" label="Home" />
                         {isAuthenticated &&
                         <>
-                            <NavDropdown title="Pulseiras" id="bracelet-options" >
+                            <NavDropdown title="Pulseiras" id="bracelet-dropdown" >
                                 <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
                                 <Link className="dropdown-item" to="/bracelets"> Listar Pulseira </Link>
                             </NavDropdown>
-                            <NavDropdown title="Cercas" id="bracelet-options" >
+                            <NavDropdown title="Cercas" id="fence-dropdown" >
                                 <Link className="dropdown-item" to="/fences/create"> Cadastrar Cerca </Link>
                                 <Link className="dropdown-item" to="/fences"> Listar Cerca </Link>
                             </NavDropdown>
@@ -54,12 +54,12 @@ function Navbar() {
                         </>
                         }
 
-                        <NavDropdown title="Opções" id="dropdown-options">
+                        <NavDropdown title="Opções" id="options-dropdown">
                             {isAuthenticated ?
                                 <>
                                     <Link className="dropdown-item" to="/profile"> Perfil </Link>
                                     <NavDropdown.Divider />
-                                    <button className="dropdown-item" onClick={()=>{
+                                    <button type="reset" id="logout" className="dropdown-item" onClick={()=>{
                                         loginService.logout();
                                         history.push("/login");
                                     }}>

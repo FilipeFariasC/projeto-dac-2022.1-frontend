@@ -6,8 +6,13 @@ import GoBack from "components/GoBack";
 import ListMin from "components/ListMin";
 import { withRouter } from 'react-router';
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { FormCheck, Button } from "react-bootstrap";
 import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+=======
+import { Modal, Button } from "react-bootstrap";
+import {FenceApiService} from "services";
+>>>>>>> af79523e2a56d7de1e66a910e2d3b99682829473
 import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
 

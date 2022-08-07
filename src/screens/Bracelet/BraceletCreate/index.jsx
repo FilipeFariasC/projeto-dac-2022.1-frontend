@@ -4,8 +4,8 @@ import Card from "../../../components/Card";
 import GoBack from "../../../components/GoBack";
 import FormGroup from "../../../components/FormGroup";
 import {withRouter} from "react-router-dom";
-import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
-import {switchValidation} from "../../../services/ValidationService";
+import {BraceletApiService} from "services";
+import {switchValidation} from "services/ValidationService";
 import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
 
 

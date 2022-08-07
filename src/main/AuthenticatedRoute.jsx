@@ -1,6 +1,6 @@
 import { Component, useEffect, useState } from "react";
 import { Redirect, withRouter, Route } from "react-router";
-import { LoginService } from "../services/LoginService";
+import { LoginService } from "services";
 
 //*
 class AuthenticatedRoute extends Component{

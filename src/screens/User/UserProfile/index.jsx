@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import Navbar from "../../../components/Navbar";
 import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
-import UserApiService from "../../../services/serviceSpecific/UserApiService";
-import BraceletApiService from "../../../services/serviceSpecific/BraceletApiService";
-import FenceApiService from "../../../services/serviceSpecific/FenceApiService";
+import {
+    UserApiService, 
+    BraceletApiService,
+    FenceApiService
+} from "services";
 import ListMin from "../../../components/ListMin";
 
 export default class UserProfile extends Component {
@@ -98,7 +100,7 @@ export default class UserProfile extends Component {
                                     <td>
                                         Nome:
                                     </td>
-                                    <td>
+                                    <td id="user-name">
                                         {this.state.user.name}
                                     </td>
                                 </tr>
@@ -106,7 +108,7 @@ export default class UserProfile extends Component {
                                     <td >
                                         Email:
                                     </td>
-                                    <td>
+                                    <td id="user-email">
                                         {this.state.user.email}
                                     </td>
                                 </tr>

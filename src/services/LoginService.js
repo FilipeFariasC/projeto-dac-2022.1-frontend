@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {Buffer} from 'buffer';
-import {  showWarningMessage } from 'components/Toastr';
+import { showWarningMessage } from 'components/Toastr';
 
 export class LoginService {
     #httpClient = axios.create({
-        baseURL: "http://localhost:8080/api/",
+        baseURL: `http://${process.env.REACT_APP_BACKEND_URL}:8080/api/`,
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "*",
@@ -51,7 +51,7 @@ export class LoginService {
                 token: localStorage.getItem(this.#token_key),
             })
             .then((response) => {
-                return !!(response.data.valid);
+                return !!response.data.valid;
             })
             .catch((error) => false);
     }
@@ -61,10 +61,10 @@ export class LoginService {
     }
 
     async isAuthenticated() {
-        if(this.getJwtToken() === null) return false;
+        if (this.getJwtToken() === null) return false;
 
         return this.isValidToken();
     }
-
 }
 
+export default LoginService;

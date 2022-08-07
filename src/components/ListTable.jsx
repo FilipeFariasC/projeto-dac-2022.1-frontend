@@ -12,7 +12,7 @@ class ListTable extends Component {
         return (
             <tr key={element.id}>
                 <td>
-                    <Link className="text-reset text-decoration-none" to={`/${this.props.entity}/${element.id}`}>{element.name}</Link>
+                    <Link id={`${this.props.entity}-${element.id}`} className={`text-reset text-decoration-none ${this.props.entity}`} to={`/${this.props.entity}/${element.id}`}>{element.name}</Link>
                 </td>
                 <td>
                     <div className="btn-group" role="group" aria-label="Basic example"

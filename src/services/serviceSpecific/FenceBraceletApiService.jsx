@@ -1,4 +1,4 @@
-import ApiService from "../ApiService";
+import {ApiService} from "..";
 
 export default class FenceApiService extends ApiService{
     constructor(){
