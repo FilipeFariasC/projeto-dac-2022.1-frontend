@@ -8,7 +8,6 @@ import { AuthenticationService } from "services";
 
 
 function Navbar(props) {
-    const loginService = new AuthenticationService();
     const history = useHistory();
     const isAuthenticated = props.isAuthenticated;
 
@@ -33,7 +32,7 @@ function Navbar(props) {
 
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav">
-                        <NavItem render={!isAuthenticated} href="/" label="Home" />
+                        <NavItem render={true} href="/" label="Home" />
                         {isAuthenticated &&
                         <>
                             <NavDropdown title="Pulseiras" id="bracelet-dropdown" >

@@ -18,7 +18,7 @@ export class AuthenticationService extends ApiService{
             password
         };
 
-        return await this.post("/login", userDetails)
+        return this.post("/login", userDetails)
             .then((response) => {
                 const user = response.data.user;
                 const token = response.data.token;

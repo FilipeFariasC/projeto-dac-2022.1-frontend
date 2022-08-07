@@ -6,13 +6,12 @@ const RestrictedRoute = ({children, show, path, redirectTo}) => {
     if(redirectTo) {
         to = redirectTo;
     }
-    console.log(children);
 
     if(!show) {
         return <Redirect to={to}/>
     }
     return (
-        <Route exact={true} path={path} >
+        <Route exact path={path} >
             {children}
         </Route>
     )

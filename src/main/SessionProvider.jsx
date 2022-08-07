@@ -58,7 +58,6 @@ export default class SessionProvider extends Component {
 
     isAuthenticated() {
         return this.state.loggedUser != null;
-        // return true;
     }
 
     render() {

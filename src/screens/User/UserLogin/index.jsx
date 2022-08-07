@@ -14,7 +14,6 @@ class UserLogin extends React.Component {
 
     constructor() {
         super();
-        this.loginService = new AuthenticationService();
         this.state = {
             email: '',
             password: ''
