@@ -1,20 +1,19 @@
+import { AuthContext } from 'main/SessionProvider';
 import React from 'react';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { AuthenticationService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import {withRouter} from 'react-router-dom';
-import { switchValidation } from 'services/ValidationService';
-import {showSuccessMessage, showErrorMessage} from "../../../components/Toastr";
-import { LoginService } from 'services/LoginService';
+import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
 
 class UserLogin extends React.Component {
 
 
     constructor() {
         super();
-        this.loginService = new LoginService();
         this.state = {
             email: '',
             password: ''
@@ -29,10 +28,15 @@ class UserLogin extends React.Component {
     }
 
     async login() {
-        await this.loginService.login(this.#getUserDetails())
-        .then(response =>{
-            showSuccessMessage('', 'Login realizado com sucesso!');
-            this.props.history.push('/profile');
+        this.context.login(this.state.email, this.state.password)
+        .then(user =>{
+
+            if(user){
+                showSuccessMessage('', `Bem vindo ${user.name}`);
+                this.props.history.push('/refresh/profile');
+            } else {
+                showErrorMessage('', 'Login Invalido')
+            }
         }).catch(error => {
             showErrorMessage('', 'Email ou senha incorretos!');
         });
@@ -41,7 +45,6 @@ class UserLogin extends React.Component {
     render() {
         return (
             <>
-                <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 userRegister'
@@ -121,5 +124,7 @@ class UserLogin extends React.Component {
         )
     }
 }
+
+UserLogin.contextType = AuthContext;
 
 export default withRouter(UserLogin);

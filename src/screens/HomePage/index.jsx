@@ -1,17 +1,10 @@
-import React, {Component} from "react";
-import Navbar from "../../components/Navbar";
-import {withRouter} from "react-router-dom";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class HomePage extends Component {
-    
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <>
-                <Navbar/>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 brand-text"

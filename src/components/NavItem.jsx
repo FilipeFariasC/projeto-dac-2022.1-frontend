@@ -1,10 +1,16 @@
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 
-function NavItem(props){
+function NavItem({render, ...props}){
+    const location = useLocation();
+    console.log(props.className);
+    console.log(location.pathname === props.href);
+    console.log(props.href);
+    console.log(location.pathname)
+    if(!render){return false;}
     return(
         <li className="nav-item">
-            <NavLink className="nav-link" to={props.href}> {props.label}</NavLink>
+            <NavLink className={props.className? props.className : "nav-link"} onClick={props.onClick} to={props.href}> {props.label}</NavLink>
             {props.children}
         </li>
     )

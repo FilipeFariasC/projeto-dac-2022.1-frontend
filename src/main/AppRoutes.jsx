@@ -1,86 +1,75 @@
-import React, { useEffect } from 'react';
+import Navbar from 'components/Navbar';
+import { AuthConsumer } from 'main/SessionProvider';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch, useHistory, useParams } from 'react-router-dom';
+
+import RestrictedRoute from './RestrictedRoute';
 import HomePage from '../screens/HomePage';
-import AuthenticatedRoute from './AuthenticatedRoute';
-// User
-import {
-    UserCreate,
-    UserUpdate,
-    UserLogin,
-    UserProfile
-} from '../screens/User';
-// Bracelet
-import {
-    BraceletCreate,
-    BraceletList,
-    BraceletUpdate,
-    BraceletDetails
-} from '../screens/Bracelet';
-// Fence
-import {
-    FenceBraceletRegister,
-    FenceCreate,
-    FenceDetails,
-    FenceList,
-    FenceUpdate
-} from "../screens/Fence";
+import PageNotFound from '../components/PageNotFound';
+// BRACELET
+import { BraceletCreate, BraceletDetails, BraceletList, BraceletUpdate } from '../screens/Bracelet';
+// FENCE
+import { FenceBraceletRegister, FenceCreate, FenceDetails, FenceList, FenceUpdate } from '../screens/Fence';
+// USER
+import { UserCreate, UserLogin, UserProfile, UserUpdate } from '../screens/User';
 
-import PaginaNaoEncontrada from "../components/PaginaNaoEncontrada"
+function AppRoutes(props){
+    const isAuthenticated = props.isAuthenticated;
 
-
-function AppRoutes(){
     return (
+        <>
         <BrowserRouter>
+            <Navbar {...props} />
             <Switch>
                 <Route path={["/home", "/"]} exact>
                     <HomePage/>
                 </Route>
-                <Route path={["/signIn","/createUser", "/users/create"]} exact >
-                    <UserCreate />
-                </Route>
-                <Route path={"/login"} exact >
+                <RestrictedRoute show={!isAuthenticated} path={["/signIn","/createUser", "/users/create"]} redirectTo="/profile">
+                    <UserCreate/>
+                </RestrictedRoute>
+                <RestrictedRoute show={!isAuthenticated} path={ "/login"} exact redirectTo="/profile">
                     <UserLogin />
-                </Route>
-                <AuthenticatedRoute path={["/profile", "/user"]} exact >
+                </RestrictedRoute>
+                <RestrictedRoute show={isAuthenticated} path={["/profile", "/user"]} exact >
                     <UserProfile />
-                </AuthenticatedRoute>
-                <AuthenticatedRoute path={["/updateUser", "/users/update"]} exact >
+                </RestrictedRoute>
+                <RestrictedRoute show={isAuthenticated} path={["/updateUser", "/users/update"]} exact >
                     <UserUpdate />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
-                <AuthenticatedRoute path={["/createBracelet", "/bracelets/create"]} exact >
+                <RestrictedRoute show={isAuthenticated} path={["/createBracelet", "/bracelets/create"]} exact >
                     <BraceletCreate />
-                </AuthenticatedRoute>
-                <AuthenticatedRoute path={["/updateBracelet/:id(\\d+)", "/bracelets/update/:id(\\d+)"]} exact >
+                </RestrictedRoute>
+                <RestrictedRoute show={isAuthenticated} path={["/updateBracelet/:id(\\d+)", "/bracelets/update/:id(\\d+)"]} exact >
                     <BraceletUpdate />
-                </AuthenticatedRoute>
-                <AuthenticatedRoute path={"/bracelets"} exact >
+                </RestrictedRoute>
+                <RestrictedRoute show={isAuthenticated} path={"/bracelets"} exact >
                     <BraceletList />
-                </AuthenticatedRoute>
-                <AuthenticatedRoute path={"/bracelets/:id(\\d+)"} exact >
+                </RestrictedRoute>
+                <RestrictedRoute show={isAuthenticated} path={"/bracelets/:id(\\d+)"} exact >
                     <BraceletDetails />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
 
-                <AuthenticatedRoute path={["/createFence", "/fences/create"]} exact >
+                <RestrictedRoute show={isAuthenticated} path={["/createFence", "/fences/create"]} exact >
                     <FenceCreate />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
-                <AuthenticatedRoute path={["/updateFence/:id(\\d+)", "/fences/update/:id(\\d+)"]} exact >
+                <RestrictedRoute show={isAuthenticated} path={["/updateFence/:id(\\d+)", "/fences/update/:id(\\d+)"]} exact >
                     <FenceUpdate />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
-                <AuthenticatedRoute path={"/fences"} exact >
+                <RestrictedRoute show={isAuthenticated} path={"/fences"} exact >
                     <FenceList />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
-                <AuthenticatedRoute path={"/fences/:id(\\d+)"} exact >
+                <RestrictedRoute show={isAuthenticated} path={"/fences/:id(\\d+)"} exact >
                     <FenceDetails />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
-                <AuthenticatedRoute path={"/fences/:id(\\d+)/bracelets"} exact >
+                <RestrictedRoute show={isAuthenticated} path={"/fences/:id(\\d+)/bracelets"} exact >
                     <FenceBraceletRegister />
-                </AuthenticatedRoute>
+                </RestrictedRoute>
 
 
                 <Route
@@ -92,14 +81,21 @@ function AppRoutes(){
                 <Route
                     path="**"
                 >
-                    <PaginaNaoEncontrada/>
+                    <PageNotFound/>
                 </Route>
             </Switch>
         </BrowserRouter>
+        </>
     );
 }
 
-export default AppRoutes;
+export default ()=>{
+    return <AuthConsumer>
+        {
+            (context) => (<AppRoutes {...context} />)
+        }
+    </AuthConsumer>
+}
 
 function Refresh() {
     const history = useHistory();
@@ -110,4 +106,5 @@ function Refresh() {
     }, [history, page]);
     return <></>;
 }
+export {Refresh};
 

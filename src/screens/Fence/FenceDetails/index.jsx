@@ -1,14 +1,14 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import Navbar from "../../../components/Navbar";
-import Card from "../../../components/Card";
-import GoBack from "components/GoBack";
-import ListMin from "components/ListMin";
+import { Wrapper } from '@googlemaps/react-wrapper';
+import GoBack from 'components/GoBack';
+import ListMin from 'components/ListMin';
+import PageNotFound from 'components/PageNotFound';
+import React, { Component, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router';
-import { Link } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap";
-import {FenceApiService} from "services";
-import PaginaNaoEncontrada from 'components/PaginaNaoEncontrada';
+import { Link } from 'react-router-dom';
+import { FenceApiService } from 'services';
+
+import Card from '../../../components/Card';
+
 //import BraceletProfile from '../../Bracelet/BraceletProfile/BraceletProfile';
 
 var latitude = 0;
@@ -101,13 +101,11 @@ class FenceDetails extends Component {
     render() {
         if (!this.state.found) {
             return <>
-                <Navbar />
-                <PaginaNaoEncontrada />
+                <PageNotFound/>
             </>;
         }
         return (
             <>
-                <Navbar />
                 <div className="container container-fluid flex profile-wrapper"
                     style={
                         {

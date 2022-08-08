@@ -1,16 +1,15 @@
-import React,{Component, useState, useEffect, useRef} from 'react';
-import axios from 'axios';
+import { Wrapper } from '@googlemaps/react-wrapper';
+import { isAfter, isEqual } from 'date-fns';
+import React, { Component, useEffect, useRef, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { FenceApiService } from 'services';
+import { switchValidation } from 'services/ValidationService';
+
 import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
-import NavBar from '../../../components/Navbar';
 import GoBack from '../../../components/GoBack';
-import {withRouter} from 'react-router-dom';
-import {Wrapper, Status } from "@googlemaps/react-wrapper";
-import {Modal, Button} from "react-bootstrap";
-import {FenceApiService} from 'services';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
-import { switchValidation } from 'services/ValidationService';
-import { isBefore, isAfter, isEqual } from 'date-fns';
 
 var latitude = 0;
 var longitude = 0;
@@ -119,7 +118,6 @@ class FenceCreate extends Component {
     render() {
         return (
             <>
-                <NavBar/>
                 <div className='conteiner'>
                     <div className='row'>
                         <div className='col-md-6 userRegister'

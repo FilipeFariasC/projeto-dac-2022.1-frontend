@@ -2,22 +2,15 @@ import React, { useEffect, useState } from "react";
 import {NavDropdown} from "react-bootstrap";
 import {Link, useHistory, withRouter} from 'react-router-dom';
 import NavItem from "./NavItem";
-import "./css/Navbar.css"
-import { LoginService } from "services";
+import "./css/Navbar.css";
+import {AuthConsumer} from "../main/SessionProvider"
+import { AuthenticationService } from "services";
 
 
-function Navbar() {
-    const loginService = new LoginService();
+function Navbar(props) {
     const history = useHistory();
-    const [isAuthenticated,setAuthenticated] = useState(false);
+    const isAuthenticated = props.isAuthenticated;
 
-    useEffect(()=>{
-        const fetchData = async () => {
-            const authenticated = await loginService.isAuthenticated();
-            setAuthenticated(authenticated);
-        };
-        fetchData();
-    });
     return (
         <>
             <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-dark bg-primary">
@@ -39,40 +32,42 @@ function Navbar() {
 
                     <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav">
-                        <NavItem href="/" label="Home" />
+                        <NavItem render={true} href="/" label="Home" />
                         {isAuthenticated &&
                         <>
                             <NavDropdown title="Pulseiras" id="bracelet-dropdown" >
-                                <Link className="dropdown-item" to="/bracelets/create"> Cadastrar Pulseira </Link>
-                                <Link className="dropdown-item" to="/bracelets"> Listar Pulseira </Link>
+                                <NavItem render={true} className="dropdown-item" href="/bracelets/create" label="Cadastrar Pulseira"/>
+                                <NavItem render={true} className="dropdown-item" href="/bracelets" label="Listar Pulseiras"/>
                             </NavDropdown>
                             <NavDropdown title="Cercas" id="fence-dropdown" >
-                                <Link className="dropdown-item" to="/fences/create"> Cadastrar Cerca </Link>
-                                <Link className="dropdown-item" to="/fences"> Listar Cerca </Link>
+                                <NavItem render={true} className="dropdown-item" href="/fences/create" label="Cadastrar Cerca"/>
+                                <NavItem render={true} className="dropdown-item" href="/fences" label="Listar Cercas"/>
                             </NavDropdown>
-                            <NavItem href="/profile" label="Perfil" />
+                            <NavItem render={isAuthenticated} href="/profile" label="Perfil" />
                         </>
                         }
 
                         <NavDropdown title="Opções" id="options-dropdown">
-                            {isAuthenticated ?
-                                <>
-                                    <Link className="dropdown-item" to="/profile"> Perfil </Link>
-                                    <NavDropdown.Divider />
-                                    <button type="reset" id="logout" className="dropdown-item" onClick={()=>{
-                                        loginService.logout();
-                                        history.push("/login");
-                                    }}>
-                                        Logout
-                                    </button>
-                                </>
-                                :
-                                <>
-                                    <Link className="dropdown-item" to="/users/create"> Cadastrar Usuário </Link>
-                                    <Link className="dropdown-item" to="/login"> Login </Link>
-                                </>
-                            }
-                            
+                            <NavItem render={isAuthenticated} className="dropdown-item" href="/profile" label="Perfil"/>
+                            {isAuthenticated && <NavDropdown.Divider />}
+
+                            <NavItem render={isAuthenticated} 
+                            id="logout" 
+                            href="/login" 
+                            label="Logout" 
+                            className="dropdown-item" 
+                            onClick={props.end}/>
+
+                            <NavItem 
+                                render={!isAuthenticated} 
+                                className="dropdown-item" 
+                                href="/users/create" 
+                                label="Cadastrar Usuário"/>
+                            <NavItem 
+                                render={!isAuthenticated} 
+                                className="dropdown-item" 
+                                href="/login" 
+                                label="Login"/>
                         </NavDropdown>
                     </ul>
                     </div>
@@ -82,4 +77,4 @@ function Navbar() {
     );
 }
 
-export default withRouter(Navbar);
+export default Navbar;

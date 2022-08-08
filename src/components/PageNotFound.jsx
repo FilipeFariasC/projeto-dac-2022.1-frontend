@@ -2,7 +2,7 @@ import {Component} from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
-class PaginaNaoEncontrada extends Component {
+class PageNotFound extends Component {
 
     render () {
         return <div style={
@@ -18,4 +18,4 @@ class PaginaNaoEncontrada extends Component {
     }
 }
 
-export default withRouter(PaginaNaoEncontrada);
+export default withRouter(PageNotFound);

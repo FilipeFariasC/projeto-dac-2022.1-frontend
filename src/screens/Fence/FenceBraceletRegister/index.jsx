@@ -1,19 +1,11 @@
-import { withRouter } from "react-router";
-import { Component } from "react";
-import Navbar from "components/Navbar";
-import PaginaNaoEncontrada from "components/PaginaNaoEncontrada";
-
-import {
-    FenceApiService,
-    BraceletApiService,
-    FenceBraceletApiService
-} from "services";
-
-import {showErrorMessage} from  "components/Toastr";
-import InputGroup from "components/InputGroup";
-import Card from "components/Card";
-import {Container} from "components/Container"
-import { Link } from "react-router-dom";
+import Card from 'components/Card';
+import { Container } from 'components/Container';
+import PageNotFound from 'components/PageNotFound';
+import { showErrorMessage } from 'components/Toastr';
+import { Component } from 'react';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import { BraceletApiService, FenceApiService, FenceBraceletApiService } from 'services';
 
 class FenceBraceletRegister extends Component {
 
@@ -116,17 +108,11 @@ class FenceBraceletRegister extends Component {
 
     render() {
         if(!this.state.found){
-            return (
-                <>
-                    <Navbar/>
-                    <PaginaNaoEncontrada/>
-                </>
-            );
+            return (<PageNotFound/>);
         }
 
         return (
             <>
-                <Navbar/>
                 <Container style={
                     {
                         marginBlock: "2.5rem",
