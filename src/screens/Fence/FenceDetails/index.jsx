@@ -1,7 +1,9 @@
 import { Wrapper } from '@googlemaps/react-wrapper';
 import GoBack from 'components/GoBack';
+import { GoogleMap } from 'components/GoogleMap';
 import ListMin from 'components/ListMin';
 import PageNotFound from 'components/PageNotFound';
+import { showErrorMessage } from 'components/Toastr';
 import React, { Component, useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -41,10 +43,10 @@ class FenceDetails extends Component {
             status: '',
             found: false
         }
+
+        this.changeActive = this.changeActive.bind(this);
     }
-    /*não há uma relação entre fence e bracelet;
-     mostrar as bracelets cadastradas na fence,
-     colocar a localização do google map */
+
     async componentDidMount() {
         await this.service.findById(this.props.match.params.id)
             .then(response => {
@@ -63,6 +65,25 @@ class FenceDetails extends Component {
     }
     showModal = () => {
         this.setState({ show: true });
+    }
+
+    async changeActive() {
+        const fence = this.state.fence;
+
+        await this.service.patch(`/${fence.id}/setStatus`,{},
+            {
+                params:{
+                    'active': !fence.active
+                }
+            }
+        )
+        .then(response=>this.setState({fence:response.data}))
+        .catch(error =>{
+            const errors = error.response.data.errors;
+            
+            errors.forEach(err=>showErrorMessage('', err.messageUser, {timeOut: 10000}))
+            
+        });
     }
 
     render() {
@@ -89,7 +110,8 @@ class FenceDetails extends Component {
                         <table className="table table-primary table-hover user-info"
                             style={
                                 {
-                                    width: "100%"
+                                    width: "100%",
+                                    tableLayout: 'fixed'
                                 }
                             }
                         >
@@ -117,15 +139,6 @@ class FenceDetails extends Component {
                                 </tr>
                                 <tr>
                                     <td >
-                                        Localização:
-                                    </td>
-                                    <td>
-                                        <button type="button" className="btn btn-info"
-                                            onClick={this.showModal}>Mostrar Localização</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td >
                                         Horário Inicial:
                                     </td>
                                     <td>
@@ -145,7 +158,7 @@ class FenceDetails extends Component {
                                         Status:
                                     </td>
                                     <td>
-                                        {this.state.active ? 'ATIVADA' : 'DESATIVADA'}
+                                        {this.state.fence.active ? 'ATIVADA' : 'DESATIVADA'}
                                     </td>
                                 </tr>
                                 <tr>
@@ -161,13 +174,52 @@ class FenceDetails extends Component {
                         <div className="flex"
                             style={
                                 {
-                                    justifyContent: "space-between"
+                                    display: 'grid',
+                                    gridAutoFlow: 'column',
+                                    gridAutoColumns: '1fr'
                                 }
                             }
                         >
                             <GoBack />
-                            <Link to={`/fences/update/${this.props.match.params.id}`} className="btn btn-primary">Editar</Link>
-                            <Link to={`${this.props.location.pathname}/bracelets`} className="btn btn-info"> Pulseiras </Link>
+                            <Link to={`/fences/update/${this.props.match.params.id}`} 
+                                className="btn btn-primary d-flex align-items-center justify-content-center">
+                                Editar
+                            </Link>
+                            <Link to={`${this.props.location.pathname}/bracelets`}
+                                className="btn btn-info d-flex align-items-center justify-content-center">
+                                Pulseiras
+                            </Link>
+                            <div key={this.state.fence.id}
+                                style={
+                                    {
+                                        display: "flex",
+                                        gap: "1rem",
+                                        flexDirection: 'column',
+                                        alignItems:'flex-end'
+                                    }
+                                }
+                                className="form-check form-switch"
+                            >
+                            <input key={this.state.fence.id}
+                                id={`activate-fence-${this.state.fence.id}`}
+                                checked={this.state.fence.active}
+                                name={`activate-fence-${this.state.fence.id}`}
+                                type="checkbox"
+                                onChange={this.changeActive}
+                                value={this.state.fence.active}
+                                label="Ativar"
+                                role="switch"
+                                className="form-check-input"
+
+                                style={
+                                    {
+                                        float: 'unset',
+                                        marginLeft: 'unset'
+                                    }
+                                }
+                                />
+                            <label htmlFor={`activate-fence-${this.state.fence.id}`}>{this.state.fence.active? 'DESATIVAR' : 'ATIVAR'}</label>
+                            </div>
                         </div>
                     </Card>
                     <Card title="Pulseiras">
@@ -201,18 +253,18 @@ class FenceDetails extends Component {
                         }
                     }
                 >
-                    <Card title="Localização no mapa">
-                        <div>
-                            <GoogleMap coordinates={
-                                this.state.fence.coordinate.latitude !== null && this.state.fence.coordinate.longitude !== null ?
-                                    {
-                                        latitude: this.state.fence.coordinate.latitude,
-                                        longitude: this.state.fence.coordinate.longitude
-                                    }
-                                    :
-                                    null
-                            } name={this.state.name} radius={this.state.radius} />
-                        </div>
+                    <Card title="Localização no mapa"
+                        style={
+                            {
+                                height: '100vh',
+                                width: '100%',
+                                marginBottom: '2.5rem'
+                            }
+                        }
+                    >
+                        <GoogleMap
+                            coordinates={this.state.fence.coordinate}
+                            name={this.state.fence.name} radius={this.state.fence.radius}/>
                     </Card>
                 </div>
             </>
@@ -221,104 +273,3 @@ class FenceDetails extends Component {
 }
 
 export default withRouter(FenceDetails);
-
-
-
-
-
-
-const google = window.google;
-function GoogleMap(props) {
-    return (
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-            <Map coordinates={props.coordinates} name={props.name} radius={props.radius} />
-        </Wrapper>
-    )
-}
-
-function Map(props) {
-    const ref = useRef();
-    const [map, setMap] = useState();
-    const [marker, setMarker] = useState();
-
-    let newMarker = null;
-    let newCircle = null;
-    var radius = props.radius;
-
-    useEffect(() => {
-        let options = null;
-        if (props.coordinates) {
-            options = {
-                center: { lat: props.coordinates.latitude, lng: props.coordinates.longitude },
-                zoom: 15
-            };
-            newMarker = new window.google.maps.Marker({
-                position: {
-                    lat: props.coordinates.latitude,
-                    lng: props.coordinates.longitude
-                },
-                map: map,
-                title: "Localização Selecionada",
-                label: props.name
-            });
-            newCircle = new window.google.maps.Circle({
-                map: map,
-                radius,
-                fillColor: '#00ff00'
-            });
-            newCircle.bindTo('center', newMarker, 'position');
-        } else {
-            options = {
-                center: { lat: -7.897789, lng: -37.118066 },
-                zoom: 15
-            }
-        }
-
-        if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, options));
-        }
-    }, [ref, map]);
-
-    useEffect(() => {
-        if (map) {
-            map.addListener("click", (event) => {
-                if (newMarker == null) {
-                    newMarker = new window.google.maps.Marker({
-                        position: event.latLng,
-                        map: map,
-                        title: "Localização Selecionada",
-                        label: props.name
-                    });
-                } else {
-                    newMarker.setOptions({
-                        position: event.latLng,
-                    });
-                }
-
-                latitude = event.latLng.lat();
-                longitude = event.latLng.lng();
-
-                newCircle = new window.google.maps.Circle({
-                    map: map,
-                    radius,
-                    fillColor: '#00ff00'
-                });
-                newCircle.bindTo('center', newMarker, 'position');
-
-                setMarker(newMarker);
-            });
-        }
-    }, [map]);
-
-    return (
-        <div ref={ref} id="map"
-            style={
-                {
-                    width: "60%",
-                    height: "50%"
-                }
-            }
-        >
-        </div>
-    )
-}
