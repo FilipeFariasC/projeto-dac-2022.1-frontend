@@ -1,4 +1,5 @@
 import { Wrapper } from '@googlemaps/react-wrapper';
+import { GoogleMap } from 'components/GoogleMap';
 import PageNotFound from 'components/PageNotFound';
 import { isAfter, isEqual } from 'date-fns';
 import React, { Component, useEffect, useRef, useState } from 'react';
@@ -11,9 +12,6 @@ import Card from '../../../components/Card';
 import FormGroup from '../../../components/FormGroup';
 import GoBack from '../../../components/GoBack';
 import { showErrorMessage, showSuccessMessage } from '../../../components/Toastr';
-
-var latitude = 0;
-var longitude = 0;
 
 class FenceUpdate extends React.Component {
 
@@ -39,6 +37,13 @@ class FenceUpdate extends React.Component {
         }
     }
 
+    hasCoordinates() {
+        return this.state.coordinate.latitude && this.state.coordinate.longitude;
+    }
+
+    setCoordinate(coordinate) {
+        this.setState({coordinate});
+    }
 
     closeModal = () => {
         this.setState({ show: false });
@@ -69,6 +74,8 @@ class FenceUpdate extends React.Component {
     }
 
     validateCoordinate(){
+        const latitude = this.state.coordinate.latitude;
+        const longitude = this.state.coordinate.longitude;
         var latitudeElement = document.querySelector('#latitude');
         var longitudeElement = document.querySelector('#longitude');
 
@@ -204,27 +211,16 @@ class FenceUpdate extends React.Component {
                                                                         <Modal.Title>Selecione a localização | RAIO: {this.state.radius}</Modal.Title>
                                                                     </Modal.Header>
                                                                     <Modal.Body>
-                                                                        <GoogleMap coordinates={
-                                                                            this.state.coordinate.latitude !== null && this.state.coordinate.longitude !== null ?
-                                                                                {
-                                                                                    latitude: this.state.coordinate.latitude,
-                                                                                    longitude: this.state.coordinate.longitude
-                                                                                }
-                                                                                :
-                                                                                null
-                                                                        } name={this.state.name} radius={this.state.radius} />
+                                                                        <GoogleMap 
+                                                                            setCoordinate={this.setCoordinate}
+                                                                            editable
+                                                                            coordinates={this.hasCoordinates()? this.state.coordinate : null}
+                                                                        name={this.state.name} radius={this.state.radius}/>
                                                                     </Modal.Body>
                                                                     <Modal.Footer>
                                                                         <Button variant="secondary" onClick={this.closeModal}> Fechar </Button>
                                                                         <Button variant="primary" onClick={() => {
                                                                             this.validateCoordinate();
-
-                                                                            this.setState({
-                                                                                coordinate: {
-                                                                                    latitude,
-                                                                                    longitude
-                                                                                }
-                                                                            });
                                                                             this.closeModal();
                                                                         }}> Salvar Localização </Button>
                                                                     </Modal.Footer>
@@ -300,103 +296,6 @@ class FenceUpdate extends React.Component {
         )
     }
 
-}
-
-const google = window.google;
-function GoogleMap(props) {
-    return (
-        <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-            <Map coordinates={props.coordinates} name={props.name} radius={props.radius} />
-        </Wrapper>
-    )
-}
-
-function Map(props) {
-    const ref = useRef();
-    const [map, setMap] = useState();
-    const [marker, setMarker] = useState();
-
-    let newMarker = null;
-    let newCircle = null;
-    var radius = props.radius;
-
-    useEffect(() => {
-        let options = null;
-        if (props.coordinates) {
-            options = {
-                center: { lat: props.coordinates.latitude, lng: props.coordinates.longitude },
-                zoom: 15
-            };
-            newMarker = new window.google.maps.Marker({
-                position: {
-                    lat: props.coordinates.latitude,
-                    lng: props.coordinates.longitude
-                },
-                map: map,
-                title: "Localização Selecionada",
-                label: props.name
-            });
-            newCircle = new window.google.maps.Circle({
-                map: map,
-                radius,
-                fillColor: '#00ff00'
-            });
-            newCircle.bindTo('center', newMarker, 'position');
-        } else {
-            options = {
-                center: { lat: -7.897789, lng: -37.118066 },
-                zoom: 15
-            }
-        }
-
-        if (ref.current && !map) {
-            setMap(new window.google.maps.Map(ref.current, options));
-        }
-    }, [ref, map]);
-
-    useEffect(() => {
-        if (map) {
-            map.addListener("click", (event) => {
-                if (newMarker == null) {
-                    newMarker = new window.google.maps.Marker({
-                        position: event.latLng,
-                        map: map,
-                        title: "Localização Selecionada",
-                        label: props.name
-                    });
-                } else {
-                    newMarker.setOptions({
-                        position: event.latLng,
-                    });
-                }
-
-                latitude = event.latLng.lat();
-                longitude = event.latLng.lng();
-
-                newCircle = new window.google.maps.Circle({
-                    map: map,
-                    radius,
-                    fillColor: '#00ff00'
-                });
-                newCircle.bindTo('center', newMarker, 'position');
-
-                setMarker(newMarker);
-            });
-        }
-    }, [map]);
-
-    return (
-        <div ref={ref} id="map"
-            style={
-                {
-                    width: "100%",
-                    height: "100%"
-                }
-            }
-        >
-
-        </div>
-    )
 }
 
 export default withRouter(FenceUpdate);

@@ -124,3 +124,8 @@ code {
         bottom: 115%;
     }
 }
+
+.align-center {
+    display:flex;
+    align-content: center;
+}

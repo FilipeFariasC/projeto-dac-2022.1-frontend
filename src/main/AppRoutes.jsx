@@ -73,7 +73,7 @@ function AppRoutes(props){
 
 
                 <Route
-                    path="/refresh/:page"
+                    path="/refresh/**"
                     exact
                 >
                     <Refresh/>
@@ -99,11 +99,11 @@ export default ()=>{
 
 function Refresh() {
     const history = useHistory();
-    const {page} = useParams();
+    const params = useParams();
 
     useEffect(() => {
-        history.replace(`/${page}`);
-    }, [history, page]);
+        history.replace(`/${params[0]}`);
+    }, [history, params]);
     return <></>;
 }
 export {Refresh};
